@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+html, body {
+  background: #F4F1EA;
+  color: #1B1B1B;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #1B1B1B;
+  color: #F4F1EA;
+}
+
+.font-display { font-family: var(--font-display); font-weight: 300; }
+
+.kicker {
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.hairline { border-color: rgba(27,27,27,0.12); }
+
+.hover-underline {
+  position: relative;
+}
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 0; height: 1px;
+  background: currentColor;
+  transition: width 0.4s ease;
+}
+.hover-underline:hover::after { width: 100%; }
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: fadeUp 0.9s ease-out forwards;
+}
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.30s; }
+.delay-3 { animation-delay: 0.45s; }
+
+/* Subtle parallax/zoom on hover for image tiles */
+.tile-img {
+  transition: transform 1.2s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.group:hover .tile-img { transform: scale(1.06); }
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 50s linear infinite;
+}
