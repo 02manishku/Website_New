@@ -2,9 +2,9 @@ import Image from 'next/image';
 import PageHero from '@/components/PageHero';
 
 export const metadata = {
-  title: 'Silverstone™ Materials — Magppie',
+  title: 'Silverstone™ Materials | Magppie',
   description:
-    '41 stone finishes across 4 textures and 3 thicknesses. The patented anti-bacterial Silverstone™ — silver infused inside the stone by nano-technology.'
+    '41 stone finishes across 4 textures and 3 thicknesses. The patented anti-bacterial Silverstone™: silver infused inside the stone by nano-technology.'
 };
 
 export default function MaterialsPage() {
@@ -13,26 +13,26 @@ export default function MaterialsPage() {
       <PageHero
         kicker="Silverstone™"
         title="Materials."
-        image="/images/01-copy.jpg"
+        image="/images/01-copy.webp"
         video="/videos/Sunrise.mp4"
         subtitle="Silver infused inside the stone, by nano-technology. 100% bacteria-safe. Zero formaldehyde. Patented worldwide."
       />
 
       {/* Story */}
-      <section className="bg-bone py-28 lg:py-40">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-10">
+      <section className="bg-bone py-20 lg:py-40">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-6 lg:gap-10">
           <div className="lg:col-span-4">
             <div className="kicker text-smoke">The Silverstone™ Revolution</div>
           </div>
           <div className="lg:col-span-8">
-            <h2 className="font-display text-4xl md:text-6xl leading-[1.05] text-ink">
-              A revolutionary technical stone — developed through cutting-edge
+            <h2 className="font-display text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-ink">
+              A revolutionary technical stone, developed through cutting-edge
               <em className="not-italic text-smoke"> nanotechnology.</em>
             </h2>
-            <p className="mt-10 text-lg text-ink/70 max-w-2xl leading-relaxed">
+            <p className="mt-8 lg:mt-10 text-base lg:text-lg text-ink/70 max-w-2xl leading-relaxed">
               By harnessing the natural antibacterial power of pure silver, we
               infused it directly into the structure of our stone. The result
-              is a certified, 100% bacteria-safe material — used across every
+              is a certified, 100% bacteria-safe material, used across every
               cabinet, fascia, accessory, countertop and backsplash.
             </p>
           </div>
@@ -40,7 +40,7 @@ export default function MaterialsPage() {
       </section>
 
       {/* Spec strip */}
-      <section className="bg-sand py-20">
+      <section className="bg-sand py-16 lg:py-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid grid-cols-2 lg:grid-cols-4 gap-8">
           {[
             { n: '41', l: 'Finishes' },
@@ -49,7 +49,7 @@ export default function MaterialsPage() {
             { n: '3',  l: 'Thicknesses' }
           ].map((s) => (
             <div key={s.l}>
-              <div className="font-display text-6xl lg:text-8xl text-ink leading-none">
+              <div className="font-display text-5xl sm:text-6xl lg:text-8xl text-ink leading-none">
                 {s.n}
               </div>
               <div className="kicker text-smoke mt-3">{s.l}</div>
@@ -75,11 +75,11 @@ export default function MaterialsPage() {
       />
 
       {/* Note */}
-      <section className="bg-ink text-bone py-24">
+      <section className="bg-ink text-bone py-20 lg:py-24">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
-          <h2 className="font-display text-3xl md:text-5xl leading-tight">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-5xl leading-tight">
             Silverstone™ is a Magppie invention.<br />
-            Patented by Magppie Silverstone Pvt. Ltd. — worldwide.
+            Patented by Magppie Silverstone Pvt. Ltd., worldwide.
           </h2>
         </div>
       </section>
@@ -99,20 +99,20 @@ function FinishGroup({
   finishes: { code: string; name: string; texture: string; tone: string }[];
 }) {
   return (
-    <section className="bg-bone py-28">
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mb-12">
+    <section className="bg-bone py-20 lg:py-28">
+      <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mb-10 lg:mb-12">
         <div className="kicker text-smoke mb-4">{kicker}</div>
-        <h2 className="font-display text-4xl md:text-5xl text-ink">{title}</h2>
+        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink">{title}</h2>
         <p className="mt-4 text-sm text-smoke max-w-2xl">{subtitle}</p>
       </div>
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-10 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div className="mx-auto max-w-[1600px] px-6 lg:px-10 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
         {finishes.map((f) => (
           <div key={f.code} className="group cursor-pointer">
             <div
               className="relative aspect-[3/4] overflow-hidden"
               style={{ background: f.tone }}
             >
-              {/* Stylized swatch — replaceable with real PNG when available */}
+              {/* Stylized swatch - replaceable with real PNG when available */}
               <div className="absolute inset-0 mix-blend-overlay opacity-60"
                    style={{
                      backgroundImage:

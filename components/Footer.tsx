@@ -4,20 +4,20 @@ import Image from 'next/image';
 export default function Footer() {
   return (
     <footer className="bg-ink text-bone">
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-10 py-20">
-        <div className="grid lg:grid-cols-12 gap-12">
+      <div className="mx-auto max-w-[1600px] px-6 lg:px-10 py-16 lg:py-20">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-12">
           <div className="lg:col-span-5">
             <Image
               src="/logos/magppie-white.svg"
               alt="Magppie"
               width={160}
               height={40}
-              className="h-8 w-auto mb-8"
+              className="h-7 lg:h-8 w-auto mb-6 lg:mb-8"
             />
-            <p className="font-display text-3xl lg:text-4xl leading-tight max-w-md">
-              For people<br />and planet.
+            <p className="font-display text-2xl sm:text-3xl lg:text-4xl leading-tight max-w-md">
+              For People and Planet.
             </p>
-            <p className="mt-8 text-sm text-bone/60 max-w-md">
+            <p className="mt-6 lg:mt-8 text-sm text-bone/60 max-w-md">
               The world&rsquo;s first Wellness Kitchen and Wardrobe brand.
               Fully built in patented anti-bacterial Silverstone&trade;.
             </p>
@@ -41,16 +41,16 @@ export default function Footer() {
             <p className="text-sm text-bone/70 mb-5">
               Receive Magppie stories, new openings, and design notes.
             </p>
-            <form className="flex border-b border-bone/30 pb-2 mb-6">
+            <form className="flex flex-wrap items-center gap-x-3 border-b border-bone/30 pb-2 mb-6">
               <input
                 type="email"
                 required
                 placeholder="Your email"
-                className="flex-1 bg-transparent placeholder-bone/40 text-sm focus:outline-none"
+                className="flex-1 min-w-0 bg-transparent placeholder-bone/40 text-sm focus:outline-none py-2"
               />
               <button
                 type="submit"
-                className="kicker text-bone hover:text-sand transition-colors"
+                className="kicker text-bone hover:text-sand transition-colors py-2 shrink-0"
               >
                 Submit →
               </button>
@@ -62,15 +62,15 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 pt-8 border-t border-bone/20 flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between text-xs text-bone/50">
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
+        <div className="mt-14 lg:mt-20 pt-8 border-t border-bone/20 flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between text-xs text-bone/50">
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
             <Link href="/legal" className="hover:text-bone">Legal</Link>
             <Link href="/privacy" className="hover:text-bone">Privacy</Link>
             <Link href="/cookies" className="hover:text-bone">Cookies</Link>
             <Link href="/sitemap" className="hover:text-bone">Sitemap</Link>
             <Link href="/whistleblowing" className="hover:text-bone">Whistleblowing</Link>
           </div>
-          <div>© {new Date().getFullYear()} Magppie Silverstone Pvt. Ltd. — All rights reserved.</div>
+          <div>© {new Date().getFullYear()} Magppie Silverstone Pvt. Ltd. All rights reserved.</div>
         </div>
       </div>
     </footer>

@@ -3,38 +3,38 @@ import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 
 export const metadata = {
-  title: 'Wellness Vanity — Magppie',
+  title: 'Wellness Vanity | Magppie',
   description:
-    'Magppie Wellness Vanities — fully built in patented anti-bacterial Silverstone™. Safe, hygienic, mineral-luxe surfaces for the most intimate room of the home.'
+    'Magppie Wellness Vanities, fully built in patented anti-bacterial Silverstone™. Safe, hygienic, mineral-luxe surfaces for the most intimate room of the home.'
 };
 
 export default function VanitiesPage() {
   return (
     <>
       <PageHero
-        kicker="03 — Wellness"
-        title="Vanities."
+        kicker="Introducing the World’s First Wellness Vanity"
+        title="Vanities built in stone. For a lifetime of wellness."
         image="/images/vanities/onyx-gold-overmount-02.webp"
-        subtitle="Vanities fully built in our patented anti-bacterial Silverstone™. Mineral-luxe surfaces for the most intimate room of the home."
+        subtitle="The vanity meets water every day. Conventional plywood swells, rots and grows mould inches from your toothbrush, skincare, your face. Magppie built it in stone. Water-proof. Bacteria-safe. Mould-immune. Guaranteed for 25 years."
       />
 
       {/* Intro */}
-      <section id="wellness" className="bg-bone py-28 lg:py-40">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-10">
+      <section id="wellness" className="bg-bone py-20 lg:py-40 scroll-mt-20">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-6 lg:gap-10">
           <div className="lg:col-span-4">
             <div className="kicker text-smoke">A Sanctuary in Stone</div>
           </div>
           <div className="lg:col-span-8">
-            <h2 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-ink">
-              Where you begin and end the day —
+            <h2 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-ink">
+              Where you begin and end the day
               <em className="not-italic text-smoke"> deserves </em>
               wellness too.
             </h2>
-            <p className="mt-10 text-lg text-ink/70 max-w-2xl leading-relaxed">
+            <p className="mt-8 lg:mt-10 text-base lg:text-lg text-ink/70 max-w-2xl leading-relaxed">
               The bathroom is the most water-and-humidity intense room in any
-              home — the most welcoming surface for mold, bacteria and
+              home, the most welcoming surface for mold, bacteria and
               fungi. Magppie Wellness Vanities replace the standard wood,
-              MDF and plywood entirely with patented Silverstone™ — every
+              MDF and plywood entirely with patented Silverstone™: every
               cabinet, fascia, drawer and handle. The result is a vanity
               that is naturally bacteria-safe, water-proof for life, and
               quietly architectural.
@@ -43,9 +43,44 @@ export default function VanitiesPage() {
         </div>
       </section>
 
+      {/* Built in Stone feature */}
+      <section className="bg-sand py-20 lg:py-40">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          <div className="lg:col-span-7">
+            <div className="relative aspect-[4/3] overflow-hidden">
+              <Image
+                src="/images/vanities/onyx-gold-overmount.webp"
+                alt="Magppie Wellness Vanity, built entirely in Silverstone™"
+                fill
+                sizes="(min-width: 1024px) 60vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <div className="kicker text-smoke mb-6">Built in Stone</div>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight">
+              Every cabinet, fascia and handle, in patented Silverstone™.
+            </h2>
+            <p className="mt-6 lg:mt-8 text-ink/70 leading-relaxed">
+              Where wood-based vanities swell, rot and grow mould after years
+              of splashes and steam, a Magppie vanity is inert stone from the
+              inside out. Water-proof for life, bacteria-safe, mould-immune.
+              The cleanest surface in the cleanest room of your home.
+            </p>
+            <Link
+              href="/materials"
+              className="inline-block mt-8 lg:mt-10 kicker hover-underline"
+            >
+              Explore Silverstone™ →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Concepts grid */}
-      <section className="bg-bone pb-32">
-        <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mb-12">
+      <section className="bg-bone pt-20 lg:pt-32 pb-20 lg:pb-32">
+        <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mb-10 lg:mb-12">
           <h2 className="font-display text-3xl md:text-4xl text-ink">
             Wellness Vanity Concepts.
           </h2>
@@ -56,15 +91,15 @@ export default function VanitiesPage() {
               <div className="relative aspect-[4/3]">
                 <Image
                   src={v.image}
-                  alt={`${v.name} — ${v.finish}`}
+                  alt={`${v.name}, ${v.finish}`}
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover tile-img"
                 />
               </div>
-              <div className="absolute bottom-0 left-0 p-6 lg:p-8 text-bone bg-gradient-to-t from-ink/70 to-transparent w-full">
+              <div className="absolute bottom-0 left-0 p-5 sm:p-6 lg:p-8 text-bone bg-gradient-to-t from-ink/70 to-transparent w-full">
                 <div className="kicker text-bone/80">Stone finish</div>
-                <div className="font-display text-2xl lg:text-3xl mt-1">
+                <div className="font-display text-xl sm:text-2xl lg:text-3xl mt-1">
                   {v.finish}
                 </div>
                 <div className="kicker text-bone/60 mt-1">{v.name}</div>
@@ -75,13 +110,13 @@ export default function VanitiesPage() {
       </section>
 
       {/* Made for water */}
-      <section className="bg-sand py-28 lg:py-40">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-center">
+      <section className="bg-sand py-20 lg:py-40">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           <div className="lg:col-span-7">
             <div className="relative aspect-[4/3] overflow-hidden">
               <Image
-                src="/images/vanities/03.jpg"
-                alt="Magppie Wellness Vanity — built for water"
+                src="/images/vanities/03.webp"
+                alt="Magppie Wellness Vanity, built for water"
                 fill
                 sizes="(min-width: 1024px) 60vw, 100vw"
                 className="object-cover"
@@ -90,10 +125,10 @@ export default function VanitiesPage() {
           </div>
           <div className="lg:col-span-5">
             <div className="kicker text-smoke mb-6">Built for Water</div>
-            <h2 className="font-display text-4xl md:text-5xl text-ink leading-tight">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight">
               Mold-proof. Stain-proof. Steam-proof.
             </h2>
-            <p className="mt-8 text-ink/70 leading-relaxed">
+            <p className="mt-6 lg:mt-8 text-ink/70 leading-relaxed">
               Silverstone™ is non-porous and naturally repels moisture. Where
               wood-based vanities swell, warp and grow mold within years, a
               Magppie vanity stays as sharp on day 9,000 as on day one. Backed
@@ -101,7 +136,7 @@ export default function VanitiesPage() {
             </p>
             <Link
               href="/materials"
-              className="inline-block mt-10 kicker hover-underline"
+              className="inline-block mt-8 lg:mt-10 kicker hover-underline"
             >
               Explore Silverstone™ →
             </Link>
@@ -110,16 +145,16 @@ export default function VanitiesPage() {
       </section>
 
       {/* Five reasons */}
-      <section className="bg-bone py-28 lg:py-32">
+      <section className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-4">Five Reasons</div>
-          <h2 className="font-display text-4xl md:text-5xl text-ink leading-tight max-w-3xl">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight max-w-3xl">
             Why every Magppie vanity is, quietly, the most advanced in the room.
           </h2>
 
-          <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-ink/10">
+          <div className="mt-12 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-ink/10">
             {REASONS.map((r, i) => (
-              <div key={r.title} className="bg-bone p-8">
+              <div key={r.title} className="bg-bone p-6 sm:p-8">
                 <div className="kicker text-smoke mb-4">
                   0{i + 1}
                 </div>
@@ -132,13 +167,13 @@ export default function VanitiesPage() {
       </section>
 
       {/* Finishes for vanities */}
-      <section id="finishes" className="bg-sand py-28">
+      <section id="finishes" className="bg-sand py-20 lg:py-28 scroll-mt-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-4">Vanity Finishes</div>
-          <h2 className="font-display text-4xl md:text-5xl text-ink leading-tight max-w-3xl">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight max-w-3xl">
             A curated palette of Silverstone™ finishes for the bath.
           </h2>
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="mt-12 lg:mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {FINISHES.map((f) => (
               <div key={f.name} className="group">
                 <div
@@ -176,14 +211,14 @@ export default function VanitiesPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-sandlight py-28">
+      <section className="bg-sandlight py-20 lg:py-28">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
-          <h2 className="font-display text-4xl md:text-6xl text-ink leading-tight">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-6xl text-ink leading-tight">
             Begin your Wellness Vanity journey.
           </h2>
           <Link
             href="/contact"
-            className="inline-block mt-10 px-10 py-4 border border-ink text-ink kicker hover:bg-ink hover:text-bone transition-colors"
+            className="inline-flex items-center justify-center mt-8 lg:mt-10 px-8 lg:px-10 py-4 min-h-[48px] border border-ink text-ink kicker hover:bg-ink hover:text-bone transition-colors"
           >
             Book a consultation
           </Link>
@@ -195,68 +230,68 @@ export default function VanitiesPage() {
 
 const VANITIES = [
   {
-    name: 'Onyx Gold — Master suite',
+    name: 'Onyx Gold: Master suite',
     finish: 'Magppie Onyx Gold (Overmount)',
     image: '/images/vanities/onyx-gold-overmount.webp'
   },
   {
-    name: 'Onyx Gold — Undermount',
+    name: 'Onyx Gold: Undermount',
     finish: 'Magppie Onyx Gold (Undermount)',
     image: '/images/vanities/onyx-gold-undermount.webp'
   },
   {
-    name: 'Onyx Mystic — Boudoir',
+    name: 'Onyx Mystic: Boudoir',
     finish: 'Magppie Onyx Mystic',
-    image: '/images/vanities/onyx-mystic-overmount.jpg'
+    image: '/images/vanities/onyx-mystic-overmount.webp'
   },
   {
-    name: 'Classico Bianco — Crisp minimal',
+    name: 'Classico Bianco: Crisp minimal',
     finish: 'Magppie Classico Bianco (Overmount)',
     image: '/images/vanities/classico-bianco-overmount.webp'
   },
   {
-    name: 'Classico Bianco — Undermount',
+    name: 'Classico Bianco: Undermount',
     finish: 'Magppie Classico Bianco (Undermount)',
     image: '/images/vanities/classico-bianco-undermount.webp'
   },
   {
-    name: 'Taj — Monolithic',
+    name: 'Taj: Monolithic',
     finish: 'Magppie Taj',
-    image: '/images/vanities/taj-overmount.jpg'
+    image: '/images/vanities/taj-overmount.webp'
   },
   {
-    name: 'Calcatta Perlato — Warm marble',
+    name: 'Calcatta Perlato: Warm marble',
     finish: 'Magppie Calcatta Perlato',
     image: '/images/vanities/calcatta-perlato-overmount.webp'
   },
   {
-    name: 'Flurry Black — Graphite bath',
+    name: 'Flurry Black: Graphite bath',
     finish: 'Magppie Flurry Black',
     image: '/images/vanities/flurry-black-overmount-02.webp'
   },
   {
-    name: 'Onyx Mystic — Guest powder',
+    name: 'Onyx Mystic: Guest powder',
     finish: 'Magppie Onyx Mystic',
-    image: '/images/vanities/onyx-mystic-overmount-02.jpg'
+    image: '/images/vanities/onyx-mystic-overmount-02.webp'
   }
 ];
 
 const REASONS = [
   {
     title: 'Bacteria-Safe',
-    copy: 'Silver-ion infused stone — naturally hostile to bacteria, mold and fungi. Tested and certified.'
+    copy: 'Silver-ion infused stone, naturally hostile to bacteria, mold and fungi. Tested and certified.'
   },
   {
     title: 'Water-Proof for Life',
-    copy: 'Non-porous Silverstone™ does not swell, warp or stain — even with daily steam and splash.'
+    copy: 'Non-porous Silverstone™ does not swell, warp or stain, even with daily steam and splash.'
   },
   {
     title: 'Zero Formaldehyde',
-    copy: 'No MDF, no plywood, no laminates — no toxic emissions next to your skincare.'
+    copy: 'No MDF, no plywood, no laminates, and no toxic emissions next to your skincare.'
   },
   {
     title: 'Architectural Detailing',
-    copy: 'Cabinets, fascias, handles and side panels — all in matching stone. A monolithic, sculptural object.'
+    copy: 'Cabinets, fascias, handles and side panels, all in matching stone. A monolithic, sculptural object.'
   },
   {
     title: '25 + 25 Promise',

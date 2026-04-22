@@ -18,15 +18,15 @@ const display = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: 'Magppie — The World’s First Wellness Kitchen',
+  title: 'Magppie | The World’s First Wellness Kitchen',
   description:
-    'Magppie is the world’s first Wellness Kitchen and Wardrobe brand, fully built in patented anti-bacterial Silverstone™. Safe, hygienic, luxurious — for people and planet.',
+    'Magppie is the world’s first Wellness Kitchen and Wardrobe brand, fully built in patented anti-bacterial Silverstone™. Safe, hygienic, luxurious, for people and planet.',
   metadataBase: new URL('https://www.magppie.com'),
   openGraph: {
-    title: 'Magppie — Wellness Kitchens & Wardrobes',
+    title: 'Magppie | Wellness Kitchens & Wardrobes',
     description:
       'World’s first Wellness Kitchen, fully built in patented anti-bacterial Silverstone™.',
-    images: ['/images/hero.jpg']
+    images: ['/images/hero.webp']
   }
 };
 

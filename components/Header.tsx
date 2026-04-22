@@ -31,7 +31,7 @@ const NAV = [
       { label: 'Stone Finishes', href: '/vanities#finishes' }
     ]
   },
-  { label: 'Company', href: '/about' },
+  { label: 'About', href: '/about' },
   { label: 'Catalogs', href: '/catalogs' },
   { label: 'News', href: '/news' }
 ];
@@ -48,7 +48,18 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // While at the top of any page, every page begins with a dark/visual hero —
+  // Prevent background scroll when mobile drawer is open.
+  useEffect(() => {
+    if (open) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [open]);
+
+  // While at the top of any page, every page begins with a dark/visual hero,
   // so the header text needs to be light. After scroll, switch to the bone bar.
   const onLight = scrolled || open;
 
@@ -73,7 +84,7 @@ export default function Header() {
               height={onLight ? 145 : 36}
               priority
               className={`w-auto transition-all duration-300 ${
-                onLight ? 'h-14 lg:h-16' : 'h-7 lg:h-8'
+                onLight ? 'h-10 lg:h-16' : 'h-6 lg:h-8'
               }`}
             />
           </Link>
@@ -115,12 +126,14 @@ export default function Header() {
 
           <div className="hidden lg:flex items-center gap-6">
             <Link
-              href="/contact"
-              className={`kicker hover-underline transition-colors ${
-                onLight ? 'text-ink' : 'text-bone'
+              href="/contact#book"
+              className={`kicker px-5 py-2.5 border transition-colors ${
+                onLight
+                  ? 'text-bone bg-ink border-ink hover:bg-ink/85'
+                  : 'text-ink bg-bone border-bone hover:bg-bone/90'
               }`}
             >
-              Contact
+              Book
             </Link>
             <span
               className={`kicker transition-colors ${
@@ -132,37 +145,56 @@ export default function Header() {
           </div>
 
           <button
-            aria-label="Open menu"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
             onClick={() => setOpen(!open)}
-            className="lg:hidden p-2 -mr-2"
+            className="lg:hidden p-3 -mr-3 min-h-[44px] min-w-[44px] flex flex-col justify-center items-end"
           >
-            <div className={`w-6 h-px mb-1.5 ${onLight ? 'bg-ink' : 'bg-bone'}`} />
-            <div className={`w-6 h-px mb-1.5 ${onLight ? 'bg-ink' : 'bg-bone'}`} />
-            <div className={`w-4 h-px ml-auto ${onLight ? 'bg-ink' : 'bg-bone'}`} />
+            <div className={`w-6 h-px mb-1.5 transition-colors ${onLight ? 'bg-ink' : 'bg-bone'}`} />
+            <div className={`w-6 h-px mb-1.5 transition-colors ${onLight ? 'bg-ink' : 'bg-bone'}`} />
+            <div className={`w-4 h-px transition-colors ${onLight ? 'bg-ink' : 'bg-bone'}`} />
           </button>
         </div>
       </div>
 
       {open && (
-        <div className="lg:hidden bg-bone border-t hairline">
-          <div className="px-6 py-6 space-y-4">
+        <div className="lg:hidden bg-bone border-t hairline max-h-[calc(100dvh-4rem)] overflow-y-auto">
+          <div className="px-6 py-6 space-y-1">
             {NAV.map((item) => (
+              <div key={item.label} className="border-b border-ink/5 last:border-b-0">
+                <Link
+                  href={item.href}
+                  className="flex items-center min-h-[44px] kicker text-ink py-2"
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </Link>
+                {item.sub && (
+                  <div className="pl-4 pb-3 space-y-1">
+                    {item.sub.map((s) => (
+                      <Link
+                        key={s.href}
+                        href={s.href}
+                        className="flex items-center min-h-[40px] text-sm text-ink/70 hover:text-ink"
+                        onClick={() => setOpen(false)}
+                      >
+                        {s.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+            <div className="flex items-center justify-between pt-6">
               <Link
-                key={item.label}
-                href={item.href}
-                className="block kicker text-ink"
+                href="/contact#book"
+                className="inline-flex items-center justify-center kicker px-6 py-3 bg-ink text-bone min-h-[44px]"
                 onClick={() => setOpen(false)}
               >
-                {item.label}
+                Book
               </Link>
-            ))}
-            <Link
-              href="/contact"
-              className="block kicker text-ink"
-              onClick={() => setOpen(false)}
-            >
-              Contact
-            </Link>
+              <span className="kicker text-ink/40">EN</span>
+            </div>
           </div>
         </div>
       )}

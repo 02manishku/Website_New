@@ -1,11 +1,11 @@
-# Magppie — Wellness Kitchens, Wardrobes & Vanities
+# Magppie | Wellness Kitchens, Wardrobes & Vanities
 
 Next.js 14 marketing site for the world's first Wellness Kitchen & Wardrobe brand, built on patented anti-bacterial Silverstone™.
 
 ## Stack
 
 - **Next.js 14** (App Router) + React 18 + TypeScript
-- **Tailwind CSS** — custom palette (ink/bone/sand/smoke)
+- **Tailwind CSS** with a custom palette (ink/bone/sand/smoke)
 - **next/font** (Inter + Cormorant Garamond, self-hosted)
 - **next/image** with AVIF/WebP auto-negotiation
 
@@ -42,4 +42,4 @@ Originals are preserved locally in `public/_originals/` (gitignored).
 
 ## Deployment
 
-One-click deploy on Vercel — no config needed. Set the build command to `npm run build` and root directory to the project root.
+One-click deploy on Vercel, no config needed. Set the build command to `npm run build` and root directory to the project root.

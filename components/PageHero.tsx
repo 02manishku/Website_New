@@ -14,7 +14,7 @@ export default function PageHero({
   subtitle?: string;
 }) {
   return (
-    <section className="relative h-[100dvh] min-h-[640px] w-full overflow-hidden bg-ink">
+    <section className="relative h-[100dvh] min-h-[560px] lg:min-h-[640px] w-full overflow-hidden bg-ink">
       <div className="absolute inset-0 overflow-hidden">
         {video ? (
           <video
@@ -49,7 +49,8 @@ export default function PageHero({
         )}
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/45 via-transparent to-ink/70 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-ink/75 via-ink/30 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-transparent to-ink/70 pointer-events-none" />
 
       {/* Bottom-left vignette to mask any brand watermark on source videos */}
       <div
@@ -61,16 +62,18 @@ export default function PageHero({
       />
 
       <div className="absolute inset-0 flex items-end z-10">
-        <div className="mx-auto max-w-[1600px] px-6 lg:px-10 pb-24 w-full">
-          <div className="kicker text-bone/85 mb-6 fade-up">{kicker}</div>
-          <h1 className="font-display text-bone text-6xl md:text-7xl lg:text-8xl leading-none fade-up drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)]">
-            {title}
-          </h1>
-          {subtitle && (
-            <p className="mt-6 text-bone/85 max-w-xl text-lg fade-up delay-1">
-              {subtitle}
-            </p>
-          )}
+        <div className="mx-auto max-w-[1600px] px-6 lg:px-10 pb-8 lg:pb-12 w-full">
+          <div className="max-w-[640px]">
+            <div className="kicker text-bone/90 mb-4 fade-up">{kicker}</div>
+            <h1 className="font-display text-bone leading-[1.05] text-[2.25rem] sm:text-[2.75rem] md:text-[4.2vw] lg:text-[3.1vw] fade-up [text-shadow:0_2px_18px_rgba(0,0,0,0.55)]">
+              {title}
+            </h1>
+            {subtitle && (
+              <p className="mt-4 lg:mt-6 max-w-[520px] text-bone/95 text-[0.88rem] sm:text-[0.95rem] lg:text-[0.92rem] leading-[1.55] lg:leading-[1.6] fade-up delay-1 [text-shadow:0_1px_10px_rgba(0,0,0,0.6)]">
+                {subtitle}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </section>

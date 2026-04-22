@@ -13,9 +13,9 @@ export default function ContactForm() {
 
   if (sent) {
     return (
-      <div className="border hairline p-12 text-center">
+      <div className="border hairline p-8 sm:p-12 text-center">
         <div className="kicker text-smoke mb-4">Thank you</div>
-        <h3 className="font-display text-3xl text-ink leading-tight">
+        <h3 className="font-display text-2xl sm:text-3xl text-ink leading-tight">
           We&rsquo;ve received your message.<br />
           A Magppie advisor will be in touch within one business day.
         </h3>
@@ -53,7 +53,7 @@ export default function ContactForm() {
 
       <button
         type="submit"
-        className="px-10 py-4 bg-ink text-bone kicker hover:bg-smoke transition-colors"
+        className="w-full sm:w-auto inline-flex items-center justify-center px-8 lg:px-10 py-4 min-h-[48px] bg-ink text-bone kicker hover:bg-smoke transition-colors"
       >
         Send enquiry →
       </button>
@@ -84,14 +84,14 @@ function Field({
           name={name}
           required={required}
           rows={5}
-          className="w-full bg-transparent border-b hairline focus:border-ink outline-none py-2 text-ink"
+          className="w-full bg-transparent border-b hairline focus:border-ink outline-none py-2 text-ink text-base min-h-[44px]"
         />
       ) : (
         <input
           name={name}
           type={type}
           required={required}
-          className="w-full bg-transparent border-b hairline focus:border-ink outline-none py-2 text-ink"
+          className="w-full bg-transparent border-b hairline focus:border-ink outline-none py-2 text-ink text-base min-h-[44px]"
         />
       )}
     </label>
@@ -112,7 +112,7 @@ function SelectField({
       <span className="kicker text-smoke mb-2 block">{label}</span>
       <select
         name={name}
-        className="w-full bg-transparent border-b hairline focus:border-ink outline-none py-2 text-ink"
+        className="w-full bg-transparent border-b hairline focus:border-ink outline-none py-2 text-ink text-base min-h-[44px]"
         defaultValue=""
       >
         <option value="" disabled>Select…</option>
