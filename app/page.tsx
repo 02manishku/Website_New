@@ -31,7 +31,7 @@ export default function HomePage() {
             </p>
             <Link
               href="/about"
-              className="inline-block mt-8 lg:mt-10 kicker hover-underline"
+              className="tap-link mt-8 lg:mt-10 text-sm hover-underline"
             >
               Discover the movement →
             </Link>
@@ -44,19 +44,16 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 grid md:grid-cols-3 gap-2">
           <Tile
             href="/kitchens"
-            kicker="Wellness 01"
             title="Wellness Kitchens"
             image="/images/22.webp"
           />
           <Tile
             href="/wardrobes"
-            kicker="Wellness 02"
             title="Wellness Wardrobes"
             image="/images/wardrobes/concept-1.webp"
           />
           <Tile
             href="/vanities"
-            kicker="Wellness 03"
             title="Wellness Vanities"
             image="/images/vanities/onyx-gold-overmount.webp"
           />
@@ -113,7 +110,7 @@ export default function HomePage() {
                 <p className="mt-3 lg:mt-4 text-ink/70 leading-relaxed text-[0.9rem] lg:text-[0.95rem]">
                   {c.body}
                 </p>
-                <div className="mt-auto pt-6 lg:pt-10 space-y-2 text-[0.68rem] lg:text-[0.72rem] tracking-[0.22em] uppercase">
+                <div className="mt-auto pt-6 lg:pt-10 space-y-2 text-[0.78rem] lg:text-[0.8rem]">
                   <div className="flex items-center gap-3 text-smoke">
                     <span className="w-5 h-px bg-smoke/60" />
                     <span>{c.wood}</span>
@@ -146,7 +143,7 @@ export default function HomePage() {
             </p>
             <Link
               href="/materials"
-              className="inline-block mt-8 lg:mt-10 kicker hover-underline"
+              className="tap-link mt-8 lg:mt-10 text-sm hover-underline"
             >
               Explore Silverstone™ →
             </Link>
@@ -176,7 +173,7 @@ export default function HomePage() {
           <div className="mt-12 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-ink/10">
             {BENEFITS.map((b) => (
               <div key={b.kicker} className="bg-bone p-6 sm:p-8">
-                <div className="kicker text-smoke mb-4">{b.kicker}</div>
+                <div className="label text-smoke mb-4">{b.kicker}</div>
                 <ul className="space-y-2 text-ink">
                   {b.items.map((i) => (
                     <li key={i} className="text-sm leading-relaxed">{i}</li>
@@ -205,13 +202,13 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-ink/10 to-transparent" />
         <div className="absolute inset-0 flex items-end">
           <div className="mx-auto max-w-[1600px] px-6 lg:px-10 pb-14 lg:pb-20 w-full">
-            <div className="kicker text-bone/80 mb-4 lg:mb-6">Concept</div>
-            <h2 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-bone leading-[1.02] lg:leading-none max-w-4xl">
+            <div className="label text-bone/80 mb-4 lg:mb-6">Concept</div>
+            <h2 className="font-display md:whitespace-nowrap text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-bone leading-[1.02] lg:leading-none">
               The Poolside Kitchen.
             </h2>
             <Link
               href="/kitchens#outdoor"
-              className="inline-block mt-8 lg:mt-10 kicker text-bone hover-underline"
+              className="inline-block mt-8 lg:mt-10 text-sm text-bone hover-underline"
             >
               Experience the concept →
             </Link>
@@ -271,7 +268,7 @@ export default function HomePage() {
               <>
                 {/* Award logos - lead with the trophy */}
                 <div className="mt-14 mb-14">
-                  <div className="kicker text-smoke/70 mb-8 text-[0.65rem]">
+                  <div className="label text-smoke/70 mb-8 text-[0.65rem]">
                     Featured In
                   </div>
                   <div className="flex flex-wrap items-center justify-center gap-x-10 sm:gap-x-16 lg:gap-x-28 gap-y-8 lg:gap-y-8">
@@ -291,7 +288,7 @@ export default function HomePage() {
                             className="object-contain object-left"
                           />
                         </div>
-                        <div className="kicker text-ink/75 text-[0.62rem]">
+                        <div className="text-[0.78rem] font-medium text-ink/85">
                           {logo.label}
                         </div>
                         <div className="text-[0.72rem] text-smoke mt-0.5">
@@ -303,14 +300,14 @@ export default function HomePage() {
                 </div>
 
                 <div className="pt-10 border-t border-ink/10">
-                  <div className="kicker text-smoke/70 mb-6 text-[0.65rem]">
+                  <div className="label text-smoke/70 mb-6 text-[0.65rem]">
                     Awards &amp; Accolades
                   </div>
                   <ul className="flex flex-wrap gap-2">
                     {HERO_AWARDS.map((a) => (
                       <li
                         key={a}
-                        className="text-[0.58rem] sm:text-[0.62rem] tracking-[0.18em] sm:tracking-[0.2em] uppercase font-semibold text-ink border border-ink/35 bg-bone px-3 sm:px-3.5 py-2"
+                        className="text-[0.72rem] sm:text-[0.78rem] font-semibold text-ink border border-ink/35 bg-bone px-3 sm:px-3.5 py-2"
                       >
                         {a}
                       </li>
@@ -318,21 +315,21 @@ export default function HomePage() {
                     {AWARDS.map((a) => (
                       <li
                         key={a}
-                        className="text-[0.58rem] sm:text-[0.62rem] tracking-[0.18em] sm:tracking-[0.2em] uppercase font-medium text-ink/60 border border-ink/10 bg-bone px-3 sm:px-3.5 py-2 hover:border-ink/30 transition-colors"
+                        className="text-[0.72rem] sm:text-[0.78rem] font-medium text-ink/65 border border-ink/10 bg-bone px-3 sm:px-3.5 py-2 hover:border-ink/30 transition-colors"
                       >
                         {a}
                       </li>
                     ))}
                   </ul>
 
-                  <div className="kicker text-smoke/70 mt-8 mb-3 text-[0.65rem]">
+                  <div className="label text-smoke/70 mt-8 mb-3 text-[0.65rem]">
                     Memberships
                   </div>
                   <ul className="flex flex-wrap gap-2">
                     {MEMBERSHIPS.map((m) => (
                       <li
                         key={m}
-                        className="text-[0.62rem] tracking-[0.2em] uppercase font-medium text-ink/65 border border-ink/10 bg-sand/40 px-3.5 py-2 hover:border-ink/30 transition-colors"
+                        className="text-[0.78rem] font-medium text-ink/70 border border-ink/10 bg-sand/40 px-3.5 py-2 hover:border-ink/30 transition-colors"
                       >
                         {m}
                       </li>
@@ -358,7 +355,7 @@ export default function HomePage() {
                 From the Magppie journal.
               </h2>
             </div>
-            <Link href="/news" className="kicker hover-underline">
+            <Link href="/news" className="text-sm hover-underline tap-link">
               All stories →
             </Link>
           </div>
@@ -370,7 +367,7 @@ export default function HomePage() {
               title="Magppie at FOAID, New Delhi: the Wellness Kitchen unveiled"
             />
             <NewsCard
-              image="/images/Hailuo_Image_Create-a-different-Angle-for-t_488492364996386825.webp"
+              image="/images/silverstone-nano-silver.webp"
               date="Apr 2026"
               tag="Innovation"
               title="Inside Silverstone™: nano-silver and the science of safer surfaces"
@@ -385,11 +382,48 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CATALOGS — sits between the Stories grid and the closing CTA, so the
+          page funnels readers from journal → catalogues → consultation. */}
+      <section className="bg-bone py-20 lg:py-32">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 lg:mb-12">
+            <div>
+              <div className="kicker text-smoke mb-3">Library</div>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-[1.05]">
+                Download the catalogs.
+              </h2>
+            </div>
+            <p className="text-ink/65 max-w-md sm:text-right text-sm">
+              For your home, for your studio, for your archive.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-2">
+            {CATALOGS.map((c) => (
+              <a
+                key={c.name}
+                href="#"
+                className="group flex items-center justify-between gap-4 sm:gap-8 p-6 sm:p-8 lg:p-10 bg-sandlight border hairline hover:bg-sand transition-colors"
+              >
+                <div>
+                  <div className="label text-smoke mb-2">{c.cover}</div>
+                  <h3 className="font-display text-2xl sm:text-3xl text-ink leading-tight">{c.name}</h3>
+                  <div className="text-sm text-smoke mt-3">{c.size}</div>
+                </div>
+                <div className="text-sm font-medium text-ink whitespace-nowrap group-hover:translate-x-2 transition-transform shrink-0">
+                  Download →
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA — closing section, just before the footer */}
       <section className="bg-sandlight py-24 lg:py-44">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
           <div className="kicker text-smoke mb-6">Begin</div>
-          <h2 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-ink leading-[1.02]">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-ink leading-[1.02]">
             Transform your kitchen.<br />
             Transform your health.
           </h2>
@@ -405,14 +439,19 @@ export default function HomePage() {
   );
 }
 
+const CATALOGS = [
+  { name: 'Wellness Kitchen: Master Catalog', size: '32 MB · PDF', cover: 'Magppie Taj' },
+  { name: 'Wellness Wardrobe: Concepts',       size: '18 MB · PDF', cover: 'Magppie Onyx Gold' },
+  { name: 'Silverstone™ Finishes Brochure',     size: '24 MB · PDF', cover: '41 Finishes' },
+  { name: 'Outdoor Kitchen Concepts',           size: '12 MB · PDF', cover: 'Magppie Earth' }
+];
+
 function Tile({
   href,
-  kicker,
   title,
   image
 }: {
   href: string;
-  kicker: string;
   title: string;
   image: string;
 }) {
@@ -428,10 +467,12 @@ function Tile({
         className="object-cover tile-img opacity-95 group-hover:opacity-100"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 lg:p-10 text-bone">
-        <div className="kicker text-bone/80 mb-2 lg:mb-3">{kicker}</div>
-        <div className="font-display text-3xl sm:text-4xl lg:text-5xl">{title}</div>
-        <div className="kicker mt-3 lg:mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7 lg:p-10 text-bone">
+        <div className="font-display md:whitespace-nowrap text-3xl sm:text-4xl lg:text-[2.6rem] xl:text-5xl">
+          {title}
+        </div>
+        {/* Hover-only "Discover →" — desktop only, mobile users tap the tile */}
+        <div className="hidden lg:block text-sm mt-3 lg:mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           Discover →
         </div>
       </div>
@@ -462,7 +503,7 @@ function NewsCard({
           className="object-cover tile-img"
         />
       </div>
-      <div className="mt-6 flex items-center gap-3 kicker text-smoke">
+      <div className="mt-6 flex items-center gap-3 text-[0.78rem] text-smoke">
         <span>{date}</span>
         <span className="w-6 h-px bg-smoke/40" />
         <span>{tag}</span>
@@ -470,7 +511,7 @@ function NewsCard({
       <h3 className="mt-3 font-display text-2xl lg:text-3xl text-ink leading-snug">
         {title}
       </h3>
-      <span className="inline-block mt-4 kicker hover-underline">Read story →</span>
+      <span className="tap-link mt-4 text-sm hover-underline">Read story →</span>
     </article>
   );
 }

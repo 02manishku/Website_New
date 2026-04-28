@@ -72,7 +72,7 @@ export default function WardrobesPage() {
             </p>
             <Link
               href="/materials"
-              className="inline-block mt-8 lg:mt-10 kicker hover-underline"
+              className="tap-link mt-8 lg:mt-10 text-sm hover-underline"
             >
               Explore Silverstone™ →
             </Link>
@@ -100,9 +100,7 @@ export default function WardrobesPage() {
                 />
               </div>
               <div className="absolute bottom-0 left-0 p-5 sm:p-6 lg:p-8 text-bone bg-gradient-to-t from-ink/70 to-transparent w-full">
-                <div className="kicker text-bone/80">Stone finish</div>
-                <div className="font-display text-xl sm:text-2xl lg:text-3xl mt-1">{w.finish}</div>
-                <div className="kicker text-bone/60 mt-1">{w.name}</div>
+                <div className="font-display text-xl sm:text-2xl lg:text-3xl">{w.finish}</div>
               </div>
             </div>
           ))}
@@ -113,7 +111,7 @@ export default function WardrobesPage() {
       <section className="bg-sand py-20 lg:py-40">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-6">Choose Wellness</div>
-          <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-ink leading-[1.05] max-w-4xl">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-ink leading-[1.05] max-w-4xl">
             Choose family safety. Choose lifelong durability. Choose
             <em className="not-italic text-smoke"> luxurious aesthetics.</em>
           </h2>
@@ -143,7 +141,7 @@ export default function WardrobesPage() {
           <div className="mt-12 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 lg:gap-x-10 gap-y-10 lg:gap-y-12">
             {ACCESSORIES.map((a, i) => (
               <div key={a.name}>
-                <div className="kicker text-smoke mb-3">
+                <div className="font-display text-2xl text-smoke/40 mb-3">
                   {String(i + 1).padStart(2, '0')}
                 </div>
                 <h3 className="font-display text-xl text-ink mb-2">{a.name}</h3>

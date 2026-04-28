@@ -23,7 +23,7 @@ const FAMILIES: Person[] = [
   { name: 'Peyush Bansal',   subtitle: 'Lenskart',        src: '/images/people/peyush_bansal.webp' },
   { name: 'Rizwan Sajan',    subtitle: 'Danube Group',    src: '/images/people/rizwan_sajan.webp' },
   { name: 'Ritesh Malik',    subtitle: 'Innov8',          src: '/images/people/ritesh_malik.webp' },
-  { name: 'Rushi Ajmera',    subtitle: 'Ajmera Realty',   src: '/images/people/rushi%20ajmera.webp' },
+  { name: 'Rushi Ajmera',    subtitle: 'Ajmera Realty',   src: '/images/people/rushi_ajmera.webp' },
 ];
 
 function initials(name: string) {
@@ -74,7 +74,7 @@ function PortraitCard({
           {person.name}
         </div>
         {person.subtitle && (
-          <div className="kicker text-bone/70 mt-1 text-[0.58rem] sm:text-[0.65rem]">
+          <div className="text-[0.72rem] sm:text-[0.78rem] text-bone/70 mt-1">
             {person.subtitle}
           </div>
         )}
@@ -87,7 +87,7 @@ export default function CustomersMarquee() {
   return (
     <div>
       <div className="flex items-end justify-between mb-8 lg:mb-10">
-        <div className="kicker text-bone/50">
+        <div className="label text-bone/55">
           Families <span className="text-bone/20 mx-2">·</span>{' '}
           <span className="text-bone/30">India &amp; Abroad</span>
         </div>
@@ -105,7 +105,7 @@ export default function CustomersMarquee() {
               <div className="font-display text-ink text-2xl sm:text-3xl lg:text-4xl leading-none">
                 28,000<span className="font-light">+</span>
               </div>
-              <div className="kicker text-smoke mt-2 sm:mt-3 text-[0.58rem] sm:text-[0.65rem]">
+              <div className="text-[0.72rem] sm:text-[0.78rem] text-smoke mt-2 sm:mt-3">
                 Private Clients
               </div>
             </div>
@@ -114,7 +114,7 @@ export default function CustomersMarquee() {
             <div className="font-display text-ink text-base sm:text-lg lg:text-xl leading-tight">
               &amp; many more.
             </div>
-            <div className="kicker text-smoke mt-1 text-[0.58rem] sm:text-[0.65rem]">
+            <div className="text-[0.72rem] sm:text-[0.78rem] text-smoke mt-1">
               Across India &amp; the World
             </div>
           </figcaption>

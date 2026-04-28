@@ -38,18 +38,18 @@ export default function HeroVideo() {
         <div className="kicker text-bone/90 mb-3 lg:mb-4 fade-up">
           Introducing the World&rsquo;s First Wellness Kitchen
         </div>
-        <h1 className="font-display text-bone leading-[1.05] text-[2rem] sm:text-[2.5rem] md:text-[3.8vw] lg:text-[2.9vw] fade-up delay-1 [text-shadow:0_2px_18px_rgba(0,0,0,0.55)]">
+        <h1 className="font-display font-light text-bone leading-[1.05] text-[2rem] sm:text-[2.5rem] md:text-[3.8vw] lg:text-[2.9vw] fade-up delay-1 [text-shadow:0_2px_18px_rgba(0,0,0,0.55)]">
           The World Needs Wellness.<br />
           Built in <em className="not-italic font-light italic">Stone.</em>
         </h1>
-        <div className="mt-5 lg:mt-8 flex flex-wrap items-center gap-x-4 md:gap-x-8 gap-y-2 lg:gap-y-3 fade-up delay-2">
-          <Link href="/kitchens" className="kicker text-bone hover-underline">
+        <div className="mt-5 lg:mt-8 flex flex-wrap items-center gap-x-5 md:gap-x-8 gap-y-2 lg:gap-y-3 fade-up delay-2">
+          <Link href="/kitchens" className="text-sm text-bone hover-underline">
             Wellness Kitchens →
           </Link>
-          <Link href="/wardrobes" className="kicker text-bone hover-underline">
+          <Link href="/wardrobes" className="text-sm text-bone hover-underline">
             Wellness Wardrobes →
           </Link>
-          <Link href="/vanities" className="kicker text-bone hover-underline">
+          <Link href="/vanities" className="text-sm text-bone hover-underline">
             Wellness Vanities →
           </Link>
         </div>
@@ -57,7 +57,7 @@ export default function HeroVideo() {
 
       {/* Scroll cue */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 fade-up delay-3">
-        <div className="kicker text-bone/70 flex items-center gap-3">
+        <div className="label text-bone/70 flex items-center gap-3">
           <span>Scroll</span>
           <span className="block w-10 h-px bg-bone/60" />
         </div>

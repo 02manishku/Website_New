@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 
 export const metadata = {
@@ -49,10 +50,10 @@ export default function MaterialsPage() {
             { n: '3',  l: 'Thicknesses' }
           ].map((s) => (
             <div key={s.l}>
-              <div className="font-display text-5xl sm:text-6xl lg:text-8xl text-ink leading-none">
+              <div className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-8xl text-ink leading-none">
                 {s.n}
               </div>
-              <div className="kicker text-smoke mt-3">{s.l}</div>
+              <div className="label text-smoke mt-3">{s.l}</div>
             </div>
           ))}
         </div>
@@ -87,6 +88,8 @@ export default function MaterialsPage() {
   );
 }
 
+type Finish = { name: string; texture: string; image: string };
+
 function FinishGroup({
   kicker,
   title,
@@ -96,7 +99,7 @@ function FinishGroup({
   kicker: string;
   title: string;
   subtitle: string;
-  finishes: { code: string; name: string; texture: string; tone: string }[];
+  finishes: Finish[];
 }) {
   return (
     <section className="bg-bone py-20 lg:py-28">
@@ -107,82 +110,94 @@ function FinishGroup({
       </div>
       <div className="mx-auto max-w-[1600px] px-6 lg:px-10 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
         {finishes.map((f) => (
-          <div key={f.code} className="group cursor-pointer">
-            <div
-              className="relative aspect-[3/4] overflow-hidden"
-              style={{ background: f.tone }}
-            >
-              {/* Stylized swatch - replaceable with real PNG when available */}
-              <div className="absolute inset-0 mix-blend-overlay opacity-60"
-                   style={{
-                     backgroundImage:
-                       'radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.6), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.25), transparent 60%)'
-                   }}
-              />
-              <div className="absolute inset-0 opacity-30"
-                   style={{
-                     backgroundImage:
-                       'repeating-linear-gradient(115deg, rgba(0,0,0,0.06) 0 2px, transparent 2px 14px)'
-                   }}
-              />
-              <div className="absolute top-3 left-3 kicker text-ink/80 bg-bone/80 px-2 py-1">
-                {f.code}
-              </div>
-            </div>
-            <div className="mt-3">
-              <div className="font-display text-base text-ink">{f.name}</div>
-              <div className="kicker text-smoke text-[10px] mt-1">{f.texture}</div>
-            </div>
-          </div>
+          <FinishTile key={f.image} finish={f} />
         ))}
+        <ExploreMoreTile />
       </div>
     </section>
   );
 }
 
-const GROUP1 = [
-  { code: 'F01', name: 'Magppie Art',                texture: 'Matt Texture',           tone: '#C7B79A' },
-  { code: 'F02', name: 'Magppie Palace',             texture: 'Sparkle High Gloss',     tone: '#E5DFD2' },
-  { code: 'F03', name: 'Magppie KING',               texture: 'Sparkle High Gloss',     tone: '#D9D2C2' },
-  { code: 'F04', name: 'Magppie Jewel',              texture: 'Sparkle High Gloss',     tone: '#D8D6CF' },
-  { code: 'F05', name: 'Magppie Elegance',           texture: 'Super Matt / High Gloss',tone: '#C9C8C2' },
-  { code: 'F06', name: 'Magppie Calm',               texture: 'Super Matt / High Gloss',tone: '#E2E5E2' },
-  { code: 'F07', name: 'Magppie D’este',             texture: 'High Gloss',             tone: '#C9C0AF' },
-  { code: 'F08', name: 'Magppie Romano',             texture: 'High Gloss',             tone: '#D8C9AC' },
-  { code: 'F09', name: 'Magppie Earth',              texture: 'High Gloss',             tone: '#B6A48E' },
-  { code: 'F10', name: 'Magppie Onyx Gold',          texture: 'High Gloss',             tone: '#D8C29A' },
-  { code: 'F11', name: 'Magppie Onyx Mystic',        texture: 'High Gloss',             tone: '#E2D8C8' },
-  { code: 'F12', name: 'Magppie Taj',                texture: 'High Gloss',             tone: '#B89B7A' },
-  { code: 'F13', name: 'Magppie Forest',             texture: 'Super Matt / High Gloss',tone: '#3F4A38' },
-  { code: 'F14', name: 'Magppie Onyx Gold',          texture: 'High Gloss',             tone: '#D6BC85' },
-  { code: 'F15', name: 'Magppie Onyx Mystic',        texture: 'High Gloss',             tone: '#EFE6D8' },
-  { code: 'F16', name: 'Magppie Taj',                texture: 'High Gloss',             tone: '#C8A87C' },
-  { code: 'F17', name: 'Magppie Forest',             texture: 'Super Matt / High Gloss',tone: '#2E3F2E' },
-  { code: 'F18', name: 'Magppie Onyx Black',         texture: 'High Gloss',             tone: '#2A2520' },
-  { code: 'F19', name: 'Magppie Flurry',             texture: 'Super Matt / Matt',      tone: '#3B3530' },
-  { code: 'F20', name: 'Magppie Santorini',          texture: 'Matt Texture',           tone: '#D9C9A8' },
-  { code: 'F21', name: 'Magppie Gulnaar',            texture: 'Matt Texture',           tone: '#BFA088' },
-  { code: 'F22', name: 'Magppie Persian Travertine', texture: 'Matt Texture',           tone: '#D6C5A6' },
-  { code: 'F23', name: 'Magppie Veilstone',          texture: 'High Gloss',             tone: '#E5E0D6' }
+function FinishTile({ finish }: { finish: Finish }) {
+  return (
+    <div className="group">
+      <div className="relative aspect-[3/4] overflow-hidden bg-sandlight">
+        <Image
+          src={finish.image}
+          alt={finish.name}
+          fill
+          quality={90}
+          sizes="(min-width: 1024px) 16vw, (min-width: 768px) 25vw, 50vw"
+          className="object-cover tile-img"
+        />
+      </div>
+      <div className="mt-3">
+        <div className="font-display text-base text-ink">{finish.name}</div>
+      </div>
+    </div>
+  );
+}
+
+// Closing tile that signals "more finishes exist than what's displayed".
+// Links to /contact so a visitor can request the rest by appointment.
+function ExploreMoreTile() {
+  return (
+    <Link href="/contact" className="group block">
+      <div className="relative aspect-[3/4] overflow-hidden bg-ink flex items-center justify-center">
+        <div className="text-center px-4">
+          <div className="font-display text-2xl lg:text-3xl text-bone leading-tight">
+            Explore<br />more
+          </div>
+          <div className="mt-4 text-[0.78rem] text-bone/55 group-hover:text-bone group-hover:translate-x-1 transition-all inline-block">
+            Book a consultation →
+          </div>
+        </div>
+      </div>
+      <div className="mt-3">
+        <div className="font-display text-base text-ink">More finishes</div>
+        <div className="text-[0.78rem] text-smoke mt-1">By appointment</div>
+      </div>
+    </Link>
+  );
+}
+
+// ─── Real Silverstone™ finishes — images supplied by the brand. ───────────
+// Order preserved from the original brand catalogue (with duplicates and
+// not-yet-photographed entries dropped). Missing finishes are signalled by
+// the "Explore more" tile rendered at the end of each group.
+
+const GROUP1: Finish[] = [
+  { name: 'Magppie Art',                texture: 'Matt Texture',            image: '/images/finishes/group-1/magppie-art.webp' },
+  { name: 'Magppie Palace',             texture: 'Sparkle High Gloss',      image: '/images/finishes/group-1/magppie-palace.webp' },
+  { name: 'Magppie King',               texture: 'Sparkle High Gloss',      image: '/images/finishes/group-1/magppie-king.webp' },
+  { name: 'Magppie Jewel',              texture: 'Sparkle High Gloss',      image: '/images/finishes/group-1/magppie-jewel.webp' },
+  { name: 'Magppie Elegance',           texture: 'Super Matt / High Gloss', image: '/images/finishes/group-1/magppie-elegance.webp' },
+  { name: 'Magppie Calm',               texture: 'Super Matt / High Gloss', image: '/images/finishes/group-1/magppie-calm.webp' },
+  { name: 'Magppie D’este',             texture: 'High Gloss',              image: '/images/finishes/group-1/magppie-deste.webp' },
+  { name: 'Magppie Romano',             texture: 'High Gloss',              image: '/images/finishes/group-1/magppie-romano.webp' },
+  { name: 'Magppie Earth',              texture: 'High Gloss',              image: '/images/finishes/group-1/magppie-earth.webp' },
+  { name: 'Magppie Onyx Gold',          texture: 'High Gloss',              image: '/images/finishes/group-1/magppie-onyx-gold.webp' },
+  { name: 'Magppie Onyx Mystic',        texture: 'High Gloss',              image: '/images/finishes/group-1/magppie-onyx-mystic.webp' },
+  { name: 'Magppie Onyx Black',         texture: 'High Gloss',              image: '/images/finishes/group-1/magppie-onyx-black.webp' },
+  { name: 'Magppie Flurry',             texture: 'Super Matt / Matt',       image: '/images/finishes/group-1/magppie-flurry.webp' },
+  { name: 'Magppie Santorini',          texture: 'Matt Texture',            image: '/images/finishes/group-1/magppie-santorini.webp' },
+  { name: 'Magppie Persian Travertine', texture: 'Matt Texture',            image: '/images/finishes/group-1/magppie-persian-travertine.webp' },
+  { name: 'Magppie Veilstone',          texture: 'High Gloss',              image: '/images/finishes/group-1/magppie-veilstone.webp' }
 ];
 
-const GROUP2 = [
-  { code: 'F01', name: 'Magppie Cosmic',     texture: 'Matt Texture', tone: '#D8CDB6' },
-  { code: 'F02', name: 'Magppie Earth Taupe',texture: 'Matt',         tone: '#B59C7E' },
-  { code: 'F03', name: 'Magppie Earth Grey', texture: 'Matt',         tone: '#A09C92' },
-  { code: 'F04', name: 'Magppie Sahara',     texture: 'Matt',         tone: '#C8AC92' },
-  { code: 'F05', name: 'Magppie White Muse', texture: 'Matt Texture', tone: '#CDC8BB' },
-  { code: 'F06', name: 'Magppie Beige Muse', texture: 'Matt Texture', tone: '#E8DCC2' },
-  { code: 'F07', name: 'Magppie Myra Sand',  texture: 'Matt',         tone: '#A28D75' },
-  { code: 'F08', name: 'Magppie Neo Brown',  texture: 'Matt',         tone: '#9C7E66' },
-  { code: 'F09', name: 'Magppie Cream Stone',texture: 'Matt',         tone: '#D8CFB6' },
-  { code: 'F10', name: 'Magppie Graphite',   texture: 'Matt',         tone: '#7C7B78' },
-  { code: 'F11', name: 'Magppie Dusk',       texture: 'Matt',         tone: '#3E3A36' },
-  { code: 'F12', name: 'Magppie Sage',       texture: 'Super Matt',   tone: '#A39C8A' },
-  { code: 'F13', name: 'Magppie Amber',      texture: 'Super Matt',   tone: '#D8C2A6' },
-  { code: 'F14', name: 'Magppie Cloud Stone',texture: 'Super Matt',   tone: '#EAE5D6' },
-  { code: 'F15', name: 'Magppie Breeze',     texture: 'Super Matt',   tone: '#D8CFB8' },
-  { code: 'F16', name: 'Magppie Galaxy',     texture: 'Super Matt',   tone: '#C8AE82' },
-  { code: 'F17', name: 'Magppie Vanilla',    texture: 'Super Matt',   tone: '#E8DEC8' },
-  { code: 'F18', name: 'Magppie Terrazo Grey',texture: 'Matt',        tone: '#9C9282' }
+const GROUP2: Finish[] = [
+  { name: 'Magppie Cosmic',      texture: 'Matt Texture', image: '/images/finishes/group-2/magppie-cosmic.webp' },
+  { name: 'Magppie Earth Taupe', texture: 'Matt',         image: '/images/finishes/group-2/magppie-earth-taupe.webp' },
+  { name: 'Magppie Earth Grey',  texture: 'Matt',         image: '/images/finishes/group-2/magppie-earth-grey.webp' },
+  { name: 'Magppie Sahara',      texture: 'Matt',         image: '/images/finishes/group-2/magppie-sahara.webp' },
+  { name: 'Magppie White Muse',  texture: 'Matt Texture', image: '/images/finishes/group-2/magppie-white-muse.webp' },
+  { name: 'Magppie Beige Muse',  texture: 'Matt Texture', image: '/images/finishes/group-2/magppie-beige-muse.webp' },
+  { name: 'Magppie Myra Sand',   texture: 'Matt',         image: '/images/finishes/group-2/magppie-myra-sand.webp' },
+  { name: 'Magppie Neo Brown',   texture: 'Matt',         image: '/images/finishes/group-2/magppie-neo-brown.webp' },
+  { name: 'Magppie Cream Stone', texture: 'Matt',         image: '/images/finishes/group-2/magppie-cream-stone.webp' },
+  { name: 'Magppie Graphite',    texture: 'Matt',         image: '/images/finishes/group-2/magppie-graphite.webp' },
+  { name: 'Magppie Dusk',        texture: 'Matt',         image: '/images/finishes/group-2/magppie-dusk.webp' },
+  { name: 'Magppie Sage',        texture: 'Super Matt',   image: '/images/finishes/group-2/magppie-sage.webp' },
+  { name: 'Magppie Amber',       texture: 'Super Matt',   image: '/images/finishes/group-2/magppie-amber.webp' },
+  { name: 'Magppie Cloud Stone', texture: 'Super Matt',   image: '/images/finishes/group-2/magppie-cloud-stone.webp' }
 ];

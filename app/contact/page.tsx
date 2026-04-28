@@ -1,4 +1,3 @@
-import PageHero from '@/components/PageHero';
 import ContactForm from '@/components/ContactForm';
 
 export const metadata = {
@@ -9,18 +8,18 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <>
-      <PageHero
-        kicker="Get in Touch"
-        title="Talk to Magppie."
-        image="/images/02.webp"
-        subtitle="Book a private consultation or visit a Magppie experience centre."
-      />
-
-      <section className="bg-bone py-20 lg:py-24">
+      {/* Hero removed by request — page jumps straight into HQ details + form.
+          Top padding accounts for the fixed Header height (h-16 / lg:h-20).  */}
+      <section className="bg-bone pt-32 lg:pt-44 pb-20 lg:pb-28">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+          <h1 className="font-display font-light text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-ink leading-[1.05] mb-12 lg:mb-20">
+            Talk to Magppie.
+          </h1>
+        </div>
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-5 space-y-10 lg:space-y-12">
             <div>
-              <div className="kicker text-smoke mb-4">Headquarters</div>
+              <div className="label text-smoke mb-4">Headquarters</div>
               <p className="font-display text-xl sm:text-2xl text-ink leading-snug">
                 Magppie Silverstone Pvt. Ltd.<br />
                 352, Sultanpur, MG Road<br />
@@ -28,18 +27,18 @@ export default function ContactPage() {
               </p>
             </div>
             <div>
-              <div className="kicker text-smoke mb-4">Direct</div>
+              <div className="label text-smoke mb-4">Direct</div>
               <p className="text-ink space-y-1">
-                <a href="mailto:info@mymagppie.com" className="block hover-underline">
+                <a href="mailto:info@mymagppie.com" className="block hover-underline py-2 -my-2">
                   info@mymagppie.com
                 </a>
-                <a href="tel:+919999248801" className="block hover-underline">
+                <a href="tel:+919999248801" className="block hover-underline py-2 -my-2">
                   +91 999 924 8801
                 </a>
               </p>
             </div>
             <div>
-              <div className="kicker text-smoke mb-4">Hours</div>
+              <div className="label text-smoke mb-4">Hours</div>
               <p className="text-ink/70 text-sm">
                 Mon - Sat &nbsp;·&nbsp; 10:00 - 19:00 IST<br />
                 By appointment.

@@ -2,7 +2,14 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+// Routes that don't render a full-bleed dark hero behind the header. On these
+// pages the header must start in its light (bone background, dark logo) state
+// from the first paint — otherwise the white logo floats invisibly over a
+// cream section. Add new no-hero routes here.
+const NO_HERO_ROUTES = ['/contact'];
 
 const NAV = [
   {
@@ -31,12 +38,15 @@ const NAV = [
       { label: 'Stone Finishes', href: '/vanities#finishes' }
     ]
   },
+  { label: 'Materials', href: '/materials' },
   { label: 'About', href: '/about' },
-  { label: 'Catalogs', href: '/catalogs' },
   { label: 'News', href: '/news' }
 ];
 
 export default function Header() {
+  const pathname = usePathname();
+  const noHero = NO_HERO_ROUTES.includes(pathname);
+
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
@@ -61,7 +71,9 @@ export default function Header() {
 
   // While at the top of any page, every page begins with a dark/visual hero,
   // so the header text needs to be light. After scroll, switch to the bone bar.
-  const onLight = scrolled || open;
+  // Exception: routes in NO_HERO_ROUTES (e.g. /contact) start in light mode
+  // because there's no dark hero for the white logo to sit on.
+  const onLight = scrolled || open || noHero;
 
   return (
     <header

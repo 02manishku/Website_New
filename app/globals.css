@@ -3,14 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-display: 'The Seasons', 'Newsreader', 'Times New Roman', serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* Body / UI font stack. SF Pro is Apple's system face — picked up natively
+   on iOS / macOS via -apple-system / BlinkMacSystemFont. On other platforms
+   we fall through to Inter (loaded via next/font) which is the closest open
+   alternative — Inter was originally designed inspired by SF Pro. */
 html, body {
   background: #F4F1EA;
   color: #1B1B1B;
-  font-family: var(--font-sans);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'SF Pro', var(--font-sans), system-ui, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -19,21 +23,26 @@ html, body {
   color: #F4F1EA;
 }
 
-/* Cormorant Garamond's italic hyphen glyph is slanted and reads as an em-dash.
-   We re-route just the U+002D hyphen-minus character to Inter, which has a
-   clean horizontal hyphen. Applies globally to any .font-display text. */
-@font-face {
-  font-family: 'StraightHyphen';
-  src: local('Inter'), local('Arial'), local('sans-serif');
-  unicode-range: U+002D;
-}
-.font-display { font-family: 'StraightHyphen', var(--font-display); font-weight: 300; }
+/* The Seasons — high-contrast Didone, defaults to Regular (400). At 300 the
+   strokes get spindly below ~24px. Larger hero headings can opt back into
+   Light by adding `font-light` inline. */
+.font-display { font-family: var(--font-display); font-weight: 400; }
 
 .kicker {
   font-size: 11px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
   font-weight: 500;
+}
+
+/* Calmer sibling of .kicker. Same size + uppercase, but lighter weight and
+   ~1/3 the tracking. Used for medium-emphasis labels (card meta, footer
+   columns, form fields, captions) so the page no longer shouts everywhere. */
+.label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
 .hairline { border-color: rgba(27,27,27,0.12); }
@@ -50,6 +59,17 @@ html, body {
   transition: width 0.4s ease;
 }
 .hover-underline:hover::after { width: 100%; }
+
+/* Mobile tap-friendly small links — expands the touch area to ~44px tall
+   without altering the visible position (negative margin compensates the
+   added padding). Use alongside text-sm or .kicker on inline links. */
+.tap-link {
+  display: inline-block;
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  margin-top: -0.625rem;
+  margin-bottom: -0.625rem;
+}
 
 .fade-up {
   opacity: 0;

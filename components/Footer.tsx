@@ -24,7 +24,7 @@ export default function Footer() {
           </div>
 
           <div className="lg:col-span-3">
-            <div className="kicker text-bone/50 mb-5">Explore</div>
+            <div className="label text-bone/55 mb-5">Explore</div>
             <ul className="space-y-3 text-sm">
               <li><Link href="/kitchens" className="hover-underline">Wellness Kitchen</Link></li>
               <li><Link href="/wardrobes" className="hover-underline">Wellness Wardrobe</Link></li>
@@ -32,12 +32,11 @@ export default function Footer() {
               <li><Link href="/materials" className="hover-underline">Silverstone&trade; Finishes</Link></li>
               <li><Link href="/about" className="hover-underline">The Wellness Movement</Link></li>
               <li><Link href="/news" className="hover-underline">News</Link></li>
-              <li><Link href="/catalogs" className="hover-underline">Catalogs</Link></li>
             </ul>
           </div>
 
           <div className="lg:col-span-4">
-            <div className="kicker text-bone/50 mb-5">Newsletter</div>
+            <div className="label text-bone/55 mb-5">Newsletter</div>
             <p className="text-sm text-bone/70 mb-5">
               Receive Magppie stories, new openings, and design notes.
             </p>
@@ -50,7 +49,7 @@ export default function Footer() {
               />
               <button
                 type="submit"
-                className="kicker text-bone hover:text-sand transition-colors py-2 shrink-0"
+                className="text-sm font-medium text-bone hover:text-sand transition-colors py-2 shrink-0"
               >
                 Submit →
               </button>
@@ -63,12 +62,15 @@ export default function Footer() {
         </div>
 
         <div className="mt-14 lg:mt-20 pt-8 border-t border-bone/20 flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between text-xs text-bone/50">
+          {/* Legal pages aren't built yet — using "#" placeholders so they
+              don't 404 on click. Repoint to /legal /privacy etc. when each
+              page is created in the app/ directory. */}
           <div className="flex flex-wrap gap-x-5 gap-y-2">
-            <Link href="/legal" className="hover:text-bone">Legal</Link>
-            <Link href="/privacy" className="hover:text-bone">Privacy</Link>
-            <Link href="/cookies" className="hover:text-bone">Cookies</Link>
-            <Link href="/sitemap" className="hover:text-bone">Sitemap</Link>
-            <Link href="/whistleblowing" className="hover:text-bone">Whistleblowing</Link>
+            <a href="#" className="hover:text-bone py-1.5 -my-1.5">Legal</a>
+            <a href="#" className="hover:text-bone py-1.5 -my-1.5">Privacy</a>
+            <a href="#" className="hover:text-bone py-1.5 -my-1.5">Cookies</a>
+            <a href="#" className="hover:text-bone py-1.5 -my-1.5">Sitemap</a>
+            <a href="#" className="hover:text-bone py-1.5 -my-1.5">Whistleblowing</a>
           </div>
           <div>© {new Date().getFullYear()} Magppie Silverstone Pvt. Ltd. All rights reserved.</div>
         </div>

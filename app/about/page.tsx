@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
+import LocationsSection from '@/components/LocationsSection';
 
 export const metadata = {
   title: 'The Wellness Movement | Magppie',
@@ -12,7 +13,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
-        kicker="The Company"
+        kicker="About Us"
         title="A Wellness Movement."
         image="/images/02.webp"
         video="/videos/classical-ceiling.mp4"
@@ -21,9 +22,9 @@ export default function AboutPage() {
 
       {/* Manifesto */}
       <section className="bg-bone py-20 lg:py-40">
-        <div className="mx-auto max-w-[1200px] px-6 lg:px-10">
+        <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
           <div className="kicker text-smoke mb-6">Manifesto</div>
-          <p className="font-display text-2xl sm:text-3xl md:text-5xl leading-tight text-ink">
+          <p className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight text-ink">
             Every day, our planet becomes more toxic. Our food, water, air and
             our homes are filled with unseen threats. The spaces that should
             nurture us are working against us. Magppie is the answer, built
@@ -96,11 +97,11 @@ export default function AboutPage() {
                       </div>
                     </div>
                     <div className="flex-1 max-w-xl">
-                      <div className="kicker text-bone/50 mb-4">Founder</div>
+                      <div className="label text-bone/50 mb-4">Founder</div>
                       <h3 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-bone leading-[1.05]">
                         {m.name}
                       </h3>
-                      <div className="kicker text-bone/60 mt-4">
+                      <div className="text-sm text-bone/65 mt-4">
                         {m.role}
                       </div>
                       <div className="mt-6 lg:mt-8 h-px w-16 bg-bone/30" />
@@ -114,7 +115,7 @@ export default function AboutPage() {
                 ))}
 
                 {/* Rest of team */}
-                <div className="kicker text-bone/40 mb-6 pt-2 border-t border-bone/10 max-w-6xl mx-auto">
+                <div className="label text-bone/45 mb-6 pt-2 border-t border-bone/10 max-w-6xl mx-auto">
                   Directors &amp; Partners
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4 max-w-6xl mx-auto">
@@ -143,7 +144,7 @@ export default function AboutPage() {
                         <div className="font-display text-bone text-base sm:text-lg leading-tight">
                           {m.name}
                         </div>
-                        <div className="kicker text-bone/55 mt-1 text-[0.55rem] sm:text-[0.6rem]">
+                        <div className="text-[0.75rem] sm:text-[0.8rem] text-bone/60 mt-1">
                           {m.role}
                         </div>
                       </figcaption>
@@ -208,6 +209,9 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Locations - HQ, factory & city studios on an interactive globe */}
+      <LocationsSection />
+
       {/* Certifications */}
       <section className="bg-sand py-20 lg:py-28">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
@@ -224,7 +228,7 @@ export default function AboutPage() {
               { t: 'Fire Rating', c: 'Class A flame spread index per ASTM E-84.' }
             ].map((b) => (
               <div key={b.t} className="bg-bone p-6 sm:p-8">
-                <div className="kicker text-smoke mb-3">Test Report</div>
+                <div className="label text-smoke mb-3">Test Report</div>
                 <h3 className="font-display text-xl sm:text-2xl text-ink mb-3">{b.t}</h3>
                 <p className="text-sm text-ink/60 leading-relaxed">{b.c}</p>
               </div>
@@ -248,7 +252,7 @@ export default function AboutPage() {
               { n: 'Rémi Bouhaniche',  l: 'France' }
             ].map((p) => (
               <div key={p.n} className="border-t border-bone/20 pt-6">
-                <div className="kicker text-bone/50 mb-2">{p.l}</div>
+                <div className="text-[0.78rem] text-bone/55 mb-2">{p.l}</div>
                 <div className="font-display text-2xl sm:text-3xl text-bone">{p.n}</div>
               </div>
             ))}

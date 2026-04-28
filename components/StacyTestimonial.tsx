@@ -65,7 +65,7 @@ export default function StacyTestimonial() {
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
           {/* Text - below video on mobile, left of video on desktop */}
           <div className="lg:col-span-6 order-2 lg:order-1">
-            <blockquote className="font-display italic text-ink/90 text-xl sm:text-2xl md:text-3xl lg:text-[2.35rem] leading-[1.35]">
+            <blockquote className="font-display font-light italic text-ink/85 text-lg sm:text-xl md:text-2xl lg:text-[1.85rem] leading-[1.5] tracking-[0.005em]">
               &ldquo;Working with Magppie was a revelation. The craftsmanship,
               the materials philosophy, the depth of thinking about how a
               kitchen should actually function for health, it&rsquo;s unlike
@@ -87,7 +87,7 @@ export default function StacyTestimonial() {
                 <div className="font-display text-ink text-base sm:text-lg lg:text-xl leading-tight">
                   Stacy McCarthy
                 </div>
-                <div className="kicker text-smoke mt-1 text-[0.58rem] sm:text-[0.62rem]">
+                <div className="text-[0.72rem] sm:text-[0.78rem] text-smoke mt-1">
                   Certified Master Kitchen &amp; Bath Designer · Florida, USA
                 </div>
               </div>

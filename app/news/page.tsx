@@ -24,7 +24,7 @@ const STORIES = [
       'A first-of-its-kind installation that placed our hanging-garden Silverstone™ kitchen at the centre of India’s premier interior design forum.'
   },
   {
-    image: '/images/Hailuo_Image_Create-a-different-Angle-for-t_488492364996386825.webp',
+    image: '/images/silverstone-nano-silver.webp',
     date: 'Apr 2026',
     tag: 'Innovation',
     title: 'Inside Silverstone™: nano-silver and the science of safer surfaces',
@@ -32,7 +32,7 @@ const STORIES = [
       'How we infused pure-silver ions into the very core of the stone, and why every Magppie cabinet, fascia and handle now carries that science.'
   },
   {
-    image: '/images/Hailuo_Image_re-render-it-make-it-ultra-hi_488062043326640136-copy.webp',
+    image: '/images/design-partners-capsule.webp',
     date: 'Apr 2026',
     tag: 'Design Partners',
     title: 'Karim Rashid, Stefan Diez & Cory Grosser join the Wellness Movement',
@@ -80,7 +80,7 @@ export default function NewsPage() {
                 </div>
               </div>
               <div className="lg:col-span-5">
-                <div className="flex items-center gap-3 kicker text-smoke mb-4">
+                <div className="flex items-center gap-3 text-[0.78rem] text-smoke mb-4">
                   <span>{s.date}</span>
                   <span className="w-6 h-px bg-smoke/40" />
                   <span>{s.tag}</span>
@@ -89,7 +89,7 @@ export default function NewsPage() {
                   {s.title}
                 </h2>
                 <p className="mt-4 lg:mt-5 text-ink/70 leading-relaxed">{s.excerpt}</p>
-                <a href="#" className="inline-block mt-5 lg:mt-6 kicker hover-underline">
+                <a href="#" className="tap-link mt-5 lg:mt-6 text-sm hover-underline">
                   Read story →
                 </a>
               </div>

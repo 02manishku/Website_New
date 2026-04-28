@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Inter, Cormorant_Garamond } from 'next/font/google';
+import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -10,9 +11,17 @@ const inter = Inter({
   display: 'swap'
 });
 
-const display = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['300', '400', '500'],
+// The Seasons — display face for every headline, hero, manifesto block and
+// editorial moment on the site. Three weights licensed: Light (300) for the
+// biggest hero moments, Regular (400) as the default for headings and the
+// long Manifesto block, Bold (700) reserved for emphasis. Body text + the
+// header navigation continue to ride on Inter.
+const display = localFont({
+  src: [
+    { path: './fonts/the-seasons/the-seasons-light.ttf',   weight: '300', style: 'normal' },
+    { path: './fonts/the-seasons/the-seasons-regular.ttf', weight: '400', style: 'normal' },
+    { path: './fonts/the-seasons/the-seasons-bold.ttf',    weight: '700', style: 'normal' }
+  ],
   variable: '--font-display',
   display: 'swap'
 });

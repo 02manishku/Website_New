@@ -119,19 +119,19 @@ export default function KitchensPage() {
                 className="block lg:grid lg:grid-cols-3 border-t border-ink/10 first:border-t-0 lg:first:border-t"
               >
                 {/* Feature label */}
-                <div className="bg-bone px-6 lg:px-8 py-4 lg:py-6 text-ink font-medium lg:border-r border-ink/10 text-[0.72rem] tracking-[0.22em] uppercase lg:text-base lg:tracking-normal lg:normal-case border-b border-ink/10 lg:border-b-0">
+                <div className="bg-bone px-6 lg:px-8 py-4 lg:py-6 text-ink font-medium lg:border-r border-ink/10 text-sm lg:text-base border-b border-ink/10 lg:border-b-0">
                   {row.feature}
                 </div>
                 {/* Wood row */}
                 <div className="bg-bone px-6 lg:px-8 py-5 lg:py-6 text-ink/55 lg:border-r border-ink/10 border-b border-ink/10 lg:border-b-0">
-                  <span className="lg:hidden kicker text-[#c2181f] font-semibold block mb-2">
+                  <span className="lg:hidden text-[0.78rem] text-[#c2181f] font-semibold block mb-2">
                     Wood Kitchen
                   </span>
                   {row.wood}
                 </div>
                 {/* Stone row */}
                 <div className="bg-bone px-6 lg:px-8 py-5 lg:py-6 text-ink">
-                  <span className="lg:hidden kicker text-ink block mb-2">
+                  <span className="lg:hidden text-[0.78rem] text-ink font-semibold block mb-2">
                     Magppie Kitchen
                   </span>
                   {row.stone}
@@ -155,7 +155,7 @@ export default function KitchensPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-ink/75 via-ink/25 to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-ink/60 pointer-events-none" />
         <div className="absolute bottom-10 lg:bottom-14 left-6 right-6 lg:right-auto lg:left-10 max-w-[720px]">
-          <div className="kicker text-bone/90 mb-4 [text-shadow:0_1px_10px_rgba(0,0,0,0.7)]">
+          <div className="label text-bone/90 mb-4 [text-shadow:0_1px_10px_rgba(0,0,0,0.7)]">
             A Quiet Moment
           </div>
           <h2 className="font-display text-bone text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] [text-shadow:0_2px_18px_rgba(0,0,0,0.65)]">
@@ -234,19 +234,25 @@ export default function KitchensPage() {
       {/* Concepts gallery - pulled straight from the catalog */}
       <section className="bg-bone pt-20 lg:pt-36 pb-24 lg:pb-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mb-10 lg:mb-12">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-            <h2 className="font-display text-3xl md:text-4xl text-ink">
-              Wellness Kitchen Concepts.
-            </h2>
-            <Link href="/materials" className="kicker hover-underline">
-              All finishes →
-            </Link>
-          </div>
+          <h2 className="font-display text-3xl md:text-4xl text-ink">
+            Wellness Kitchen Concepts.
+          </h2>
         </div>
         <div className="grid lg:grid-cols-2 gap-2 px-2 lg:px-2">
           {CONCEPTS.map((c, i) => (
             <ConceptTile key={c.name} {...c} large={i === 0} />
           ))}
+        </div>
+
+        {/* Closing CTA — single Explore more link that opens the booking form */}
+        <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mt-10 lg:mt-14">
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-3 font-display text-2xl sm:text-3xl text-ink group"
+          >
+            <span>Explore more</span>
+            <span className="group-hover:translate-x-2 transition-transform inline-block">→</span>
+          </Link>
         </div>
       </section>
 
@@ -256,7 +262,7 @@ export default function KitchensPage() {
           <div className="lg:col-span-7">
             <div className="relative aspect-[16/10] overflow-hidden">
               <Image
-                src="/images/Hailuo_Image_re-render-it-8k-quality-render_489929208284426245.webp"
+                src="/images/kitchen-strong-as-rock.webp"
                 alt="Magppie Wellness Kitchen, strong as rock"
                 fill
                 sizes="(min-width: 1024px) 60vw, 100vw"
@@ -294,7 +300,7 @@ export default function KitchensPage() {
           <div className="mt-12 lg:mt-16 grid md:grid-cols-2 lg:grid-cols-5 gap-px bg-bone/10">
             {LIGHTING.map((l, idx) => (
               <div key={l.title} className="bg-ink p-6 sm:p-8">
-                <div className="kicker text-bone/40 mb-4">0{idx + 1}</div>
+                <div className="font-display text-2xl text-bone/30 mb-4">0{idx + 1}</div>
                 <h3 className="font-display text-xl sm:text-2xl text-bone mb-3">{l.title}</h3>
                 <p className="text-sm text-bone/60 leading-relaxed">{l.copy}</p>
               </div>
@@ -320,8 +326,8 @@ export default function KitchensPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
         <div className="absolute inset-0 flex items-end">
           <div className="mx-auto max-w-[1600px] px-6 lg:px-10 pb-16 lg:pb-24 w-full">
-            <div className="kicker text-bone/80 mb-4 lg:mb-6">Concept</div>
-            <h2 className="font-display text-bone text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.02] lg:leading-none">
+            <div className="label text-bone/80 mb-4 lg:mb-6">Concept</div>
+            <h2 className="font-display md:whitespace-nowrap text-bone text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.02] lg:leading-none">
               The Outdoor Kitchen.
             </h2>
             <p className="mt-5 lg:mt-6 text-bone/80 max-w-md">
@@ -343,7 +349,7 @@ export default function KitchensPage() {
           <div className="mt-12 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 lg:gap-x-10 gap-y-10 lg:gap-y-12">
             {ACCESSORIES.map((a, i) => (
               <div key={a.name}>
-                <div className="kicker text-smoke mb-3">
+                <div className="font-display text-2xl text-smoke/40 mb-3">
                   {String(i + 1).padStart(2, '0')}
                 </div>
                 <h3 className="font-display text-xl text-ink mb-2">{a.name}</h3>
@@ -395,21 +401,16 @@ function ConceptTile({
         />
       </div>
       <div className="absolute bottom-0 left-0 p-5 sm:p-6 lg:p-8 text-bone bg-gradient-to-t from-ink/70 to-transparent w-full">
-        <div className="kicker text-bone/80">Stone finish</div>
-        <div className="font-display text-xl sm:text-2xl lg:text-3xl mt-1">{finish}</div>
-        <div className="kicker text-bone/60 mt-1">{name}</div>
+        <div className="font-display text-xl sm:text-2xl lg:text-3xl">{finish}</div>
       </div>
     </div>
   );
 }
 
 const CONCEPTS = [
-  { name: 'The Magppie Taj: High-rise wellness',     finish: 'Magppie Taj',              image: '/images/hero.webp' },
-  { name: 'Persian Travertine: Calm minimalism',     finish: 'Magppie Persian Travertine', image: '/images/01-copy.webp' },
-  { name: 'Magppie Flurry: A kitchen of presence',   finish: 'Magppie Flurry',           image: '/images/black-kitchen.webp' },
-  { name: 'Magppie Timeless: Soft modern luxury',    finish: 'Magppie Timeless',         image: '/images/00.webp' },
-  { name: 'Magppie Onyx Gold: Botanical wellness',   finish: 'Magppie Onyx Gold',        image: '/images/Hailuo_Image_re-render-it-make-it-ultra-hi_488062043326640136-copy.webp' },
-  { name: 'Classical Moulding: Regal collection',    finish: 'Regal',                    image: '/images/Change_the_double_height_windows_to_a_differnt_des_delpmaspu.webp' }
+  { name: 'Magppie Santorini',   finish: 'Magppie Santorini',   image: '/images/hero.webp' },
+  { name: 'Magppie Onyx Mystic', finish: 'Magppie Onyx Mystic', image: '/images/01-copy.webp' },
+  { name: 'Magppie Onyx Black',  finish: 'Magppie Onyx Black',  image: '/images/black-kitchen.webp' }
 ];
 
 const LIGHTING = [

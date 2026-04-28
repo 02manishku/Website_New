@@ -70,7 +70,7 @@ export default function VanitiesPage() {
             </p>
             <Link
               href="/materials"
-              className="inline-block mt-8 lg:mt-10 kicker hover-underline"
+              className="tap-link mt-8 lg:mt-10 text-sm hover-underline"
             >
               Explore Silverstone™ →
             </Link>
@@ -98,14 +98,31 @@ export default function VanitiesPage() {
                 />
               </div>
               <div className="absolute bottom-0 left-0 p-5 sm:p-6 lg:p-8 text-bone bg-gradient-to-t from-ink/70 to-transparent w-full">
-                <div className="kicker text-bone/80">Stone finish</div>
-                <div className="font-display text-xl sm:text-2xl lg:text-3xl mt-1">
+                <div className="font-display text-xl sm:text-2xl lg:text-3xl">
                   {v.finish}
                 </div>
-                <div className="kicker text-bone/60 mt-1">{v.name}</div>
               </div>
             </div>
           ))}
+
+          {/* Closing CTA tile — fills the otherwise-empty slot when the
+              concept count is odd, and gives the row a clear next step. */}
+          <Link
+            href="/contact"
+            className="group relative overflow-hidden block bg-ink"
+          >
+            <div className="relative aspect-[4/3] flex items-center justify-center">
+              <div className="text-center px-6">
+                <div className="font-display font-light text-4xl sm:text-5xl lg:text-6xl text-bone leading-[1.05]">
+                  Explore more
+                </div>
+                <div className="mt-5 lg:mt-6 text-sm text-bone/60 group-hover:text-bone transition-colors inline-flex items-center gap-2">
+                  <span>Book a consultation</span>
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+              </div>
+            </div>
+          </Link>
         </div>
       </section>
 
@@ -136,7 +153,7 @@ export default function VanitiesPage() {
             </p>
             <Link
               href="/materials"
-              className="inline-block mt-8 lg:mt-10 kicker hover-underline"
+              className="tap-link mt-8 lg:mt-10 text-sm hover-underline"
             >
               Explore Silverstone™ →
             </Link>
@@ -155,7 +172,7 @@ export default function VanitiesPage() {
           <div className="mt-12 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-ink/10">
             {REASONS.map((r, i) => (
               <div key={r.title} className="bg-bone p-6 sm:p-8">
-                <div className="kicker text-smoke mb-4">
+                <div className="font-display text-2xl text-smoke/40 mb-4">
                   0{i + 1}
                 </div>
                 <h3 className="font-display text-xl text-ink mb-3">{r.title}</h3>
@@ -176,34 +193,24 @@ export default function VanitiesPage() {
           <div className="mt-12 lg:mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {FINISHES.map((f) => (
               <div key={f.name} className="group">
-                <div
-                  className="relative aspect-[3/4] overflow-hidden"
-                  style={{ background: f.tone }}
-                >
-                  <div
-                    className="absolute inset-0 mix-blend-overlay opacity-60"
-                    style={{
-                      backgroundImage:
-                        'radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.6), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.25), transparent 60%)'
-                    }}
-                  />
-                  <div
-                    className="absolute inset-0 opacity-30"
-                    style={{
-                      backgroundImage:
-                        'repeating-linear-gradient(115deg, rgba(0,0,0,0.06) 0 2px, transparent 2px 14px)'
-                    }}
+                <div className="relative aspect-[3/4] overflow-hidden bg-sandlight">
+                  <Image
+                    src={f.image}
+                    alt={f.name}
+                    fill
+                    quality={90}
+                    sizes="(min-width: 1024px) 16vw, (min-width: 768px) 25vw, 50vw"
+                    className="object-cover tile-img"
                   />
                 </div>
                 <div className="mt-3">
                   <div className="font-display text-base text-ink">{f.name}</div>
-                  <div className="kicker text-smoke text-[10px] mt-1">{f.texture}</div>
                 </div>
               </div>
             ))}
           </div>
           <div className="mt-12">
-            <Link href="/materials" className="kicker hover-underline">
+            <Link href="/materials" className="text-sm hover-underline tap-link">
               All 41 Silverstone™ finishes →
             </Link>
           </div>
@@ -243,16 +250,6 @@ const VANITIES = [
     name: 'Onyx Mystic: Boudoir',
     finish: 'Magppie Onyx Mystic',
     image: '/images/vanities/onyx-mystic-overmount.webp'
-  },
-  {
-    name: 'Classico Bianco: Crisp minimal',
-    finish: 'Magppie Classico Bianco (Overmount)',
-    image: '/images/vanities/classico-bianco-overmount.webp'
-  },
-  {
-    name: 'Classico Bianco: Undermount',
-    finish: 'Magppie Classico Bianco (Undermount)',
-    image: '/images/vanities/classico-bianco-undermount.webp'
   },
   {
     name: 'Taj: Monolithic',
@@ -299,11 +296,14 @@ const REASONS = [
   }
 ];
 
+// Curated 6 — a tight selection of the full 41 Silverstone™ finishes that
+// suit a vanity's intimate scale: warm onyxes, soft cream marbles, and
+// quiet super-matt neutrals. Real photographs from the brand catalogue.
 const FINISHES = [
-  { name: 'Magppie Onyx Gold',   texture: 'High Gloss', tone: '#D8C29A' },
-  { name: 'Magppie Onyx Mystic', texture: 'High Gloss', tone: '#E2D8C8' },
-  { name: 'Magppie Romano',      texture: 'High Gloss', tone: '#D8C9AC' },
-  { name: 'Magppie Travertino',  texture: 'Matt Texture', tone: '#D6C5A6' },
-  { name: 'Magppie Calm',        texture: 'Super Matt',  tone: '#E2E5E2' },
-  { name: 'Magppie Cloud Stone', texture: 'Super Matt',  tone: '#EAE5D6' }
+  { name: 'Magppie Onyx Gold',          texture: 'High Gloss',   image: '/images/finishes/group-1/magppie-onyx-gold.webp' },
+  { name: 'Magppie Onyx Mystic',        texture: 'High Gloss',   image: '/images/finishes/group-1/magppie-onyx-mystic.webp' },
+  { name: 'Magppie Romano',             texture: 'High Gloss',   image: '/images/finishes/group-1/magppie-romano.webp' },
+  { name: 'Magppie Persian Travertine', texture: 'Matt Texture', image: '/images/finishes/group-1/magppie-persian-travertine.webp' },
+  { name: 'Magppie Calm',                texture: 'Super Matt',  image: '/images/finishes/group-1/magppie-calm.webp' },
+  { name: 'Magppie Cloud Stone',         texture: 'Super Matt',  image: '/images/finishes/group-2/magppie-cloud-stone.webp' }
 ];
