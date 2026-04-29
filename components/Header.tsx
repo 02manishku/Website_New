@@ -12,35 +12,12 @@ import { useEffect, useState } from 'react';
 const NO_HERO_ROUTES = ['/contact'];
 
 const NAV = [
-  {
-    label: 'Kitchens',
-    href: '/kitchens',
-    sub: [
-      { label: 'Wellness Kitchen', href: '/kitchens#wellness' },
-      { label: 'Outdoor Kitchen', href: '/kitchens#outdoor' },
-      { label: 'Patented Lighting', href: '/kitchens#lighting' },
-      { label: '23 Accessories', href: '/kitchens#accessories' }
-    ]
-  },
-  {
-    label: 'Wardrobes',
-    href: '/wardrobes',
-    sub: [
-      { label: 'Wellness Wardrobe', href: '/wardrobes#wellness' },
-      { label: '13 Accessories', href: '/wardrobes#accessories' }
-    ]
-  },
-  {
-    label: 'Vanities',
-    href: '/vanities',
-    sub: [
-      { label: 'Wellness Vanity', href: '/vanities#wellness' },
-      { label: 'Stone Finishes', href: '/vanities#finishes' }
-    ]
-  },
+  { label: 'Kitchens',  href: '/kitchens'  },
+  { label: 'Wardrobes', href: '/wardrobes' },
+  { label: 'Vanities',  href: '/vanities'  },
   { label: 'Materials', href: '/materials' },
-  { label: 'About', href: '/about' },
-  { label: 'News', href: '/news' }
+  { label: 'About',     href: '/about'     },
+  { label: 'News',      href: '/news'      }
 ];
 
 export default function Header() {
@@ -49,7 +26,6 @@ export default function Header() {
 
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -103,36 +79,15 @@ export default function Header() {
 
           <nav className="hidden lg:flex items-center gap-10">
             {NAV.map((item) => (
-              <div
+              <Link
                 key={item.label}
-                className="relative"
-                onMouseEnter={() => setHovered(item.label)}
-                onMouseLeave={() => setHovered(null)}
+                href={item.href}
+                className={`kicker hover-underline transition-colors ${
+                  onLight ? 'text-ink' : 'text-bone drop-shadow-sm'
+                }`}
               >
-                <Link
-                  href={item.href}
-                  className={`kicker hover-underline transition-colors ${
-                    onLight ? 'text-ink' : 'text-bone drop-shadow-sm'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-                {item.sub && hovered === item.label && (
-                  <div className="absolute top-full left-0 pt-6">
-                    <div className="bg-bone border hairline shadow-sm min-w-[240px] py-3">
-                      {item.sub.map((s) => (
-                        <Link
-                          key={s.href}
-                          href={s.href}
-                          className="block px-5 py-2 text-sm text-ink/80 hover:text-ink hover:bg-sand/40 transition-colors"
-                        >
-                          {s.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+                {item.label}
+              </Link>
             ))}
           </nav>
 
@@ -145,7 +100,7 @@ export default function Header() {
                   : 'text-ink bg-bone border-bone hover:bg-bone/90'
               }`}
             >
-              Book
+              Book now
             </Link>
             <span
               className={`kicker transition-colors ${
@@ -181,20 +136,6 @@ export default function Header() {
                 >
                   {item.label}
                 </Link>
-                {item.sub && (
-                  <div className="pl-4 pb-3 space-y-1">
-                    {item.sub.map((s) => (
-                      <Link
-                        key={s.href}
-                        href={s.href}
-                        className="flex items-center min-h-[40px] text-sm text-ink/70 hover:text-ink"
-                        onClick={() => setOpen(false)}
-                      >
-                        {s.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
               </div>
             ))}
             <div className="flex items-center justify-between pt-6">
@@ -203,7 +144,7 @@ export default function Header() {
                 className="inline-flex items-center justify-center kicker px-6 py-3 bg-ink text-bone min-h-[44px]"
                 onClick={() => setOpen(false)}
               >
-                Book
+                Book now
               </Link>
               <span className="kicker text-ink/40">EN</span>
             </div>
