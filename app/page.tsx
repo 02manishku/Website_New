@@ -10,19 +10,41 @@ export default function HomePage() {
       {/* HERO */}
       <HeroVideo />
 
-      {/* INTRO STATEMENT */}
-      <section className="bg-bone py-20 lg:py-40">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-6 lg:gap-10">
-          <div className="lg:col-span-4">
+      {/* INTRO STATEMENT — image (woman with leaf, cream wall right) sits
+          behind. Text is pushed to col 6-12 so it lands on the empty cream
+          side, never crossing the subject on the left. */}
+      <section className="relative bg-bone py-24 lg:py-40 overflow-hidden">
+        <Image
+          src="/images/hero-below.webp"
+          alt=""
+          fill
+          quality={88}
+          sizes="100vw"
+          /* Mobile crops to the cream-wall side (object 80% from left) so
+             text stays readable. Desktop shows the full composition. */
+          className="object-cover object-[80%_center] lg:object-center select-none pointer-events-none"
+        />
+
+        {/* Bottom blend — fades the image into bg-bone so the section flows
+            into the tiles below instead of cutting off at a hard edge. Sits
+            in just the lower edge of the image so most of the composition
+            stays visible. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 lg:h-24 bg-gradient-to-b from-transparent via-bone/40 to-bone"
+        />
+
+        <div className="relative mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-6 lg:gap-10">
+          <div className="lg:col-span-7 lg:col-start-6">
             <div className="kicker text-smoke">A Wellness Movement</div>
-          </div>
-          <div className="lg:col-span-8">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-ink">
+            <h2 className="mt-6 font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink">
               The world needs a new kitchen: one that
-              <em className="not-italic text-smoke"> nurtures </em>
+              {/* "nurtures" tinted to the deep sage-green of the leaf in the
+                  background image — ties the headline to the visual. */}
+              <em className="not-italic text-[#5F6F45]"> nurtures </em>
               the people who live in it.
             </h2>
-            <p className="mt-8 lg:mt-10 text-base lg:text-lg text-ink/70 max-w-2xl leading-relaxed">
+            <p className="mt-8 lg:mt-10 text-base lg:text-lg text-ink/75 max-w-xl leading-relaxed">
               Every day, our food, air and homes are filled with unseen threats
               to our well-being. From the cabinets we cook in to the wardrobes
               we breathe near, the spaces that should nurture us are working
@@ -39,8 +61,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* THREE TILES */}
-      <section className="bg-bone pb-20">
+      {/* THREE TILES — small pt to give the tiles a touch of breathing room.
+          The bigger transition lift is handled by the bottom gradient inside
+          the Wellness Movement section above, which fades its image into
+          bg-bone — so the two sections feel continuous, not jammed. */}
+      <section className="bg-bone pt-8 lg:pt-12 pb-20">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 grid md:grid-cols-3 gap-2">
           <Tile
             href="/kitchens"
@@ -68,7 +93,7 @@ export default function HomePage() {
             What happens quietly inside a conventional{' '}
             <span className="font-bold text-[#c2181f]">wood</span>
             <span className="text-smoke font-sans font-normal">-</span>
-            <span className="text-smoke">based kitchen.</span>
+            <span className="text-smoke">based kitchen ?</span>
           </h2>
           <p className="mt-8 max-w-2xl text-ink/70 leading-relaxed">
             Most modular kitchens in India are built in compressed wood, MDF,
@@ -399,22 +424,25 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-2">
-            {CATALOGS.map((c) => (
-              <a
-                key={c.name}
-                href="#"
-                className="group flex items-center justify-between gap-4 sm:gap-8 p-6 sm:p-8 lg:p-10 bg-sandlight border hairline hover:bg-sand transition-colors"
-              >
-                <div>
-                  <div className="label text-smoke mb-2">{c.cover}</div>
-                  <h3 className="font-display text-2xl sm:text-3xl text-ink leading-tight">{c.name}</h3>
-                  <div className="text-sm text-smoke mt-3">{c.size}</div>
-                </div>
-                <div className="text-sm font-medium text-ink whitespace-nowrap group-hover:translate-x-2 transition-transform shrink-0">
-                  Download →
-                </div>
-              </a>
-            ))}
+            {CATALOGS.map((c) => {
+              const isExternal = !!c.href && c.href !== '#';
+              return (
+                <a
+                  key={c.name}
+                  href={c.href ?? '#'}
+                  {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
+                  className="group flex items-center justify-between gap-4 sm:gap-8 p-6 sm:p-8 lg:p-10 bg-sandlight border hairline hover:bg-sand transition-colors"
+                >
+                  <div>
+                    <h3 className="font-display text-2xl sm:text-3xl text-ink leading-tight">{c.name}</h3>
+                    <div className="text-sm text-smoke mt-3">{c.size}</div>
+                  </div>
+                  <div className="text-sm font-medium text-ink whitespace-nowrap group-hover:translate-x-2 transition-transform shrink-0">
+                    Download →
+                  </div>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -439,11 +467,20 @@ export default function HomePage() {
   );
 }
 
-const CATALOGS = [
-  { name: 'Wellness Kitchen: Master Catalog', size: '32 MB · PDF', cover: 'Magppie Taj' },
-  { name: 'Wellness Wardrobe: Concepts',       size: '18 MB · PDF', cover: 'Magppie Onyx Gold' },
-  { name: 'Silverstone™ Finishes Brochure',     size: '24 MB · PDF', cover: '41 Finishes' },
-  { name: 'Outdoor Kitchen Concepts',           size: '12 MB · PDF', cover: 'Magppie Earth' }
+// `href` is optional — set it to a real PDF / Google Drive URL once the
+// catalogue is published. Entries without an href fall back to "#" so the
+// card still renders cleanly without 404'ing.
+type Catalog = { name: string; size: string; href?: string };
+
+const CATALOGS: Catalog[] = [
+  {
+    name: 'Wellness Kitchen: Master Catalog',
+    size: '32 MB · PDF',
+    href: 'https://drive.google.com/file/d/15TUpZW1IZHk3CBt95ljnOagN4TxwRwaa/view?usp=sharing'
+  },
+  { name: 'Wellness Wardrobe: Concepts', size: '18 MB · PDF' },
+  { name: 'Silverstone™ Finishes Brochure', size: '24 MB · PDF' },
+  { name: 'Outdoor Kitchen Concepts', size: '12 MB · PDF' }
 ];
 
 function Tile({
