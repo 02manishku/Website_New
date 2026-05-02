@@ -244,7 +244,7 @@ export default function KitchensPage() {
           ))}
         </div>
 
-        {/* Closing CTA — single Explore more link that opens the booking form */}
+        {/* Closing CTA, single Explore more link that opens the booking form */}
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mt-10 lg:mt-14">
           <Link
             href="/contact"
@@ -309,8 +309,8 @@ export default function KitchensPage() {
         </div>
       </section>
 
-      {/* Outdoor Kitchen */}
-      <section id="outdoor" className="relative h-[70vh] min-h-[440px] lg:h-[85vh] overflow-hidden scroll-mt-20">
+      {/* Poolside Kitchen */}
+      <section id="poolside" className="relative h-[70vh] min-h-[440px] lg:h-[85vh] overflow-hidden scroll-mt-20">
         <video
           autoPlay
           muted
@@ -328,11 +328,11 @@ export default function KitchensPage() {
           <div className="mx-auto max-w-[1600px] px-6 lg:px-10 pb-16 lg:pb-24 w-full">
             <div className="label text-bone/80 mb-4 lg:mb-6">Concept</div>
             <h2 className="font-display md:whitespace-nowrap text-bone text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.02] lg:leading-none">
-              The Outdoor Kitchen.
+              The Poolside Kitchen.
             </h2>
             <p className="mt-5 lg:mt-6 text-bone/80 max-w-md">
-              Engineered to live outside. Magppie Earth, Earth Grey and
-              Terrazzo Grey finishes resist sun, rain and time.
+              Engineered to live outside. Magppie Santorini, Persian
+              Travertine and Sahara finishes resist sun, rain and time.
             </p>
           </div>
         </div>

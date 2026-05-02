@@ -8,6 +8,14 @@ export const metadata = {
 
 const STORIES = [
   {
+    image: '/images/news/kbis/winners-podium.webp',
+    date: 'Feb 2026',
+    tag: 'Award',
+    title: 'Magppie wins “Most Unexpected” at KBIS 2026, Orlando',
+    excerpt:
+      'At the inaugural KBIS Innovation Hour on February 17, judged live by an audience of designers, media and industry professionals, Magppie Silverstone™ took the Most Unexpected category, placing alongside Caesarstone (Most Innovative) and LG (I’d Spec That Tomorrow) as one of three global winners. Recognised for the silver-infused, mould- and bacteria-resistant stone surface that extends from countertop to cabinetry to floor, without the toxic adhesives or resins of conventional kitchens. Hosted by Sophie Donelson; presented for Magppie by Kishor Rico, Director of US Operations.'
+  },
+  {
     image: '/images/vanities/01.webp',
     date: 'Apr 2026',
     tag: 'Launch',
@@ -55,7 +63,7 @@ export default function NewsPage() {
       <PageHero
         kicker="Stories"
         title="News & Journal."
-        image="/images/02.webp"
+        image="/images/news/kbis/hero.webp"
         subtitle="Exhibitions, partnerships, innovations, and a few quiet moments from the Magppie world."
       />
 
@@ -64,7 +72,8 @@ export default function NewsPage() {
           {STORIES.map((s, i) => (
             <article
               key={s.title}
-              className={`grid lg:grid-cols-12 gap-6 lg:gap-10 items-center ${
+              id={i === 0 ? 'kbis-2026' : undefined}
+              className={`scroll-mt-24 lg:scroll-mt-32 grid lg:grid-cols-12 gap-6 lg:gap-10 items-center ${
                 i % 2 ? 'lg:[&>*:first-child]:order-2' : ''
               }`}
             >

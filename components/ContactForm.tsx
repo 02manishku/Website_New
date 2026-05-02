@@ -166,7 +166,7 @@ function SelectField({
   );
 }
 
-// State picker — 28 Indian states first (alphabetical), then the 8 Union
+// State picker, 28 Indian states first (alphabetical), then the 8 Union
 // Territories grouped at the end.
 function StateField({ required }: { required?: boolean }) {
   return (

@@ -8,7 +8,7 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <>
-      {/* Hero removed by request — page jumps straight into HQ details + form.
+      {/* Hero removed by request, page jumps straight into HQ details + form.
           Top padding accounts for the fixed Header height (h-16 / lg:h-20).  */}
       <section className="bg-bone pt-32 lg:pt-44 pb-20 lg:pb-28">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">

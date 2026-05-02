@@ -161,7 +161,7 @@ function ExploreMoreTile() {
   );
 }
 
-// ─── Real Silverstone™ finishes — images supplied by the brand. ───────────
+// ─── Real Silverstone™ finishes, images supplied by the brand. ───────────
 // Order preserved from the original brand catalogue (with duplicates and
 // not-yet-photographed entries dropped). Missing finishes are signalled by
 // the "Explore more" tile rendered at the end of each group.

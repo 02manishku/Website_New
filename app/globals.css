@@ -7,10 +7,17 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Body / UI font stack. SF Pro is Apple's system face — picked up natively
+/* Body / UI font stack. SF Pro is Apple's system face, picked up natively
    on iOS / macOS via -apple-system / BlinkMacSystemFont. On other platforms
    we fall through to Inter (loaded via next/font) which is the closest open
-   alternative — Inter was originally designed inspired by SF Pro. */
+   alternative, Inter was originally designed inspired by SF Pro. */
+html {
+  /* Smooth in-page anchor scroll (e.g. /news#kbis-2026, /kitchens#poolside).
+     Honoured everywhere except in browsers/users that opt out of motion. */
+  scroll-behavior: smooth;
+  /* Stop iOS Safari from auto-enlarging text in landscape. */
+  -webkit-text-size-adjust: 100%;
+}
 html, body {
   background: #F4F1EA;
   color: #1B1B1B;
@@ -18,12 +25,25 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Belt-and-braces overflow guard. The site contains a few full-bleed video
+   sections and a marquee, this prevents any rogue child from triggering a
+   horizontal scrollbar on phones. */
+body {
+  overflow-x: hidden;
+}
+
+/* Suppress 300ms double-tap delay on tap targets. Modern browsers mostly
+   handle this, but explicit `manipulation` helps on older Android Chrome. */
+a, button, [role="button"], input[type="submit"], label {
+  touch-action: manipulation;
+}
+
 ::selection {
   background: #1B1B1B;
   color: #F4F1EA;
 }
 
-/* The Seasons — high-contrast Didone, defaults to Regular (400). At 300 the
+/* The Seasons, high-contrast Didone, defaults to Regular (400). At 300 the
    strokes get spindly below ~24px. Larger hero headings can opt back into
    Light by adding `font-light` inline. */
 .font-display { font-family: var(--font-display); font-weight: 400; }
@@ -60,7 +80,7 @@ html, body {
 }
 .hover-underline:hover::after { width: 100%; }
 
-/* Mobile tap-friendly small links — expands the touch area to ~44px tall
+/* Mobile tap-friendly small links, expands the touch area to ~44px tall
    without altering the visible position (negative margin compensates the
    added padding). Use alongside text-sm or .kicker on inline links. */
 .tap-link {
@@ -97,3 +117,35 @@ html, body {
 .marquee-track {
   animation: marquee 50s linear infinite;
 }
+
+/* Slow bounce for the hero scroll-cue chevron. Subtle vertical drift, no
+   easing snap — feels like an invitation, not a notification. */
+@keyframes bounceSlow {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50%      { transform: translateY(6px); opacity: 1; }
+}
+.animate-bounce-slow {
+  animation: bounceSlow 2.4s ease-in-out infinite;
+}
+
+/* Honour the user's "reduce motion" OS preference (iOS Settings →
+   Accessibility → Motion, macOS System Settings → Accessibility →
+   Display). Marquee, fade-ups, scroll-cue bounce and tile-img zoom all go
+   still; the page still looks composed, just static. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track,
+  .animate-bounce-slow,
+  .fade-up { animation: none !important; }
+  .fade-up { opacity: 1; transform: none; }
+  .tile-img { transition: none !important; }
+  .group:hover .tile-img { transform: none; }
+}
+
+/* Safe-area helpers for iOS notch / home indicator. Applied where the
+   visual would otherwise sit under the home bar (hero scroll cue,
+   newsletter teaser, footer legal row). */
+.pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.pr-safe { padding-right:  env(safe-area-inset-right,  0px); }
+.bottom-safe { bottom: max(1rem, env(safe-area-inset-bottom, 0px)); }
+

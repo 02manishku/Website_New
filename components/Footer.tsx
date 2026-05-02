@@ -40,16 +40,21 @@ export default function Footer() {
             <p className="text-sm text-bone/70 mb-5">
               Receive Magppie stories, new openings, and design notes.
             </p>
-            <form className="flex flex-wrap items-center gap-x-3 border-b border-bone/30 pb-2 mb-6">
+            <form className="flex items-center gap-x-3 border-b border-bone/30 pb-2 mb-6">
+              {/* `text-base` (16px) on the input, anything smaller triggers
+                  iOS Safari's auto-zoom on focus, which on a luxury site
+                  feels like a bug. min-h-11 keeps the touch target at
+                  44px without altering the visual baseline. */}
               <input
                 type="email"
                 required
                 placeholder="Your email"
-                className="flex-1 min-w-0 bg-transparent placeholder-bone/40 text-sm focus:outline-none py-2"
+                aria-label="Email address"
+                className="flex-1 min-w-0 bg-transparent placeholder-bone/40 text-base focus:outline-none py-2 min-h-11"
               />
               <button
                 type="submit"
-                className="text-sm font-medium text-bone hover:text-sand transition-colors py-2 shrink-0"
+                className="text-sm font-medium text-bone hover:text-sand transition-colors py-2 px-1 shrink-0 min-h-11"
               >
                 Submit →
               </button>
@@ -61,16 +66,18 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 lg:mt-20 pt-8 border-t border-bone/20 flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between text-xs text-bone/50">
-          {/* Legal pages aren't built yet — using "#" placeholders so they
+        <div className="mt-14 lg:mt-20 pt-8 pb-safe border-t border-bone/20 flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between text-xs text-bone/50">
+          {/* Legal pages aren't built yet, using "#" placeholders so they
               don't 404 on click. Repoint to /legal /privacy etc. when each
-              page is created in the app/ directory. */}
-          <div className="flex flex-wrap gap-x-5 gap-y-2">
-            <a href="#" className="hover:text-bone py-1.5 -my-1.5">Legal</a>
-            <a href="#" className="hover:text-bone py-1.5 -my-1.5">Privacy</a>
-            <a href="#" className="hover:text-bone py-1.5 -my-1.5">Cookies</a>
-            <a href="#" className="hover:text-bone py-1.5 -my-1.5">Sitemap</a>
-            <a href="#" className="hover:text-bone py-1.5 -my-1.5">Whistleblowing</a>
+              page is created in the app/ directory.
+              Each link uses py-2.5 -my-2.5 (≈44px touch target) so a
+              fingertip can hit them on phones without missing. */}
+          <div className="flex flex-wrap gap-x-5 gap-y-1">
+            <a href="#" className="hover:text-bone py-2.5 -my-2.5">Legal</a>
+            <a href="#" className="hover:text-bone py-2.5 -my-2.5">Privacy</a>
+            <a href="#" className="hover:text-bone py-2.5 -my-2.5">Cookies</a>
+            <a href="#" className="hover:text-bone py-2.5 -my-2.5">Sitemap</a>
+            <a href="#" className="hover:text-bone py-2.5 -my-2.5">Whistleblowing</a>
           </div>
           <div>© {new Date().getFullYear()} Magppie Silverstone Pvt. Ltd. All rights reserved.</div>
         </div>

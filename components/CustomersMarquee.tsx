@@ -74,7 +74,9 @@ function PortraitCard({
           {person.name}
         </div>
         {person.subtitle && (
-          <div className="text-[0.72rem] sm:text-[0.78rem] text-bone/70 mt-1">
+          // Bumped from 0.72rem (~11.5px) to text-xs (12px) on the smallest
+          // breakpoint, sub-12px feels strained on phones at glance speed.
+          <div className="text-xs sm:text-[0.78rem] text-bone/70 mt-1">
             {person.subtitle}
           </div>
         )}
@@ -114,7 +116,7 @@ export default function CustomersMarquee() {
             <div className="font-display text-ink text-base sm:text-lg lg:text-xl leading-tight">
               &amp; many more.
             </div>
-            <div className="text-[0.72rem] sm:text-[0.78rem] text-smoke mt-1">
+            <div className="text-xs sm:text-[0.78rem] text-smoke mt-1">
               Across India &amp; the World
             </div>
           </figcaption>

@@ -105,7 +105,7 @@ export default function VanitiesPage() {
             </div>
           ))}
 
-          {/* Closing CTA tile — fills the otherwise-empty slot when the
+          {/* Closing CTA tile, fills the otherwise-empty slot when the
               concept count is odd, and gives the row a clear next step. */}
           <Link
             href="/contact"
@@ -296,7 +296,7 @@ const REASONS = [
   }
 ];
 
-// Curated 6 — a tight selection of the full 41 Silverstone™ finishes that
+// Curated 6, a tight selection of the full 41 Silverstone™ finishes that
 // suit a vanity's intimate scale: warm onyxes, soft cream marbles, and
 // quiet super-matt neutrals. Real photographs from the brand catalogue.
 const FINISHES = [

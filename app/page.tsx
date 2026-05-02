@@ -3,6 +3,7 @@ import Link from 'next/link';
 import HeroVideo from '@/components/HeroVideo';
 import CustomersMarquee from '@/components/CustomersMarquee';
 import StacyTestimonial from '@/components/StacyTestimonial';
+import PoolsideKitchenBanner from '@/components/PoolsideKitchenBanner';
 
 export default function HomePage() {
   return (
@@ -10,7 +11,50 @@ export default function HomePage() {
       {/* HERO */}
       <HeroVideo />
 
-      {/* INTRO STATEMENT — image (woman with leaf, cream wall right) sits
+      {/* KBIS 2026 AWARD ANNOUNCEMENT, sits directly under the hero video.
+          The dark register bridges from the hero into the editorial Wellness
+          Movement section that follows. KBIS logo + headline + brief copy +
+          link to the news story. */}
+      <section className="bg-ink text-bone py-16 lg:py-24">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="lg:col-span-4 order-2 lg:order-1">
+            <div className="kicker text-bone/55 mb-5 lg:mb-6">
+              Recognised at KBIS 2026 · Orlando
+            </div>
+            <div className="relative h-16 sm:h-20 lg:h-24 w-[180px] sm:w-[200px] lg:w-[220px]">
+              <Image
+                src="/images/awards/KBIS.webp"
+                alt="KBIS, Kitchen & Bath Industry Show 2026"
+                fill
+                quality={85}
+                sizes="(min-width: 1024px) 220px, (min-width: 640px) 200px, 180px"
+                className="object-contain object-left invert opacity-95"
+              />
+            </div>
+          </div>
+          <div className="lg:col-span-8 order-1 lg:order-2">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl text-bone leading-[1.05]">
+              Most Unexpected{' '}
+              <em className="not-italic text-bone/55">Innovation.</em>
+            </h2>
+            <p className="mt-5 lg:mt-7 text-bone/70 max-w-2xl leading-relaxed">
+              At the inaugural KBIS Innovation Hour, judged live by an
+              audience of designers, media and industry professionals,
+              Magppie Silverstone™ took the Most Unexpected category,
+              placing alongside Caesarstone and LG as one of three global
+              winners. Orlando, February&nbsp;17,&nbsp;2026.
+            </p>
+            <Link
+              href="/news#kbis-2026"
+              className="tap-link mt-7 lg:mt-9 text-sm hover-underline text-bone"
+            >
+              Read the announcement →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* INTRO STATEMENT, image (woman with leaf, cream wall right) sits
           behind. Text is pushed to col 6-12 so it lands on the empty cream
           side, never crossing the subject on the left. */}
       <section className="relative bg-bone py-24 lg:py-40 overflow-hidden">
@@ -25,7 +69,7 @@ export default function HomePage() {
           className="object-cover object-[80%_center] lg:object-center select-none pointer-events-none"
         />
 
-        {/* Bottom blend — fades the image into bg-bone so the section flows
+        {/* Bottom blend, fades the image into bg-bone so the section flows
             into the tiles below instead of cutting off at a hard edge. Sits
             in just the lower edge of the image so most of the composition
             stays visible. */}
@@ -40,7 +84,7 @@ export default function HomePage() {
             <h2 className="mt-6 font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink">
               The world needs a new kitchen: one that
               {/* "nurtures" tinted to the deep sage-green of the leaf in the
-                  background image — ties the headline to the visual. */}
+                  background image, ties the headline to the visual. */}
               <em className="not-italic text-[#5F6F45]"> nurtures </em>
               the people who live in it.
             </h2>
@@ -61,10 +105,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* THREE TILES — small pt to give the tiles a touch of breathing room.
+      {/* THREE TILES, small pt to give the tiles a touch of breathing room.
           The bigger transition lift is handled by the bottom gradient inside
           the Wellness Movement section above, which fades its image into
-          bg-bone — so the two sections feel continuous, not jammed. */}
+          bg-bone, so the two sections feel continuous, not jammed. */}
       <section className="bg-bone pt-8 lg:pt-12 pb-20">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 grid md:grid-cols-3 gap-2">
           <Tile
@@ -85,65 +129,81 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WHY WELLNESS MATTERS */}
-      <section className="bg-bone py-20 lg:py-32">
+      {/* Section break, hairline divider between the product tiles and the
+          "Why Wellness Matters" editorial section below. Sits in a max-width
+          container so it lines up with the rest of the page's content rhythm
+          rather than running edge-to-edge. */}
+      <div className="bg-bone">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div className="kicker text-smoke mb-6">Why Wellness Matters</div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink max-w-4xl">
-            What happens quietly inside a conventional{' '}
-            <span className="font-bold text-[#c2181f]">wood</span>
-            <span className="text-smoke font-sans font-normal">-</span>
-            <span className="text-smoke">based kitchen ?</span>
-          </h2>
-          <p className="mt-8 max-w-2xl text-ink/70 leading-relaxed">
-            Most modular kitchens in India are built in compressed wood, MDF,
-            plywood, particle board. These kitchens are not safe for our
-            families. Let&rsquo;s know why.
-          </p>
+          <hr className="border-0 border-t border-ink/15" />
+        </div>
+      </div>
 
-          <div className="mt-12 lg:mt-16 grid md:grid-cols-3 gap-px bg-ink/10">
-            {[
-              {
-                n: '01',
-                title: 'Formaldehyde emissions',
-                body: 'Compressed wood, MDF, plywood, particle board, continuously off-gases formaldehyde, classified by the World Health Organisation as a Group 1 carcinogen. This happens silently, every day, in the room where your family cooks and breathes.',
-                wood: 'Wood, released daily',
-                stone: 'Silverstone™, zero emissions',
-              },
-              {
-                n: '02',
-                title: 'Moisture, mould & fungus',
-                body: 'Wood is porous. It absorbs steam and moisture from every meal. Over 2–3 years, mould begins growing inside cabinets, invisible to the eye, releasing spores into the air your family breathes.',
-                wood: 'Wood, absorbs moisture',
-                stone: 'Silverstone™, zero absorption',
-              },
-              {
-                n: '03',
-                title: 'Termites & decay',
-                body: 'Termites eat wood from the inside out, silently, invisibly. By the time the damage is visible, the cabinetry structure is often irreparable. Most families replace their kitchen within ten years.',
-                wood: 'Wood, termite risk',
-                stone: 'Silverstone™, termite-proof',
-              },
-            ].map((c) => (
-              <div key={c.n} className="bg-bone p-6 sm:p-8 lg:p-10 flex flex-col">
-                <div className="font-display text-4xl lg:text-5xl text-ink/25 mb-4 lg:mb-6">
-                  {c.n}
+      {/* WHY WELLNESS MATTERS, editorial monograph layout: massive
+          two-line heading → full-bleed cinematic kitchen photo → three
+          confident numeric answers. No card grid, no comparison strips,
+          no long paragraphs. Restraint over decoration. */}
+      <section className="bg-bone py-24 lg:py-40">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+
+          {/* Heading, editorial display, two lines, second line italic.
+              "dangers of wood" tinted in warning red. Tight bottom margin so
+              the kitchen photo sits flush below the headline (no bone gap
+              before the scroll-driven takeover starts). */}
+          <div className="max-w-4xl mb-6 lg:mb-8">
+            <div className="kicker text-smoke mb-6 lg:mb-8">Why Wellness Matters</div>
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.02] text-ink">
+              The <span className="text-[#c2181f]">dangers of wood,</span>
+              <br />
+              <em className="not-italic text-smoke">solved in stone.</em>
+            </h2>
+          </div>
+
+        </div>
+
+        {/* Captioned hero photo block. On mobile the previous 80vw cap +
+            cinematic 2.36:1 ratio left the photo as a thin strip (~120px
+            tall on a 360px phone). Now goes full-bleed inside px-6 with a
+            shorter ratio so the kitchen reads as substantial; the desktop
+            min(80vw,1400px) / 2.36:1 framing kicks in unchanged at lg. */}
+        <div className="px-6 lg:px-0">
+          <div className="mx-auto mb-4 lg:mb-5 flex justify-end w-full max-w-[1400px] lg:w-[min(80vw,1400px)]">
+            <p className="font-display italic text-smoke text-base sm:text-lg lg:text-xl">
+              Yes! This is a Magppie Kitchen.
+            </p>
+          </div>
+
+          <div className="relative mx-auto overflow-hidden aspect-[3/2] sm:aspect-[16/9] lg:aspect-[2.36/1] w-full max-w-[1400px] lg:w-[min(80vw,1400px)]">
+            <Image
+              src="/images/kitchens/best-kitchen.webp"
+              alt="Magppie Wellness Kitchen with skylights, built in Silverstone™"
+              fill
+              quality={92}
+              sizes="(min-width: 1024px) 80vw, 100vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 mt-8 lg:mt-12">
+
+          {/* Three answers, no cards, no boxes. Just typography on bone.
+              Hairline above sets them apart as a structured statement. */}
+          <div className="grid md:grid-cols-3 gap-x-10 gap-y-14 lg:gap-x-20 border-t border-ink/15 pt-14 lg:pt-20">
+            {PILLARS.map((p) => (
+              <div key={p.label}>
+                <div className="font-display text-6xl sm:text-7xl lg:text-8xl text-ink leading-none">
+                  {p.figure}
                 </div>
-                <h3 className="font-display text-xl sm:text-2xl lg:text-[1.65rem] text-ink leading-snug">
-                  {c.title}
-                </h3>
-                <p className="mt-3 lg:mt-4 text-ink/70 leading-relaxed text-[0.9rem] lg:text-[0.95rem]">
-                  {c.body}
+                <div className="kicker text-smoke mt-5 lg:mt-7">
+                  {p.label}
+                </div>
+                <p className="mt-5 lg:mt-6 text-ink/75 leading-relaxed text-[0.95rem] lg:text-base max-w-xs">
+                  {p.body}
                 </p>
-                <div className="mt-auto pt-6 lg:pt-10 space-y-2 text-[0.78rem] lg:text-[0.8rem]">
-                  <div className="flex items-center gap-3 text-smoke">
-                    <span className="w-5 h-px bg-smoke/60" />
-                    <span>{c.wood}</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-ink">
-                    <span className="w-5 h-px bg-ink" />
-                    <span>{c.stone}</span>
-                  </div>
+                <div className="kicker text-smoke/55 mt-6 text-[0.65rem]">
+                  {p.standard}
                 </div>
               </div>
             ))}
@@ -174,28 +234,44 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="lg:col-span-7 order-1 lg:order-2">
-            <div className="relative aspect-[4/3] overflow-hidden">
-              <Image
-                src="/images/01-copy.webp"
-                alt="Silverstone island in Magppie Wellness Kitchen"
-                fill
-                quality={95}
-                sizes="(min-width: 1024px) 60vw, 100vw"
-                className="object-cover"
-              />
+            <div className="relative aspect-[4/3] overflow-hidden bg-ink">
+              {/* Copper-and-silver nano-particle reveal, autoplays muted on
+                  loop. Visualises the section copy: silver infused inside the
+                  stone, by nano technology. The poster is a frame extracted
+                  from the same video so there's no jarring swap once playback
+                  starts. */}
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/images/copper-infused-silver-poster.webp"
+                className="absolute inset-0 w-full h-full object-cover"
+              >
+                <source src="/videos/copper-infused-silver.webm" type="video/webm" />
+                <source src="/videos/copper-infused-silver.mp4" type="video/mp4" />
+              </video>
             </div>
           </div>
         </div>
       </section>
 
-      {/* BENEFITS GRID */}
+      {/* BENEFITS GRID, bracketed by hairline section breaks above and
+          below the 5-column promise list, so it reads as a self-contained
+          ledger of credentials within the page rather than blending into
+          the surrounding bone. */}
       <section className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-4">The Wellness Promise</div>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-ink max-w-3xl">
             Built in stone. Guaranteed for 25 years. Serviced for 25 years.
           </h2>
-          <div className="mt-12 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-ink/10">
+
+          {/* Top hairline, separates the heading from the credential grid */}
+          <hr className="border-0 border-t border-ink/15 mt-12 lg:mt-16" />
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-ink/10">
             {BENEFITS.map((b) => (
               <div key={b.kicker} className="bg-bone p-6 sm:p-8">
                 <div className="label text-smoke mb-4">{b.kicker}</div>
@@ -207,39 +283,15 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+
+          {/* Bottom hairline, closes the ledger */}
+          <hr className="border-0 border-t border-ink/15" />
         </div>
       </section>
 
-      {/* OUTDOOR KITCHEN BANNER */}
-      <section className="relative h-[65vh] min-h-[420px] lg:h-[80vh] overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          poster="/images/02.webp"
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/videos/pool-area-1.webm" type="video/webm" />
-          <source src="/videos/pool-area-1.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-ink/10 to-transparent" />
-        <div className="absolute inset-0 flex items-end">
-          <div className="mx-auto max-w-[1600px] px-6 lg:px-10 pb-14 lg:pb-20 w-full">
-            <div className="label text-bone/80 mb-4 lg:mb-6">Concept</div>
-            <h2 className="font-display md:whitespace-nowrap text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-bone leading-[1.02] lg:leading-none">
-              The Poolside Kitchen.
-            </h2>
-            <Link
-              href="/kitchens#outdoor"
-              className="inline-block mt-8 lg:mt-10 text-sm text-bone hover-underline"
-            >
-              Experience the concept →
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* POOLSIDE KITCHEN BANNER, video starts at the 5-second mark and
+          loops back to 5s on each cycle (skips the dead intro frames). */}
+      <PoolsideKitchenBanner />
 
       {/* CUSTOMERS GALLERY */}
       <section className="bg-ink text-bone py-20 lg:py-36">
@@ -324,6 +376,10 @@ export default function HomePage() {
                   </div>
                 </div>
 
+                {/* Awards & Accolades + Memberships, sits right under the
+                    Featured In logos so the reader scans the historical
+                    record first, then lands on the KBIS spotlight below as
+                    the closing crescendo. */}
                 <div className="pt-10 border-t border-ink/10">
                   <div className="label text-smoke/70 mb-6 text-[0.65rem]">
                     Awards &amp; Accolades
@@ -360,6 +416,93 @@ export default function HomePage() {
                       </li>
                     ))}
                   </ul>
+                </div>
+
+                {/* KBIS 2026 spotlight, closes the recognition section as
+                    the trophy moment. Photo on the left, editorial copy on
+                    the right, both link to the full announcement on /news.
+                    Top border + generous top spacing separates this from
+                    the awards ledger above so it reads as its own beat. */}
+                <div className="mt-14 lg:mt-20 pt-12 lg:pt-16 border-t border-ink/10">
+                  <div className="grid lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+                    {/* The win photo, hover-zoom + always-visible date and
+                        venue stamp. Whole tile is clickable. */}
+                    <Link
+                      href="/news#kbis-2026"
+                      aria-label="Read the full KBIS 2026 announcement"
+                      className="lg:col-span-7 group relative block aspect-[4/3] overflow-hidden bg-ink"
+                    >
+                      <Image
+                        src="/images/news/kbis/hero.webp"
+                        alt="Magppie accepting the Most Unexpected award at KBIS 2026, Orlando"
+                        fill
+                        sizes="(min-width: 1024px) 60vw, 100vw"
+                        quality={92}
+                        className="object-cover tile-img"
+                      />
+                      <div className="absolute inset-x-0 bottom-0 px-6 py-5 lg:px-8 lg:py-7 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent text-bone">
+                        {/* flex-wrap so on the narrowest phones (≤360px) the
+                            location chip drops to its own line under the
+                            date instead of clipping the venue text. */}
+                        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                          <div className="kicker text-bone/90">
+                            February 17, 2026
+                          </div>
+                          <div className="kicker text-bone/55 flex items-center gap-1.5">
+                            <svg
+                              width="11"
+                              height="11"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden="true"
+                              className="shrink-0"
+                            >
+                              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                              <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            Orlando · USA
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+
+                    {/* Editorial copy. Headline, body, link CTA with arrow
+                        that nudges right on hover. */}
+                    <div className="lg:col-span-5">
+                      <div className="kicker text-smoke mb-5">
+                        KBIS Innovation Hour · Inaugural Edition
+                      </div>
+                      <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl text-ink leading-[1.05]">
+                        Most Unexpected{' '}
+                        <em className="not-italic italic text-smoke">
+                          Innovation.
+                        </em>
+                      </h3>
+                      <p className="mt-5 lg:mt-7 text-ink/70 leading-relaxed">
+                        At the inaugural KBIS Innovation Hour, judged live on
+                        the NEXT Stage by an audience of designers, media and
+                        industry, Magppie Silverstone&trade; took the Most
+                        Unexpected category, chosen alongside Caesarstone
+                        (Most Innovative) and LG (I&rsquo;d Spec That
+                        Tomorrow) as one of three global winners. Hosted by
+                        Sophie Donelson; presented for Magppie by Kishor
+                        Rico, Director of US Operations.
+                      </p>
+                      <Link
+                        href="/news#kbis-2026"
+                        className="group tap-link mt-7 lg:mt-9 inline-block text-sm hover-underline"
+                      >
+                        Read the announcement{' '}
+                        <span className="inline-block transition-transform group-hover:translate-x-1">
+                          →
+                        </span>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </>
             );
@@ -407,7 +550,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CATALOGS — sits between the Stories grid and the closing CTA, so the
+      {/* CATALOGS, sits between the Stories grid and the closing CTA, so the
           page funnels readers from journal → catalogues → consultation. */}
       <section className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
@@ -447,7 +590,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA — closing section, just before the footer */}
+      {/* CTA, closing section, just before the footer */}
       <section className="bg-sandlight py-24 lg:py-44">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
           <div className="kicker text-smoke mb-6">Begin</div>
@@ -467,7 +610,7 @@ export default function HomePage() {
   );
 }
 
-// `href` is optional — set it to a real PDF / Google Drive URL once the
+// `href` is optional, set it to a real PDF / Google Drive URL once the
 // catalogue is published. Entries without an href fall back to "#" so the
 // card still renders cleanly without 404'ing.
 type Catalog = { name: string; size: string; href?: string };
@@ -478,9 +621,11 @@ const CATALOGS: Catalog[] = [
     size: '32 MB · PDF',
     href: 'https://drive.google.com/file/d/15TUpZW1IZHk3CBt95ljnOagN4TxwRwaa/view?usp=sharing'
   },
-  { name: 'Wellness Wardrobe: Concepts', size: '18 MB · PDF' },
-  { name: 'Silverstone™ Finishes Brochure', size: '24 MB · PDF' },
-  { name: 'Outdoor Kitchen Concepts', size: '12 MB · PDF' }
+  {
+    name: 'Wellness Homes',
+    size: '18 MB · PDF',
+    href: 'https://drive.google.com/file/d/1_IRFxezio4haWpPrN4TW0dSehoJXkBQ8/view?usp=sharing'
+  }
 ];
 
 function Tile({
@@ -508,7 +653,7 @@ function Tile({
         <div className="font-display md:whitespace-nowrap text-3xl sm:text-4xl lg:text-[2.6rem] xl:text-5xl">
           {title}
         </div>
-        {/* Hover-only "Discover →" — desktop only, mobile users tap the tile */}
+        {/* Hover-only "Discover →", desktop only, mobile users tap the tile */}
         <div className="hidden lg:block text-sm mt-3 lg:mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           Discover →
         </div>
@@ -552,6 +697,30 @@ function NewsCard({
     </article>
   );
 }
+
+// "Why Wellness Matters", three Magppie pillars expressed as confident
+// numeric / single-word answers (Zero. Zero. 25 years.). No long body
+// paragraphs, no comparison strips, typography carries the argument.
+const PILLARS = [
+  {
+    figure: 'Zero',
+    label: 'Formaldehyde',
+    body: 'Inert stone. Nothing to off-gas, nothing for your family to breathe in.',
+    standard: 'ASTM E-2180 certified'
+  },
+  {
+    figure: 'Zero',
+    label: 'Absorption',
+    body: 'Non-porous. Water beads off. Mould has nothing to feed on.',
+    standard: 'BS EN 12390 tested'
+  },
+  {
+    figure: '25 yrs',
+    label: 'Guaranteed',
+    body: 'No cellulose to chew, no fibre to decay. Standing for the life of your home.',
+    standard: '25-year unconditional promise'
+  }
+];
 
 const BENEFITS = [
   {

@@ -143,7 +143,7 @@ export default function LocationsSection() {
   return (
     <section className="bg-ink text-bone py-20 lg:py-32">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
-        {/* Section opener — italic display, like a chapter heading in a monograph.
+        {/* Section opener, italic display, like a chapter heading in a monograph.
             No kicker. No spec strip. Just type. */}
         <h2 className="font-display font-light text-4xl sm:text-5xl md:text-6xl lg:text-[5rem] text-bone leading-[1.05] max-w-3xl">
           Where to find us.
@@ -168,7 +168,7 @@ function Directory({
 }) {
   return (
     <div className="mt-20 lg:mt-28">
-      {/* Country header — italic display + count. Heavier rule below it
+      {/* Country header, italic display + count. Heavier rule below it
           so the directory below feels like a chapter, not a card grid. */}
       <div className="flex items-baseline justify-between gap-6 border-b-2 border-bone pb-4 mb-1">
         <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl text-bone leading-none">

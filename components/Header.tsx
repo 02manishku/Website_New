@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 // Routes that don't render a full-bleed dark hero behind the header. On these
 // pages the header must start in its light (bone background, dark logo) state
-// from the first paint — otherwise the white logo floats invisibly over a
+// from the first paint, otherwise the white logo floats invisibly over a
 // cream section. Add new no-hero routes here.
 const NO_HERO_ROUTES = ['/contact'];
 
@@ -71,8 +71,13 @@ export default function Header() {
               width={onLight ? 280 : 160}
               height={onLight ? 145 : 36}
               priority
+              // The black logo PNG is taller (R-mark stacked under wordmark);
+              // it needs ~2x the height of the white SVG to read at the
+              // same visual weight. Mobile-scrolled state uses h-9 (was
+              // h-10) so it sits inside the 64px header bar with breathing
+              // room rather than crowding the nav controls.
               className={`w-auto transition-all duration-300 ${
-                onLight ? 'h-10 lg:h-16' : 'h-6 lg:h-8'
+                onLight ? 'h-9 lg:h-16' : 'h-6 lg:h-8'
               }`}
             />
           </Link>
@@ -111,16 +116,33 @@ export default function Header() {
             </span>
           </div>
 
-          <button
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            onClick={() => setOpen(!open)}
-            className="lg:hidden p-3 -mr-3 min-h-[44px] min-w-[44px] flex flex-col justify-center items-end"
-          >
-            <div className={`w-6 h-px mb-1.5 transition-colors ${onLight ? 'bg-ink' : 'bg-bone'}`} />
-            <div className={`w-6 h-px mb-1.5 transition-colors ${onLight ? 'bg-ink' : 'bg-bone'}`} />
-            <div className={`w-4 h-px transition-colors ${onLight ? 'bg-ink' : 'bg-bone'}`} />
-          </button>
+          {/* Right-side cluster on mobile: a compact Book Now CTA + the
+              hamburger. The CTA is the single most important conversion
+              action on the site, so it deserves to be visible at all times,
+              not buried behind the menu. Hidden at lg+ where the full Book
+              Now button lives in the desktop CTA group above. */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <Link
+              href="/contact#book"
+              className={`kicker px-3.5 py-2 text-[10px] tracking-[0.22em] border transition-colors min-h-[40px] inline-flex items-center ${
+                onLight
+                  ? 'text-bone bg-ink border-ink hover:bg-ink/85'
+                  : 'text-ink bg-bone border-bone hover:bg-bone/90'
+              }`}
+            >
+              Book now
+            </Link>
+            <button
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              onClick={() => setOpen(!open)}
+              className="p-3 -mr-3 min-h-[44px] min-w-[44px] flex flex-col justify-center items-end"
+            >
+              <div className={`w-6 h-px mb-1.5 transition-colors ${onLight ? 'bg-ink' : 'bg-bone'}`} />
+              <div className={`w-6 h-px mb-1.5 transition-colors ${onLight ? 'bg-ink' : 'bg-bone'}`} />
+              <div className={`w-6 h-px transition-colors ${onLight ? 'bg-ink' : 'bg-bone'}`} />
+            </button>
+          </div>
         </div>
       </div>
 

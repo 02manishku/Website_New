@@ -65,7 +65,10 @@ export default function PageHero({
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 pb-8 lg:pb-12 w-full">
           <div className="max-w-[640px]">
             <div className="kicker text-bone/90 mb-4 fade-up">{kicker}</div>
-            <h1 className="font-display font-light text-bone leading-[1.05] text-[2.25rem] sm:text-[2.75rem] md:text-[4.2vw] lg:text-[3.1vw] fade-up [text-shadow:0_2px_18px_rgba(0,0,0,0.55)]">
+            {/* Same lesson as HeroVideo, the previous `md:text-[4.2vw]` shrank
+                to ~32px at 768px, smaller than sm-breakpoint 44px. Fixed
+                steps for sm/md, fluid vw only at lg. */}
+            <h1 className="font-display font-light text-bone leading-[1.05] text-[2.25rem] sm:text-[2.75rem] md:text-[3.25rem] lg:text-[3.1vw] fade-up [text-shadow:0_2px_18px_rgba(0,0,0,0.55)]">
               {title}
             </h1>
             {subtitle && (
