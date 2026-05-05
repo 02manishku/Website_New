@@ -1,16 +1,51 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
+import JsonLd from '@/components/JsonLd';
+import { faqSchema, breadcrumbSchema } from '@/lib/seo';
 
-export const metadata = {
-  title: 'Silverstone™ Materials | Magppie',
+export const metadata: Metadata = {
+  title: {
+    absolute:
+      'Silverstone™ Sintered Stone Finishes for Kitchens | Magppie'
+  },
   description:
-    '41 stone finishes across 4 textures and 3 thicknesses. The patented anti-bacterial Silverstone™: silver infused inside the stone by nano-technology.'
+    'Inside Silverstone™: silver-infused sintered stone with antibacterial protection. Zero formaldehyde, fire-rated, food-safe. 41 finishes across two price groups.',
+  alternates: { canonical: '/materials' },
+  openGraph: {
+    title: 'Silverstone™ Sintered Stone Finishes | Magppie',
+    description:
+      'Silver-infused sintered stone, 41 finishes. Antibacterial, fire-rated, zero formaldehyde.',
+    url: '/materials',
+    images: [
+      {
+        url: '/og/materials-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Silverstone™ sintered stone finishes by Magppie'
+      }
+    ]
+  },
+  twitter: {
+    title: 'Silverstone™ Sintered Stone Finishes | Magppie',
+    description: 'Silver-infused, antibacterial, 41 finishes.',
+    images: ['/og/materials-og.jpg']
+  }
 };
 
 export default function MaterialsPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          faqSchema,
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Materials', path: '/materials' }
+          ])
+        ]}
+      />
       <PageHero
         kicker="Silverstone™"
         title="Materials."

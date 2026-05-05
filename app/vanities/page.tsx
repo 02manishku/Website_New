@@ -1,16 +1,50 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
+import JsonLd from '@/components/JsonLd';
+import { wellnessVanitySchema, breadcrumbSchema } from '@/lib/seo';
 
-export const metadata = {
-  title: 'Wellness Vanity | Magppie',
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Luxury Bathroom Vanities in Stone | Magppie India'
+  },
   description:
-    'Magppie Wellness Vanities, fully built in patented anti-bacterial Silverstone™. Safe, hygienic, mineral-luxe surfaces for the most intimate room of the home.'
+    'Wellness Vanities in patented Silverstone™. Waterproof, scratch-resistant, antibacterial. The Indian luxury bathroom standard, guaranteed 25 years.',
+  alternates: { canonical: '/vanities' },
+  openGraph: {
+    title: 'Luxury Bathroom Vanities in Stone | Magppie India',
+    description:
+      'Wellness Vanities in patented Silverstone™. Waterproof, antibacterial, 25-year guarantee.',
+    url: '/vanities',
+    images: [
+      {
+        url: '/og/vanities-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Magppie Wellness Vanity in Silverstone™ Onyx Gold'
+      }
+    ]
+  },
+  twitter: {
+    title: 'Luxury Bathroom Vanities in Stone | Magppie India',
+    description: 'Eight Silverstone™ finishes, from Onyx Gold to Flurry Black.',
+    images: ['/og/vanities-og.jpg']
+  }
 };
 
 export default function VanitiesPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          wellnessVanitySchema,
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Wellness Vanities', path: '/vanities' }
+          ])
+        ]}
+      />
       <PageHero
         kicker="Introducing the World’s First Wellness Vanity"
         title="Vanities built in stone. For a lifetime of wellness."

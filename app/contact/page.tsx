@@ -1,13 +1,53 @@
+import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
+import JsonLd from '@/components/JsonLd';
+import { localBusinessDelhiSchema, breadcrumbSchema } from '@/lib/seo';
 
-export const metadata = {
-  title: 'Contact | Magppie',
-  description: 'Book a consultation, visit a Magppie experience centre, or write to us.'
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Contact Magppie | Book a Wellness Kitchen Consultation'
+  },
+  description:
+    'Visit a Magppie showroom or book a consultation. Available across India. Speak to design experts about your Wellness Kitchen, Wardrobe, or Vanity.',
+  alternates: { canonical: '/contact' },
+  openGraph: {
+    title: 'Contact Magppie | Book a Wellness Kitchen Consultation',
+    description:
+      'Visit a Magppie showroom or book a consultation. Available across India.',
+    url: '/contact',
+    images: [
+      {
+        url: '/og/contact-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Contact Magppie, book a Wellness Kitchen consultation'
+      }
+    ]
+  },
+  twitter: {
+    title: 'Contact Magppie | Book a Wellness Kitchen Consultation',
+    description: 'Book a consultation at a Magppie showroom.',
+    images: ['/og/contact-og.jpg']
+  }
 };
 
 export default function ContactPage() {
   return (
     <>
+      {/* Contact carries the Delhi LocalBusiness schema since it lists the
+          HQ address + hours + phone — Google can resolve "magppie delhi
+          contact" / "magppie phone number" queries straight off this
+          page. Plus the breadcrumb so the SERP listing shows Home →
+          Contact. */}
+      <JsonLd
+        data={[
+          localBusinessDelhiSchema,
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Contact', path: '/contact' }
+          ])
+        ]}
+      />
       {/* Hero removed by request, page jumps straight into HQ details + form.
           Top padding accounts for the fixed Header height (h-16 / lg:h-20).  */}
       <section className="bg-bone pt-32 lg:pt-44 pb-20 lg:pb-28">

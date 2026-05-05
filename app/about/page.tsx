@@ -1,17 +1,48 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import LocationsSection from '@/components/LocationsSection';
+import JsonLd from '@/components/JsonLd';
+import { breadcrumbSchema } from '@/lib/seo';
 
-export const metadata = {
-  title: 'The Wellness Movement | Magppie',
+export const metadata: Metadata = {
+  title: {
+    absolute: "About Magppie: World's First Wellness Kitchen Brand"
+  },
   description:
-    'Magppie is not just a brand; it is a wellness movement. Bringing deep impact through deep tech innovations.'
+    "Magppie is a wellness movement, building the world's first Wellness Kitchen in patented Silverstone™. Founded 2018 in Delhi, India. KBIS 2026 winner.",
+  alternates: { canonical: '/about' },
+  openGraph: {
+    title: "About Magppie: World's First Wellness Kitchen Brand",
+    description:
+      'Magppie is a wellness movement. Founded 2018 in Delhi. KBIS 2026 winner.',
+    url: '/about',
+    images: [
+      {
+        url: '/og/about-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'About Magppie, the Wellness Movement'
+      }
+    ]
+  },
+  twitter: {
+    title: "About Magppie: World's First Wellness Kitchen Brand",
+    description: 'Founded 2018, Delhi. KBIS 2026 winner.',
+    images: ['/og/about-og.jpg']
+  }
 };
 
 export default function AboutPage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'About', path: '/about' }
+        ])}
+      />
       <PageHero
         kicker="About Us"
         title="A Wellness Movement."

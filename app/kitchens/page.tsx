@@ -1,16 +1,51 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
+import JsonLd from '@/components/JsonLd';
+import { wellnessKitchenSchema, breadcrumbSchema } from '@/lib/seo';
 
-export const metadata = {
-  title: 'Wellness Kitchen | Magppie',
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Modular Kitchen Designs in Silverstone™ | Magppie India'
+  },
   description:
-    'Magppie Wellness Kitchens are fully built in patented anti-bacterial Silverstone™: the world’s safest, strongest and most beautiful kitchens.'
+    "Luxury modular kitchens in patented antibacterial Silverstone™. Zero formaldehyde, termite-proof, fire-rated. Trusted by India's most discerning homes. 25-year guarantee.",
+  alternates: { canonical: '/kitchens' },
+  openGraph: {
+    title: 'Modular Kitchen Designs in Silverstone™ | Magppie India',
+    description:
+      'Luxury modular kitchens in patented antibacterial Silverstone™. Zero formaldehyde, termite-proof, fire-rated.',
+    url: '/kitchens',
+    images: [
+      {
+        url: '/og/kitchens-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Magppie Wellness Kitchen with skylights, built in Silverstone™'
+      }
+    ]
+  },
+  twitter: {
+    title: 'Modular Kitchen Designs in Silverstone™ | Magppie India',
+    description:
+      "India's only kitchen built fully in patented antibacterial Silverstone™.",
+    images: ['/og/kitchens-og.jpg']
+  }
 };
 
 export default function KitchensPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          wellnessKitchenSchema,
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Wellness Kitchens', path: '/kitchens' }
+          ])
+        ]}
+      />
       <PageHero
         kicker="Introducing the World’s First Wellness Kitchen"
         title="Kitchens built in stone. For a lifetime of wellness."

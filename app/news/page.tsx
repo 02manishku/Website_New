@@ -1,9 +1,35 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import PageHero from '@/components/PageHero';
+import JsonLd from '@/components/JsonLd';
+import { breadcrumbSchema } from '@/lib/seo';
 
-export const metadata = {
-  title: 'News | Magppie',
-  description: 'Stories, exhibitions, design partnerships and innovation from Magppie.'
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Magppie Journal: Wellness Kitchen Stories and News'
+  },
+  description:
+    'Magppie news, design stories, and innovations. From KBIS 2026 to FOAID Delhi, follow the Wellness Movement.',
+  alternates: { canonical: '/news' },
+  openGraph: {
+    title: 'Magppie Journal: Wellness Kitchen Stories and News',
+    description:
+      'Stories, exhibitions, design partnerships and innovation from Magppie.',
+    url: '/news',
+    images: [
+      {
+        url: '/og/news-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Magppie Journal, news and stories'
+      }
+    ]
+  },
+  twitter: {
+    title: 'Magppie Journal: Wellness Kitchen Stories and News',
+    description: 'Stories from the Wellness Movement.',
+    images: ['/og/news-og.jpg']
+  }
 };
 
 const STORIES = [
@@ -60,6 +86,12 @@ const STORIES = [
 export default function NewsPage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'News', path: '/news' }
+        ])}
+      />
       <PageHero
         kicker="Stories"
         title="News & Journal."

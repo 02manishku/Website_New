@@ -1,13 +1,70 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import HeroVideo from '@/components/HeroVideo';
 import CustomersMarquee from '@/components/CustomersMarquee';
 import StacyTestimonial from '@/components/StacyTestimonial';
 import PoolsideKitchenBanner from '@/components/PoolsideKitchenBanner';
+import JsonLd from '@/components/JsonLd';
+import {
+  localBusinessDelhiSchema,
+  faqSchema,
+  stacyTestimonialVideoSchema,
+  kbisHeroImageSchema,
+  breadcrumbSchema
+} from '@/lib/seo';
+
+// `title.absolute` bypasses the layout's `'%s | Magppie'` template, since
+// the homepage title already encodes the brand in full.
+export const metadata: Metadata = {
+  title: {
+    absolute:
+      'Luxury Modular Kitchens in India | Magppie Wellness Kitchen'
+  },
+  description:
+    "Magppie is the world's first Wellness Kitchen brand, built in patented Silverstone™. Luxury modular kitchens, wardrobes and vanities. KBIS 2026 winner. 25-year guarantee.",
+  alternates: { canonical: '/' },
+  openGraph: {
+    title: 'Luxury Modular Kitchens in India | Magppie Wellness Kitchen',
+    description:
+      "Magppie crafts the world's first Wellness Kitchen in patented Silverstone™. KBIS 2026 winner.",
+    url: '/',
+    images: [
+      {
+        url: '/og/magppie-og-default.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Magppie Wellness Kitchen, built in Silverstone™ sintered stone'
+      }
+    ]
+  },
+  twitter: {
+    title: 'Luxury Modular Kitchens in India | Magppie Wellness Kitchen',
+    description:
+      "Magppie's world-first Wellness Kitchen, built in patented Silverstone™.",
+    images: ['/og/magppie-og-default.jpg']
+  }
+};
 
 export default function HomePage() {
   return (
     <>
+      {/* Page-level structured data. Site-wide Organization + WebSite live
+          in app/layout.tsx; the homepage adds LocalBusiness (so "luxury
+          modular kitchen Delhi" queries can resolve to the showroom),
+          FAQPage (eligibility for SERP "People also ask"), the Stacy
+          McCarthy testimonial as a VideoObject, and the KBIS 2026 hero
+          photo as a licensable ImageObject. */}
+      <JsonLd
+        data={[
+          localBusinessDelhiSchema,
+          faqSchema,
+          stacyTestimonialVideoSchema,
+          kbisHeroImageSchema,
+          breadcrumbSchema([{ name: 'Home', path: '/' }])
+        ]}
+      />
+
       {/* HERO */}
       <HeroVideo />
 

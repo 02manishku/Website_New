@@ -5,6 +5,8 @@ import localFont from 'next/font/local';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import NewsletterTeaser from '@/components/NewsletterTeaser';
+import JsonLd from '@/components/JsonLd';
+import { organizationSchema, websiteSchema, SITE_URL } from '@/lib/seo';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -38,16 +40,91 @@ export const viewport: Viewport = {
   themeColor: '#F4F1EA'
 };
 
+// Single source of truth for the indexing posture. Production = open
+// season, anything else (preview, branch, dev) = blanket noindex so
+// throwaway *.vercel.app hashes never compete with magppie.com in SERPs.
+const isProduction = process.env.VERCEL_ENV === 'production';
+
 export const metadata: Metadata = {
-  title: 'Magppie | The World’s First Wellness Kitchen',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || SITE_URL),
+  title: {
+    default: 'Luxury Modular Kitchens in India | Magppie Wellness Kitchen',
+    // Per-route titles get appended through this template, keeping brand
+    // name reinforced in every SERP listing.
+    template: '%s | Magppie'
+  },
   description:
-    'Magppie is the world’s first Wellness Kitchen and Wardrobe brand, fully built in patented anti-bacterial Silverstone™. Safe, hygienic, luxurious, for people and planet.',
-  metadataBase: new URL('https://www.magppie.com'),
+    "Magppie crafts the world's first Wellness Kitchen, fully built in patented Silverstone™ antibacterial sintered stone. Luxury modular kitchens, wardrobes and vanities for India. 25-year guarantee.",
+  applicationName: 'Magppie',
+  keywords: [
+    'luxury modular kitchen India',
+    'modular kitchen Delhi',
+    'premium kitchen brand India',
+    'Magppie Wellness Kitchen',
+    'Silverstone kitchen',
+    'antibacterial kitchen surface',
+    'sintered stone kitchen',
+    'luxury wardrobe India',
+    'walk-in closet India',
+    'stone bathroom vanity India',
+    'KBIS 2026 winner'
+  ],
+  authors: [{ name: 'Magppie' }],
+  creator: 'Magppie',
+  publisher: 'Magppie Silverstone Pvt. Ltd.',
+  // Phone numbers, addresses and emails appear in body copy on /contact;
+  // we keep their semantic meaning explicit instead of letting iOS Safari
+  // auto-link them in unexpected ways.
+  formatDetection: { email: false, address: false, telephone: false },
+  alternates: { canonical: '/' },
+  robots: {
+    index: isProduction,
+    follow: isProduction,
+    googleBot: {
+      index: isProduction,
+      follow: isProduction,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1
+    }
+  },
+  // TODO: paste real tokens once Search Console / Bing Webmaster
+  // properties are verified for magppie.com.
+  verification: {
+    google: 'GOOGLE_SEARCH_CONSOLE_VERIFICATION_TOKEN',
+    other: { 'msvalidate.01': 'BING_WEBMASTER_VERIFICATION_TOKEN' }
+  },
+  category: 'Home and Garden',
   openGraph: {
-    title: 'Magppie | Wellness Kitchens & Wardrobes',
+    type: 'website',
+    locale: 'en_IN',
+    url: SITE_URL,
+    siteName: 'Magppie',
+    title: 'Luxury Modular Kitchens in India | Magppie Wellness Kitchen',
     description:
-      'World’s first Wellness Kitchen, fully built in patented anti-bacterial Silverstone™.',
-    images: ['/images/hero.webp']
+      "Magppie crafts the world's first Wellness Kitchen in patented Silverstone™. Luxury modular kitchens, wardrobes and vanities for India.",
+    images: [
+      {
+        url: '/og/magppie-og-default.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Magppie Wellness Kitchen, built in Silverstone™ sintered stone',
+        type: 'image/jpeg'
+      }
+    ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@magppie',
+    creator: '@magppie',
+    title: 'Luxury Modular Kitchens in India | Magppie Wellness Kitchen',
+    description:
+      "The world's first Wellness Kitchen, fully built in patented Silverstone™. KBIS 2026 winner.",
+    images: ['/og/magppie-og-default.jpg']
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-icon.png'
   }
 };
 
@@ -57,8 +134,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${display.variable}`}>
+    <html lang="en-IN" className={`${inter.variable} ${display.variable}`}>
       <body>
+        {/* Site-wide structured data. Organization + WebSite live on every
+            page so search engines can resolve any URL on the site to the
+            same brand entity (matched via @id). Per-page schemas
+            (Product, FAQPage, BreadcrumbList, Article) live inside their
+            individual page files. */}
+        <JsonLd data={[organizationSchema, websiteSchema]} />
         <Header />
         <main>{children}</main>
         <Footer />

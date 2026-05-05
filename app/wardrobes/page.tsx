@@ -1,16 +1,50 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
+import JsonLd from '@/components/JsonLd';
+import { wellnessWardrobeSchema, breadcrumbSchema } from '@/lib/seo';
 
-export const metadata = {
-  title: 'Wellness Wardrobe | Magppie',
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Luxury Wardrobes and Walk-In Closets | Magppie India'
+  },
   description:
-    'For the first time ever: wardrobes whose every internal cabinet, door fascia and even handle is made in patented anti-bacterial Silverstone™.'
+    'Premium wardrobes built in patented Silverstone™. Antibacterial, termite-proof, and guaranteed for 25 years. Crafted for Indian luxury homes.',
+  alternates: { canonical: '/wardrobes' },
+  openGraph: {
+    title: 'Luxury Wardrobes and Walk-In Closets | Magppie India',
+    description:
+      'Premium wardrobes built in patented Silverstone™. Antibacterial, termite-proof, 25-year guarantee.',
+    url: '/wardrobes',
+    images: [
+      {
+        url: '/og/wardrobes-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Magppie Wellness Wardrobe in Silverstone™'
+      }
+    ]
+  },
+  twitter: {
+    title: 'Luxury Wardrobes and Walk-In Closets | Magppie India',
+    description: "India's first wardrobe built fully in Silverstone™.",
+    images: ['/og/wardrobes-og.jpg']
+  }
 };
 
 export default function WardrobesPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          wellnessWardrobeSchema,
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Wellness Wardrobes', path: '/wardrobes' }
+          ])
+        ]}
+      />
       <PageHero
         kicker="Introducing the World’s First Wellness Wardrobe"
         title="Wardrobes built in stone. For a lifetime of wellness."
