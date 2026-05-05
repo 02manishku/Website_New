@@ -3,15 +3,45 @@ import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import JsonLd from '@/components/JsonLd';
-import { wellnessWardrobeSchema, breadcrumbSchema } from '@/lib/seo';
+import {
+  wellnessWardrobeSchema,
+  brandSchema,
+  collectionPageSchema,
+  breadcrumbSchema,
+  SITE_URL
+} from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Luxury Wardrobes and Walk-In Closets | Magppie India'
+    absolute:
+      'Luxury Wardrobe and Walk-In Closet in India | Silverstone™ Wardrobes | Magppie'
   },
   description:
-    'Premium wardrobes built in patented Silverstone™. Antibacterial, termite-proof, and guaranteed for 25 years. Crafted for Indian luxury homes.',
-  alternates: { canonical: '/wardrobes' },
+    "India's first wardrobe and walk-in closet system fully built in patented Silverstone™. Antibacterial, termite-proof, water-resistant, zero formaldehyde. Designed for Indian luxury bedrooms. Showrooms in Delhi, Mumbai, Bengaluru, Hyderabad, Mohali, Surat, Coimbatore. 25-year guarantee.",
+  keywords: [
+    'luxury wardrobe India',
+    'modular wardrobe India',
+    'walk-in closet India',
+    'walk in closet design India',
+    'best wardrobe brand India',
+    'premium wardrobe India',
+    'Silverstone wardrobe',
+    'wellness wardrobe',
+    'Magppie wardrobe',
+    'antibacterial wardrobe',
+    'termite proof wardrobe',
+    'wardrobe Delhi',
+    'wardrobe Mumbai',
+    'wardrobe Bengaluru',
+    'wardrobe Hyderabad',
+    'sliding door wardrobe India',
+    'luxury walk-in closet Delhi',
+    'luxury walk-in closet Mumbai'
+  ],
+  alternates: {
+    canonical: '/wardrobes',
+    languages: { 'en-IN': '/wardrobes', 'x-default': '/wardrobes' }
+  },
   openGraph: {
     title: 'Luxury Wardrobes and Walk-In Closets | Magppie India',
     description:
@@ -38,6 +68,14 @@ export default function WardrobesPage() {
     <>
       <JsonLd
         data={[
+          collectionPageSchema({
+            name: 'Luxury Wardrobes and Walk-In Closets in Silverstone™',
+            description:
+              "India's first wardrobe system fully built in patented Silverstone™.",
+            path: '/wardrobes',
+            productId: `${SITE_URL}/wardrobes#product`
+          }),
+          brandSchema,
           wellnessWardrobeSchema,
           breadcrumbSchema([
             { name: 'Home', path: '/' },

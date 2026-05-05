@@ -3,15 +3,43 @@ import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import JsonLd from '@/components/JsonLd';
-import { wellnessVanitySchema, breadcrumbSchema } from '@/lib/seo';
+import {
+  wellnessVanitySchema,
+  brandSchema,
+  collectionPageSchema,
+  breadcrumbSchema,
+  SITE_URL
+} from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Luxury Bathroom Vanities in Stone | Magppie India'
+    absolute:
+      'Luxury Bathroom Vanity in India | Stone Vanities in Silverstone™ | Magppie'
   },
   description:
-    'Wellness Vanities in patented Silverstone™. Waterproof, scratch-resistant, antibacterial. The Indian luxury bathroom standard, guaranteed 25 years.',
-  alternates: { canonical: '/vanities' },
+    "Magppie Wellness Vanities, fully built in patented Silverstone™. Waterproof, scratch-resistant, antibacterial. Eight finishes from Onyx Gold to Flurry Black. Showrooms in Delhi, Mumbai, Bengaluru, Hyderabad, Mohali, Surat, Coimbatore. 25-year guarantee.",
+  keywords: [
+    'luxury bathroom vanity India',
+    'stone bathroom vanity India',
+    'modular bathroom vanity India',
+    'best bathroom vanity brand India',
+    'Silverstone vanity',
+    'wellness vanity',
+    'Magppie vanity',
+    'antibacterial bathroom vanity',
+    'waterproof vanity India',
+    'bathroom vanity Delhi',
+    'bathroom vanity Mumbai',
+    'bathroom vanity Bengaluru',
+    'bathroom vanity Hyderabad',
+    'Onyx Gold vanity',
+    'Flurry Black vanity',
+    'sintered stone vanity'
+  ],
+  alternates: {
+    canonical: '/vanities',
+    languages: { 'en-IN': '/vanities', 'x-default': '/vanities' }
+  },
   openGraph: {
     title: 'Luxury Bathroom Vanities in Stone | Magppie India',
     description:
@@ -38,6 +66,14 @@ export default function VanitiesPage() {
     <>
       <JsonLd
         data={[
+          collectionPageSchema({
+            name: 'Luxury Bathroom Vanities in Silverstone™',
+            description:
+              'Magppie Wellness Vanities, fully built in patented Silverstone™.',
+            path: '/vanities',
+            productId: `${SITE_URL}/vanities#product`
+          }),
+          brandSchema,
           wellnessVanitySchema,
           breadcrumbSchema([
             { name: 'Home', path: '/' },

@@ -4,15 +4,38 @@ import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import LocationsSection from '@/components/LocationsSection';
 import JsonLd from '@/components/JsonLd';
-import { breadcrumbSchema } from '@/lib/seo';
+import {
+  allIndiaLocalBusinessSchemas,
+  indiaShowroomsItemListSchema,
+  breadcrumbSchema
+} from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: {
-    absolute: "About Magppie: World's First Wellness Kitchen Brand"
+    absolute:
+      "About Magppie | World's First Wellness Kitchen Brand | KBIS 2026 Winner"
   },
   description:
-    "Magppie is a wellness movement, building the world's first Wellness Kitchen in patented Silverstone™. Founded 2018 in Delhi, India. KBIS 2026 winner.",
-  alternates: { canonical: '/about' },
+    "Magppie is a wellness movement, building the world's first Wellness Kitchen in patented Silverstone™. Founded 2018 in New Delhi, India. KBIS 2026 Most Unexpected Innovation winner. Red Dot Best of the Best 2010, iF Design Award, EDIDA India. 28,000+ private clients across India and abroad.",
+  keywords: [
+    'about Magppie',
+    'Magppie story',
+    'Magppie founder',
+    'Magppie history',
+    'Magppie awards',
+    'KBIS 2026 winner',
+    'Red Dot Best of the Best kitchen',
+    'iF Design Award kitchen',
+    'EDIDA India Best Kitchen',
+    'wellness movement India',
+    'patented kitchen India',
+    'Indian luxury kitchen brand',
+    'Magppie New Delhi'
+  ],
+  alternates: {
+    canonical: '/about',
+    languages: { 'en-IN': '/about', 'x-default': '/about' }
+  },
   openGraph: {
     title: "About Magppie: World's First Wellness Kitchen Brand",
     description:
@@ -38,10 +61,14 @@ export default function AboutPage() {
   return (
     <>
       <JsonLd
-        data={breadcrumbSchema([
-          { name: 'Home', path: '/' },
-          { name: 'About', path: '/about' }
-        ])}
+        data={[
+          ...allIndiaLocalBusinessSchemas,
+          indiaShowroomsItemListSchema,
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'About', path: '/about' }
+          ])
+        ]}
       />
       <PageHero
         kicker="About Us"

@@ -7,10 +7,14 @@ import StacyTestimonial from '@/components/StacyTestimonial';
 import PoolsideKitchenBanner from '@/components/PoolsideKitchenBanner';
 import JsonLd from '@/components/JsonLd';
 import {
-  localBusinessDelhiSchema,
+  allIndiaLocalBusinessSchemas,
+  brandSchema,
+  designConsultationServiceSchema,
+  howToDesignWellnessKitchenSchema,
   faqSchema,
   stacyTestimonialVideoSchema,
   kbisHeroImageSchema,
+  indiaShowroomsItemListSchema,
   breadcrumbSchema
 } from '@/lib/seo';
 
@@ -19,15 +23,19 @@ import {
 export const metadata: Metadata = {
   title: {
     absolute:
-      'Luxury Modular Kitchens in India | Magppie Wellness Kitchen'
+      'Luxury Modular Kitchen in India | Magppie Wellness Kitchen | KBIS 2026'
   },
   description:
-    "Magppie is the world's first Wellness Kitchen brand, built in patented Silverstone™. Luxury modular kitchens, wardrobes and vanities. KBIS 2026 winner. 25-year guarantee.",
-  alternates: { canonical: '/' },
+    "Magppie is the world's first Wellness Kitchen brand, built in patented Silverstone™ antibacterial sintered stone. India's most awarded luxury modular kitchen, wardrobe and vanity. Showrooms in Delhi, Mumbai, Bengaluru, Hyderabad, Mohali, Surat and Coimbatore. KBIS 2026 winner. 25-year guarantee.",
+  alternates: {
+    canonical: '/',
+    languages: { 'en-IN': '/', 'x-default': '/' }
+  },
   openGraph: {
-    title: 'Luxury Modular Kitchens in India | Magppie Wellness Kitchen',
+    title:
+      'Luxury Modular Kitchen in India | Magppie Wellness Kitchen | KBIS 2026',
     description:
-      "Magppie crafts the world's first Wellness Kitchen in patented Silverstone™. KBIS 2026 winner.",
+      "Magppie crafts the world's first Wellness Kitchen in patented Silverstone™. India's most awarded modular kitchen, wardrobe and vanity. 25-year guarantee.",
     url: '/',
     images: [
       {
@@ -39,9 +47,9 @@ export const metadata: Metadata = {
     ]
   },
   twitter: {
-    title: 'Luxury Modular Kitchens in India | Magppie Wellness Kitchen',
+    title: 'Luxury Modular Kitchen in India | Magppie Wellness Kitchen',
     description:
-      "Magppie's world-first Wellness Kitchen, built in patented Silverstone™.",
+      "Magppie's world-first Wellness Kitchen, built in patented Silverstone™. KBIS 2026 winner.",
     images: ['/og/magppie-og-default.jpg']
   }
 };
@@ -50,14 +58,30 @@ export default function HomePage() {
   return (
     <>
       {/* Page-level structured data. Site-wide Organization + WebSite live
-          in app/layout.tsx; the homepage adds LocalBusiness (so "luxury
-          modular kitchen Delhi" queries can resolve to the showroom),
-          FAQPage (eligibility for SERP "People also ask"), the Stacy
-          McCarthy testimonial as a VideoObject, and the KBIS 2026 hero
-          photo as a licensable ImageObject. */}
+          in app/layout.tsx. The homepage carries the heaviest schema
+          stack on the site:
+          - Brand: explicit brand entity for Product references.
+          - 9 LocalBusiness: one per India showroom city, so Magppie is
+            eligible for every local-pack ("3-pack" map result) query
+            from "luxury modular kitchen Delhi" to "kitchen brand
+            Coimbatore" without needing dedicated city landing pages.
+          - ItemList of showrooms: explicit ListItem so Google can
+            present them as a carousel for "Magppie showrooms" queries.
+          - Service: kitchen design consultation as a service offering,
+            eligible for service rich results.
+          - HowTo: design-a-Wellness-Kitchen step list, eligible for
+            HowTo rich result and AI Overview ingestion.
+          - FAQPage: eligible for SERP "People also ask".
+          - VideoObject: Stacy McCarthy testimonial.
+          - ImageObject: KBIS 2026 hero, licensable.
+          - Breadcrumb. */}
       <JsonLd
         data={[
-          localBusinessDelhiSchema,
+          brandSchema,
+          ...allIndiaLocalBusinessSchemas,
+          indiaShowroomsItemListSchema,
+          designConsultationServiceSchema,
+          howToDesignWellnessKitchenSchema,
           faqSchema,
           stacyTestimonialVideoSchema,
           kbisHeroImageSchema,

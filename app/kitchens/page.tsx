@@ -3,15 +3,56 @@ import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import JsonLd from '@/components/JsonLd';
-import { wellnessKitchenSchema, breadcrumbSchema } from '@/lib/seo';
+import {
+  wellnessKitchenSchema,
+  brandSchema,
+  collectionPageSchema,
+  faqSchema,
+  breadcrumbSchema,
+  SITE_URL
+} from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Modular Kitchen Designs in Silverstone™ | Magppie India'
+    absolute:
+      'Luxury Modular Kitchen in India | Modular Kitchen Designs in Silverstone™ | Magppie'
   },
   description:
-    "Luxury modular kitchens in patented antibacterial Silverstone™. Zero formaldehyde, termite-proof, fire-rated. Trusted by India's most discerning homes. 25-year guarantee.",
-  alternates: { canonical: '/kitchens' },
+    "India's most awarded luxury modular kitchen brand. Wellness Kitchens fully built in patented Silverstone™ antibacterial sintered stone. Zero formaldehyde, termite-proof, fire-rated. Studios in Delhi (Sultanpur, Kirti Nagar), Mumbai, Bengaluru, Hyderabad, Mohali, Surat, Coimbatore. 25-year guarantee. KBIS 2026 winner.",
+  keywords: [
+    'modular kitchen',
+    'modular kitchen designs',
+    'modular kitchen India',
+    'luxury modular kitchen',
+    'luxury modular kitchen India',
+    'best modular kitchen brand India',
+    'premium modular kitchen India',
+    'high end modular kitchen',
+    'Italian modular kitchen India',
+    'German modular kitchen India',
+    'wellness kitchen',
+    'Magppie Wellness Kitchen',
+    'Silverstone kitchen',
+    'sintered stone modular kitchen',
+    'antibacterial kitchen India',
+    'zero formaldehyde kitchen India',
+    'termite proof kitchen',
+    'stone kitchen India',
+    'modular kitchen Delhi',
+    'modular kitchen Sultanpur',
+    'modular kitchen Mumbai',
+    'modular kitchen Bengaluru',
+    'modular kitchen Hyderabad',
+    'modular kitchen Mohali',
+    'modular kitchen Surat',
+    'modular kitchen Coimbatore',
+    'luxury kitchen designer India',
+    'KBIS 2026 winner kitchen'
+  ],
+  alternates: {
+    canonical: '/kitchens',
+    languages: { 'en-IN': '/kitchens', 'x-default': '/kitchens' }
+  },
   openGraph: {
     title: 'Modular Kitchen Designs in Silverstone™ | Magppie India',
     description:
@@ -39,7 +80,16 @@ export default function KitchensPage() {
     <>
       <JsonLd
         data={[
+          collectionPageSchema({
+            name: 'Modular Kitchen Designs in Silverstone™',
+            description:
+              "India's most awarded luxury modular kitchen brand. Magppie Wellness Kitchens, fully built in patented Silverstone™.",
+            path: '/kitchens',
+            productId: `${SITE_URL}/kitchens#product`
+          }),
+          brandSchema,
           wellnessKitchenSchema,
+          faqSchema,
           breadcrumbSchema([
             { name: 'Home', path: '/' },
             { name: 'Wellness Kitchens', path: '/kitchens' }

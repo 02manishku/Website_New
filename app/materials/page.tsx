@@ -3,16 +3,49 @@ import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import JsonLd from '@/components/JsonLd';
-import { faqSchema, breadcrumbSchema } from '@/lib/seo';
+import {
+  faqSchema,
+  brandSchema,
+  howToDesignWellnessKitchenSchema,
+  breadcrumbSchema
+} from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: {
     absolute:
-      'Silverstone™ Sintered Stone Finishes for Kitchens | Magppie'
+      'Silverstone™ Sintered Stone Finishes | 41 Stones for Modular Kitchens | Magppie'
   },
   description:
-    'Inside Silverstone™: silver-infused sintered stone with antibacterial protection. Zero formaldehyde, fire-rated, food-safe. 41 finishes across two price groups.',
-  alternates: { canonical: '/materials' },
+    'Inside Silverstone™, the world\'s only patented antibacterial sintered stone built for kitchens, wardrobes and vanities. Silver-infused. Zero formaldehyde, fire-rated, food-safe, scratch-resistant. 41 finishes across four textures and three thicknesses, in two price groups.',
+  keywords: [
+    'Silverstone',
+    'Silverstone material',
+    'sintered stone India',
+    'sintered stone kitchen India',
+    'antibacterial sintered stone',
+    'antibacterial kitchen surface',
+    'antibacterial countertop India',
+    'silver infused stone',
+    'nanotechnology stone',
+    'nano silver kitchen',
+    'kitchen countertop material India',
+    'best kitchen countertop India',
+    'porcelain countertop India',
+    'large format sintered stone',
+    'food safe countertop',
+    'fire rated kitchen surface',
+    'zero formaldehyde countertop',
+    'zero VOC kitchen surface',
+    'stone kitchen finishes',
+    'Onyx Gold finish',
+    'Flurry Black finish',
+    'Persian Travertine finish',
+    'Magppie Santorini finish'
+  ],
+  alternates: {
+    canonical: '/materials',
+    languages: { 'en-IN': '/materials', 'x-default': '/materials' }
+  },
   openGraph: {
     title: 'Silverstone™ Sintered Stone Finishes | Magppie',
     description:
@@ -39,7 +72,9 @@ export default function MaterialsPage() {
     <>
       <JsonLd
         data={[
+          brandSchema,
           faqSchema,
+          howToDesignWellnessKitchenSchema,
           breadcrumbSchema([
             { name: 'Home', path: '/' },
             { name: 'Materials', path: '/materials' }

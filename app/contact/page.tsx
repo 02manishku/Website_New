@@ -1,15 +1,39 @@
 import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
 import JsonLd from '@/components/JsonLd';
-import { localBusinessDelhiSchema, breadcrumbSchema } from '@/lib/seo';
+import {
+  allIndiaLocalBusinessSchemas,
+  designConsultationServiceSchema,
+  indiaShowroomsItemListSchema,
+  breadcrumbSchema
+} from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Contact Magppie | Book a Wellness Kitchen Consultation'
+    absolute:
+      'Contact Magppie | Book a Modular Kitchen Consultation in India'
   },
   description:
-    'Visit a Magppie showroom or book a consultation. Available across India. Speak to design experts about your Wellness Kitchen, Wardrobe, or Vanity.',
-  alternates: { canonical: '/contact' },
+    'Book a Magppie Wellness Kitchen consultation. Studios in Delhi (Sultanpur, Kirti Nagar), Mumbai (Lower Parel), Bengaluru (Indiranagar), Hyderabad (Jubilee Hills), Mohali, Surat, Coimbatore. Speak to design experts about your luxury modular kitchen, wardrobe or vanity.',
+  keywords: [
+    'Magppie contact',
+    'Magppie showroom',
+    'Magppie Delhi showroom',
+    'Magppie Mumbai showroom',
+    'Magppie Bengaluru showroom',
+    'Magppie Hyderabad showroom',
+    'Magppie Mohali',
+    'Magppie Surat',
+    'Magppie Coimbatore',
+    'modular kitchen consultation India',
+    'book modular kitchen designer',
+    'Magppie phone number',
+    'modular kitchen near me'
+  ],
+  alternates: {
+    canonical: '/contact',
+    languages: { 'en-IN': '/contact', 'x-default': '/contact' }
+  },
   openGraph: {
     title: 'Contact Magppie | Book a Wellness Kitchen Consultation',
     description:
@@ -34,14 +58,17 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      {/* Contact carries the Delhi LocalBusiness schema since it lists the
-          HQ address + hours + phone — Google can resolve "magppie delhi
-          contact" / "magppie phone number" queries straight off this
-          page. Plus the breadcrumb so the SERP listing shows Home →
-          Contact. */}
+      {/* Contact carries every India LocalBusiness schema (9 total) since
+          it's the page where users want phone + address per city. Google
+          can resolve "magppie delhi phone", "magppie mumbai showroom",
+          "magppie bengaluru contact" and any other city pairing
+          directly off this page. Plus the Service schema (consultation),
+          ItemList of all showrooms, and the breadcrumb. */}
       <JsonLd
         data={[
-          localBusinessDelhiSchema,
+          ...allIndiaLocalBusinessSchemas,
+          indiaShowroomsItemListSchema,
+          designConsultationServiceSchema,
           breadcrumbSchema([
             { name: 'Home', path: '/' },
             { name: 'Contact', path: '/contact' }

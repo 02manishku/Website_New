@@ -2,15 +2,35 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import PageHero from '@/components/PageHero';
 import JsonLd from '@/components/JsonLd';
-import { breadcrumbSchema } from '@/lib/seo';
+import { breadcrumbSchema, kbisHeroImageSchema, SITE_URL } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Magppie Journal: Wellness Kitchen Stories and News'
+    absolute:
+      'Magppie Journal | Wellness Kitchen News, Awards and Stories | KBIS 2026'
   },
   description:
-    'Magppie news, design stories, and innovations. From KBIS 2026 to FOAID Delhi, follow the Wellness Movement.',
-  alternates: { canonical: '/news' },
+    "Magppie news, design stories, partnerships and innovations. Inside Magppie's KBIS 2026 Most Unexpected Innovation win in Orlando, the FOAID Delhi unveiling, the science of Silverstone™, and design partnerships with Karim Rashid, Stefan Diez and Cory Grosser.",
+  keywords: [
+    'Magppie news',
+    'Magppie journal',
+    'Magppie blog',
+    'Magppie awards',
+    'KBIS 2026 winner Magppie',
+    'KBIS Innovation Hour 2026',
+    'Magppie KBIS Orlando',
+    'modular kitchen news India',
+    'Karim Rashid Magppie',
+    'Stefan Diez Magppie',
+    'Cory Grosser Magppie',
+    'Stacy McCarthy Magppie',
+    'Silverstone nano silver',
+    'FOAID Delhi Magppie'
+  ],
+  alternates: {
+    canonical: '/news',
+    languages: { 'en-IN': '/news', 'x-default': '/news' }
+  },
   openGraph: {
     title: 'Magppie Journal: Wellness Kitchen Stories and News',
     description:
@@ -87,10 +107,37 @@ export default function NewsPage() {
   return (
     <>
       <JsonLd
-        data={breadcrumbSchema([
-          { name: 'Home', path: '/' },
-          { name: 'News', path: '/news' }
-        ])}
+        data={[
+          // CollectionPage so Google understands /news as a list of
+          // articles rather than a single article. Eligible for the
+          // article carousel rich result on the SERP.
+          {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            '@id': `${SITE_URL}/news#collectionpage`,
+            name: 'Magppie Journal: Wellness Kitchen News and Stories',
+            description:
+              'Magppie news, design stories, partnerships and innovations.',
+            url: `${SITE_URL}/news`,
+            inLanguage: 'en-IN',
+            mainEntity: {
+              '@type': 'ItemList',
+              itemListElement: [
+                {
+                  '@type': 'ListItem',
+                  position: 1,
+                  url: `${SITE_URL}/news#kbis-2026`,
+                  name: 'Magppie wins Most Unexpected at KBIS 2026, Orlando'
+                }
+              ]
+            }
+          },
+          kbisHeroImageSchema,
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'News', path: '/news' }
+          ])
+        ]}
       />
       <PageHero
         kicker="Stories"
