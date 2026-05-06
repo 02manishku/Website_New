@@ -259,7 +259,9 @@ function Desktop() {
 // ─── MOBILE ──────────────────────────────────────────────────────────────
 
 function Mobile() {
-  const stageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  // <article> is an HTMLElement, not HTMLDivElement — keep the ref array
+  // type loose so the callback assignment compiles.
+  const stageRefs = useRef<(HTMLElement | null)[]>([]);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   useEffect(() => {
