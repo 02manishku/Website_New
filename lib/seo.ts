@@ -516,8 +516,7 @@ export const howToDesignWellnessKitchenSchema = {
     {
       '@type': 'HowToStep',
       name: 'Choose your Silverstone™ finish',
-      text: 'Choose from 41 Silverstone™ finishes across two price groups, four textures and three thicknesses.',
-      url: `${SITE_URL}/materials`
+      text: 'Choose from 41 Silverstone™ finishes across two price groups, four textures and three thicknesses.'
     },
     {
       '@type': 'HowToStep',

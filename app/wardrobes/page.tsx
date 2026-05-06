@@ -149,12 +149,6 @@ export default function WardrobesPage() {
               inside out. Bacteria-safe, termite-proof, moisture-stable for
               decades. Your clothes breathe what the stone breathes: nothing.
             </p>
-            <Link
-              href="/materials"
-              className="tap-link mt-8 lg:mt-10 text-sm hover-underline"
-            >
-              Explore Silverstone™ →
-            </Link>
           </div>
         </div>
       </section>

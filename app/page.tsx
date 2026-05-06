@@ -252,35 +252,11 @@ export default function HomePage() {
 
         </div>
 
-        {/* Captioned hero photo block. On mobile the previous 80vw cap +
-            cinematic 2.36:1 ratio left the photo as a thin strip (~120px
-            tall on a 360px phone). Now goes full-bleed inside px-6 with a
-            shorter ratio so the kitchen reads as substantial; the desktop
-            min(80vw,1400px) / 2.36:1 framing kicks in unchanged at lg. */}
-        <div className="px-6 lg:px-0">
-          <div className="mx-auto mb-4 lg:mb-5 flex justify-end w-full max-w-[1400px] lg:w-[min(80vw,1400px)]">
-            <p className="font-display italic text-smoke text-base sm:text-lg lg:text-xl">
-              Yes! This is a Magppie Kitchen.
-            </p>
-          </div>
-
-          <div className="relative mx-auto overflow-hidden aspect-[3/2] sm:aspect-[16/9] lg:aspect-[2.36/1] w-full max-w-[1400px] lg:w-[min(80vw,1400px)]">
-            <Image
-              src="/images/kitchens/best-kitchen.webp"
-              alt="Magppie Wellness Kitchen with skylights, built in Silverstone™"
-              fill
-              quality={92}
-              sizes="(min-width: 1024px) 80vw, 100vw"
-              className="object-cover"
-              priority
-            />
-          </div>
-        </div>
-
+        {/* Three answers up front, no cards, no boxes. Just typography on
+            bone. Hairline above sets them apart as a structured statement,
+            and they now lead the section so the reader hits the proof
+            (Zero / Zero / 25 yrs) before the visual reward. */}
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 mt-8 lg:mt-12">
-
-          {/* Three answers, no cards, no boxes. Just typography on bone.
-              Hairline above sets them apart as a structured statement. */}
           <div className="grid md:grid-cols-3 gap-x-10 gap-y-14 lg:gap-x-20 border-t border-ink/15 pt-14 lg:pt-20">
             {PILLARS.map((p) => (
               <div key={p.label}>
@@ -303,13 +279,40 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+
+        {/* Captioned hero photo block, now closes the section so the
+            argument lands on a confident final image. On mobile the
+            previous 80vw cap + cinematic 2.36:1 ratio left the photo as a
+            thin strip (~120px tall on a 360px phone). Now goes full-bleed
+            inside px-6 with a shorter ratio so the kitchen reads as
+            substantial; the desktop min(80vw,1400px) / 2.36:1 framing
+            kicks in unchanged at lg. */}
+        <div className="px-6 lg:px-0 mt-16 lg:mt-24">
+          <div className="mx-auto mb-4 lg:mb-5 flex justify-end w-full max-w-[1400px] lg:w-[min(80vw,1400px)]">
+            <p className="font-display italic text-smoke text-base sm:text-lg lg:text-xl">
+              Yes! This is a Magppie Kitchen.
+            </p>
+          </div>
+
+          <div className="relative mx-auto overflow-hidden aspect-[3/2] sm:aspect-[16/9] lg:aspect-[2.36/1] w-full max-w-[1400px] lg:w-[min(80vw,1400px)]">
+            <Image
+              src="/images/kitchens/best-kitchen.webp"
+              alt="Magppie Wellness Kitchen with skylights, built in Silverstone™"
+              fill
+              quality={92}
+              sizes="(min-width: 1024px) 80vw, 100vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+        </div>
       </section>
 
       {/* SILVERSTONE FEATURE */}
       <section className="bg-sand py-20 lg:py-40">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           <div className="lg:col-span-5 order-2 lg:order-1">
-            <div className="kicker text-smoke mb-6">Silverstone™ Revolution</div>
+            <div className="kicker text-smoke mb-6">Wellness Revolution</div>
             <ScrollFloat
               as="h2"
               containerClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-ink"
@@ -323,12 +326,6 @@ export default function HomePage() {
               is Silverstone™: a certified, 100% bacteria-safe technical stone
               built from the antibacterial power of pure silver.
             </p>
-            <Link
-              href="/materials"
-              className="tap-link mt-8 lg:mt-10 text-sm hover-underline"
-            >
-              Explore Silverstone™ →
-            </Link>
           </div>
           <div className="lg:col-span-7 order-1 lg:order-2">
             <div className="relative aspect-[4/3] overflow-hidden bg-ink">

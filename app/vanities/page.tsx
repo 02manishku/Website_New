@@ -145,12 +145,6 @@ export default function VanitiesPage() {
               inside out. Water-proof for life, bacteria-safe, mould-immune.
               The cleanest surface in the cleanest room of your home.
             </p>
-            <Link
-              href="/materials"
-              className="tap-link mt-8 lg:mt-10 text-sm hover-underline"
-            >
-              Explore Silverstone™ →
-            </Link>
           </div>
         </div>
       </section>
@@ -234,12 +228,6 @@ export default function VanitiesPage() {
               Magppie vanity stays as sharp on day 9,000 as on day one. Backed
               by our 25-year guarantee and 25 complimentary services.
             </p>
-            <Link
-              href="/materials"
-              className="tap-link mt-8 lg:mt-10 text-sm hover-underline"
-            >
-              Explore Silverstone™ →
-            </Link>
           </div>
         </div>
       </section>
@@ -297,11 +285,6 @@ export default function VanitiesPage() {
                 </div>
               </div>
             ))}
-          </div>
-          <div className="mt-12">
-            <Link href="/materials" className="text-sm hover-underline tap-link">
-              All 41 Silverstone™ finishes →
-            </Link>
           </div>
         </div>
       </section>

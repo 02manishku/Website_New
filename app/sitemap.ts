@@ -51,12 +51,6 @@ const STATIC_ROUTES: Array<{
     ]
   },
   {
-    path: '/materials',
-    changeFrequency: 'monthly',
-    priority: 0.85,
-    images: [`${SITE_URL}/images/silverstone-nano-silver.webp`]
-  },
-  {
     path: '/about',
     changeFrequency: 'monthly',
     priority: 0.7,

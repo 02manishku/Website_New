@@ -15,7 +15,6 @@ const NAV = [
   { label: 'Kitchens',  href: '/kitchens'  },
   { label: 'Wardrobes', href: '/wardrobes' },
   { label: 'Vanities',  href: '/vanities'  },
-  { label: 'Materials', href: '/materials' },
   { label: 'About',     href: '/about'     },
   { label: 'News',      href: '/news'      }
 ];

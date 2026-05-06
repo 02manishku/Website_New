@@ -116,8 +116,11 @@ const nextConfig = {
         destination: '/vanities',
         permanent: true
       },
-      { source: '/silverstone', destination: '/materials', permanent: true },
-      { source: '/blog/:slug',   destination: '/news/:slug', permanent: true },
+      // /materials was retired; route any old Silverstone landing-page
+      // backlinks to the kitchens page where the material is featured.
+      { source: '/silverstone', destination: '/kitchens', permanent: true },
+      { source: '/materials',   destination: '/kitchens', permanent: true },
+      { source: '/blog/:slug',  destination: '/news/:slug', permanent: true },
       // Common alternate phrasings & legacy index pages.
       { source: '/kitchen',  destination: '/kitchens',  permanent: true },
       { source: '/wardrobe', destination: '/wardrobes', permanent: true },

@@ -5,7 +5,7 @@
  * - Fetch each asset with AVIF-first Accept headers (what Chrome/Edge/Firefox send).
  * - Report: total bytes, slowest asset, rough time budget at 10 Mbps.
  */
-const ROUTES = ['/', '/kitchens', '/wardrobes', '/vanities', '/about', '/materials', '/news', '/contact', '/catalogs'];
+const ROUTES = ['/', '/kitchens', '/wardrobes', '/vanities', '/about', '/news', '/contact', '/catalogs'];
 const HOST = 'http://localhost:3010';
 const MBPS_ESTIMATE = 10; // typical home broadband lower bound
 

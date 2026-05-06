@@ -29,7 +29,6 @@ export default function Footer() {
               <li><Link href="/kitchens" className="hover-underline">Wellness Kitchen</Link></li>
               <li><Link href="/wardrobes" className="hover-underline">Wellness Wardrobe</Link></li>
               <li><Link href="/vanities" className="hover-underline">Wellness Vanity</Link></li>
-              <li><Link href="/materials" className="hover-underline">Silverstone&trade; Finishes</Link></li>
               <li><Link href="/about" className="hover-underline">The Wellness Movement</Link></li>
               <li><Link href="/news" className="hover-underline">News</Link></li>
             </ul>
