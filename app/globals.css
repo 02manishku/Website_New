@@ -118,6 +118,25 @@ a, button, [role="button"], input[type="submit"], label {
   animation: marquee 50s linear infinite;
 }
 
+/* WoodVsStone stage transitions. Pure opacity crossfade between stages
+   — no transform, no slide, no movement. The text doesn't visibly
+   migrate, it just changes. Body is offset so it lands a beat after
+   the title without either element actually drifting. */
+@keyframes titleSwap {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-titleSwap {
+  animation: titleSwap 0.5s ease-out both;
+}
+@keyframes bodySwap {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-bodySwap {
+  animation: bodySwap 0.55s ease-out 0.1s both;
+}
+
 /* Slow bounce for the hero scroll-cue chevron. Subtle vertical drift, no
    easing snap — feels like an invitation, not a notification. */
 @keyframes bounceSlow {
@@ -134,7 +153,11 @@ a, button, [role="button"], input[type="submit"], label {
    transforms work. Font-size, weight, color, leading all stay on the
    parent's existing Tailwind classes — the wrapper is invisible. */
 .scroll-float { overflow: hidden; }
-.scroll-float-text { display: inline-block; }
+.scroll-float-text { display: inline; }
+/* Per-word wrapper: keeps a word's chars on the same line so we never
+   break mid-word ("kitch | en"). Browser finds the spaces between word
+   wrappers as the only valid line-break opportunities. */
+.scroll-float-word { display: inline-block; white-space: nowrap; }
 .scroll-float-char { display: inline-block; will-change: transform, opacity; }
 
 /* Honour the user's "reduce motion" OS preference (iOS Settings →
@@ -145,8 +168,12 @@ a, button, [role="button"], input[type="submit"], label {
   html { scroll-behavior: auto; }
   .marquee-track,
   .animate-bounce-slow,
+  .animate-titleSwap,
+  .animate-bodySwap,
   .fade-up { animation: none !important; }
-  .fade-up { opacity: 1; transform: none; }
+  .fade-up,
+  .animate-titleSwap,
+  .animate-bodySwap { opacity: 1; transform: none; }
   .tile-img { transition: none !important; }
   .group:hover .tile-img { transform: none; }
 }

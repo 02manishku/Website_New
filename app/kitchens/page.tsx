@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import ScrollFloat from '@/components/ScrollFloat';
+import WoodVsStone from '@/components/WoodVsStone';
 import JsonLd from '@/components/JsonLd';
 import {
   wellnessKitchenSchema,
@@ -130,6 +131,15 @@ export default function KitchensPage() {
         </div>
       </section>
 
+      {/* THE EVIDENCE - scroll-driven Wood vs Stone storytelling.
+          Replaces the previous 7-row comparison table with a pinned video
+          experience: three failure modes (termites / fungus / formaldehyde)
+          shown as 25-year time-lapse videos. Mobile gets a stacked
+          version with IntersectionObserver-gated video playback.
+          Sits BEFORE the Lab-tested grid below — the dramatic 25-year
+          comparison sets the stakes, then the lab grid stacks the proof. */}
+      <WoodVsStone />
+
       {/* LAB-TESTED, LIFE-PROVEN */}
       <section className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
@@ -173,72 +183,8 @@ export default function KitchensPage() {
         </div>
       </section>
 
-      {/* THE EVIDENCE - Wood vs Stone */}
-      <section className="bg-sand py-20 lg:py-32">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div className="kicker text-smoke mb-6">The Evidence</div>
-          <ScrollFloat
-            as="h2"
-            containerClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink max-w-4xl"
-          >
-            Wood kitchen vs.{' '}
-            <span className="text-smoke">Stone kitchen.</span>
-          </ScrollFloat>
-
-          <div className="mt-12 lg:mt-16 border border-ink/10 overflow-hidden">
-            {/* Header row - hidden on mobile, shown from lg */}
-            <div className="hidden lg:grid grid-cols-3 text-[0.72rem] tracking-[0.22em] uppercase">
-              <div className="bg-bone px-6 lg:px-8 py-5 text-ink/80 border-r border-ink/10">
-                Feature
-              </div>
-              <div className="bg-bone px-6 lg:px-8 py-5 border-r border-ink/10">
-                <span className="text-[#c2181f] font-semibold">Wood</span>
-                <span className="text-ink/70"> Kitchens</span>
-              </div>
-              <div className="bg-ink px-6 lg:px-8 py-5 text-bone">
-                Magppie Kitchens
-              </div>
-            </div>
-
-            {[
-              { feature: 'Formaldehyde emissions', wood: 'Released daily, WHO carcinogen', stone: 'Zero emissions. Pure air.' },
-              { feature: 'Termite resistance', wood: 'Eaten silently from inside out', stone: 'Stone cannot be eaten. Ever.' },
-              { feature: 'Mould & fungus', wood: 'Absorbs moisture, mould in 2–3 years', stone: 'Zero absorption. Zero mould.' },
-              { feature: 'Antibacterial', wood: 'Bacteria thrives on porous wood', stone: 'Silver-nano kills bacteria permanently' },
-              { feature: 'Fire safety', wood: 'Combustible, spreads flame', stone: 'Non-combustible. Fire-resistant.' },
-              { feature: 'Longevity', wood: 'Degrades in 8 – 12 years', stone: '25-year unconditional guarantee' },
-              { feature: 'Sustainability', wood: 'Tree felling + toxic laminates', stone: 'Zero trees. 100% eco.' },
-            ].map((row) => (
-              <div
-                key={row.feature}
-                className="block lg:grid lg:grid-cols-3 border-t border-ink/10 first:border-t-0 lg:first:border-t"
-              >
-                {/* Feature label */}
-                <div className="bg-bone px-6 lg:px-8 py-4 lg:py-6 text-ink font-medium lg:border-r border-ink/10 text-sm lg:text-base border-b border-ink/10 lg:border-b-0">
-                  {row.feature}
-                </div>
-                {/* Wood row */}
-                <div className="bg-bone px-6 lg:px-8 py-5 lg:py-6 text-ink/55 lg:border-r border-ink/10 border-b border-ink/10 lg:border-b-0">
-                  <span className="lg:hidden text-[0.78rem] text-[#c2181f] font-semibold block mb-2">
-                    Wood Kitchen
-                  </span>
-                  {row.wood}
-                </div>
-                {/* Stone row */}
-                <div className="bg-bone px-6 lg:px-8 py-5 lg:py-6 text-ink">
-                  <span className="lg:hidden text-[0.78rem] text-ink font-semibold block mb-2">
-                    Magppie Kitchen
-                  </span>
-                  {row.stone}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* A QUIET MOMENT - full-bleed banner */}
-      <section className="relative w-full h-[48vh] min-h-[360px] max-h-[560px] overflow-hidden bg-ink">
+      <section className="relative w-full h-[48dvh] min-h-[360px] max-h-[560px] overflow-hidden bg-ink">
         <Image
           src="/images/black-kitchen.webp"
           alt="Magppie kitchen in dark stone, a quiet moment"
@@ -420,7 +366,7 @@ export default function KitchensPage() {
       </section>
 
       {/* Poolside Kitchen */}
-      <section id="poolside" className="relative h-[70vh] min-h-[440px] lg:h-[85vh] overflow-hidden scroll-mt-20">
+      <section id="poolside" className="relative h-[70dvh] min-h-[440px] lg:h-[85dvh] overflow-hidden scroll-mt-20">
         <video
           autoPlay
           muted

@@ -56,7 +56,7 @@ export default function PoolsideKitchenBanner() {
   }, []);
 
   return (
-    <section className="relative h-[65vh] min-h-[420px] lg:h-[80vh] overflow-hidden">
+    <section className="relative h-[65dvh] min-h-[420px] lg:h-[80dvh] overflow-hidden">
       <video
         ref={videoRef}
         autoPlay

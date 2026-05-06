@@ -80,7 +80,7 @@ export default function ContactPage() {
       <section className="bg-bone pt-32 lg:pt-44 pb-20 lg:pb-28">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <h1 className="font-display font-light text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-ink leading-[1.05] mb-12 lg:mb-20">
-            Talk to Magppie.
+            Talk to us.
           </h1>
         </div>
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-12 lg:gap-16">

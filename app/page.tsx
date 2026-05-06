@@ -6,6 +6,8 @@ import CustomersMarquee from '@/components/CustomersMarquee';
 import StacyTestimonial from '@/components/StacyTestimonial';
 import PoolsideKitchenBanner from '@/components/PoolsideKitchenBanner';
 import ScrollFloat from '@/components/ScrollFloat';
+import Reveal from '@/components/Reveal';
+import Magnetic from '@/components/Magnetic';
 import JsonLd from '@/components/JsonLd';
 import {
   allIndiaLocalBusinessSchemas,
@@ -198,7 +200,12 @@ export default function HomePage() {
           the Wellness Movement section above, which fades its image into
           bg-bone, so the two sections feel continuous, not jammed. */}
       <section className="bg-bone pt-8 lg:pt-12 pb-20">
-        <div className="mx-auto max-w-[1600px] px-6 lg:px-10 grid md:grid-cols-3 gap-2">
+        <Reveal
+          className="mx-auto max-w-[1600px] px-6 lg:px-10 grid md:grid-cols-3 gap-2"
+          staggerChildren
+          stagger={0.12}
+          y={32}
+        >
           <Tile
             href="/kitchens"
             title="Wellness Kitchens"
@@ -214,7 +221,7 @@ export default function HomePage() {
             title="Wellness Vanities"
             image="/images/vanities/onyx-gold-overmount.webp"
           />
-        </div>
+        </Reveal>
       </section>
 
       {/* Section break, hairline divider between the product tiles and the
@@ -368,7 +375,12 @@ export default function HomePage() {
           {/* Top hairline, separates the heading from the credential grid */}
           <hr className="border-0 border-t border-ink/15 mt-12 lg:mt-16" />
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-ink/10">
+          <Reveal
+            className="grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-ink/10"
+            staggerChildren
+            stagger={0.08}
+            y={20}
+          >
             {BENEFITS.map((b) => (
               <div key={b.kicker} className="bg-bone p-6 sm:p-8">
                 <div className="label text-smoke mb-4">{b.kicker}</div>
@@ -379,7 +391,7 @@ export default function HomePage() {
                 </ul>
               </div>
             ))}
-          </div>
+          </Reveal>
 
           {/* Bottom hairline, closes the ledger */}
           <hr className="border-0 border-t border-ink/15" />
@@ -636,7 +648,12 @@ export default function HomePage() {
               All stories →
             </Link>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <Reveal
+            className="grid md:grid-cols-3 gap-8"
+            staggerChildren
+            stagger={0.12}
+            y={36}
+          >
             <NewsCard
               image="/images/1.webp"
               date="Nov 2024"
@@ -655,7 +672,7 @@ export default function HomePage() {
               tag="Design Partners"
               title="Karim Rashid, Stefan Diez & Cory Grosser join the Wellness Movement"
             />
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -678,7 +695,12 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-2">
+          <Reveal
+            className="grid md:grid-cols-2 gap-2"
+            staggerChildren
+            stagger={0.12}
+            y={28}
+          >
             {CATALOGS.map((c) => {
               const isExternal = !!c.href && c.href !== '#';
               return (
@@ -698,7 +720,7 @@ export default function HomePage() {
                 </a>
               );
             })}
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -713,12 +735,14 @@ export default function HomePage() {
             Transform your kitchen.<br />
             Transform your health.
           </ScrollFloat>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center mt-10 lg:mt-12 px-8 lg:px-10 py-4 min-h-[48px] border border-ink text-ink kicker hover:bg-ink hover:text-bone transition-colors"
-          >
-            Book a Magppie consultation
-          </Link>
+          <Magnetic className="inline-block mt-10 lg:mt-12" strength={0.35}>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center px-8 lg:px-10 py-4 min-h-[48px] border border-ink text-ink kicker hover:bg-ink hover:text-bone transition-colors"
+            >
+              Book a Magppie consultation
+            </Link>
+          </Magnetic>
         </div>
       </section>
     </>

@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import CountUp from '@/components/CountUp';
 
 type Person = {
   name: string;
@@ -105,7 +106,11 @@ export default function CustomersMarquee() {
           <div className="relative aspect-[3/4] overflow-hidden bg-white flex items-center justify-center">
             <div className="text-center px-3 sm:px-4">
               <div className="font-display text-ink text-2xl sm:text-3xl lg:text-4xl leading-none">
-                28,000<span className="font-light">+</span>
+                <CountUp
+                  to={28000}
+                  suffix="+"
+                  suffixClassName="font-light"
+                />
               </div>
               <div className="text-[0.72rem] sm:text-[0.78rem] text-smoke mt-2 sm:mt-3">
                 Private Clients

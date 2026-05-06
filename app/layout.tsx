@@ -5,6 +5,7 @@ import localFont from 'next/font/local';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import NewsletterTeaser from '@/components/NewsletterTeaser';
+import SmoothScroll from '@/components/SmoothScroll';
 import JsonLd from '@/components/JsonLd';
 import { organizationSchema, websiteSchema, SITE_URL } from '@/lib/seo';
 
@@ -226,6 +227,10 @@ export default function RootLayout({
             schemas (Product, FAQPage, LocalBusiness, BreadcrumbList,
             Article) live inside their individual page files. */}
         <JsonLd data={[organizationSchema, websiteSchema]} />
+        {/* Lenis smooth-scroll, wired into the GSAP ticker. Side-effect
+            only, renders nothing. Mounted as the very first child so it
+            captures wheel/touch input before any other handler. */}
+        <SmoothScroll />
         <Header />
         <main>{children}</main>
         <Footer />

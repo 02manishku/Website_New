@@ -46,28 +46,41 @@ function splitNodes(node: ReactNode, keyPrefix = 'r'): ReactNode {
     return node;
   }
   if (typeof node === 'string' || typeof node === 'number') {
-    // Emit non-space chars as inline-block <span>, but leave actual
-    // spaces as raw text nodes. Two reasons:
-    //   1. Browsers can still break long headings at word boundaries
-    //      (NBSP between every word forces unbreakable layout, which
-    //      kills wrap behaviour for things like "Built in stone.
-    //      Guaranteed for 25 years.").
-    //   2. The animation targets .scroll-float-char elements; spaces
-    //      don't need to wiggle, they sit between letters as plain text.
+    // Two-level wrap so headings break at WORD boundaries, not letter
+    // boundaries. Each word becomes an inline-block .scroll-float-word
+    // with white-space: nowrap, so its inner inline-block chars can't
+    // get separated mid-word; spaces between words remain raw text
+    // nodes, the only valid break points the browser finds.
+    //
+    // Without this, "kitchen" mid-line becomes "kitch | en" because
+    // the browser sees seven inline-block boxes and breaks wherever
+    // it likes. With it, "kitchen" is one box → either fits on the
+    // current line or wraps to the next as a unit.
     const out: ReactNode[] = [];
-    String(node)
-      .split('')
-      .forEach((ch, i) => {
-        if (ch === ' ') {
-          out.push(' ');
-        } else {
-          out.push(
-            <span className="scroll-float-char" key={`${keyPrefix}-${i}`}>
+    const segments = String(node).split(/(\s+)/);
+    segments.forEach((seg, segIdx) => {
+      if (seg === '') return;
+      if (/^\s+$/.test(seg)) {
+        // Whitespace run, emit raw so the line break can happen here.
+        out.push(seg);
+        return;
+      }
+      out.push(
+        <span
+          className="scroll-float-word"
+          key={`${keyPrefix}-w${segIdx}`}
+        >
+          {seg.split('').map((ch, charIdx) => (
+            <span
+              className="scroll-float-char"
+              key={`${keyPrefix}-w${segIdx}-c${charIdx}`}
+            >
               {ch}
             </span>
-          );
-        }
-      });
+          ))}
+        </span>
+      );
+    });
     return out;
   }
   if (Array.isArray(node)) {
@@ -96,7 +109,11 @@ export default function ScrollFloat({
   textClassName = '',
   scrollContainerRef,
   animationDuration = 1,
-  ease = 'back.inOut(2)',
+  // Smoother default ease — power3.out is glassy where back.inOut
+  // overshoots / bounces. Combined with the numeric scrub below it
+  // gives the buttery feel where chars catch up to scroll without
+  // jitter or visible "bounce" snap.
+  ease = 'power3.out',
   scrollStart = 'center bottom+=50%',
   scrollEnd = 'bottom bottom-=40%',
   stagger = 0.03
@@ -149,7 +166,12 @@ export default function ScrollFloat({
           scroller,
           start: scrollStart,
           end: scrollEnd,
-          scrub: true
+          // Numeric scrub adds 1.5s of inertia/lag between scroll
+          // position and animation playhead — gives the "buttery"
+          // feel where the chars catch up smoothly even on fast
+          // wheel flicks. With scrub: true (binary) the chars
+          // jitter 1:1 with the scroll pixel.
+          scrub: 1.5
         }
       }
     );

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Magnetic from '@/components/Magnetic';
 
 // 28 Indian states, alphabetical.
 const INDIAN_STATES = [
@@ -95,12 +96,14 @@ export default function ContactForm() {
         </span>
       </label>
 
-      <button
-        type="submit"
-        className="w-full sm:w-auto inline-flex items-center justify-center px-8 lg:px-10 py-4 min-h-[48px] bg-ink text-bone kicker hover:bg-smoke transition-colors"
-      >
-        Send enquiry →
-      </button>
+      <Magnetic className="block w-full sm:inline-block sm:w-auto" strength={0.3}>
+        <button
+          type="submit"
+          className="w-full sm:w-auto inline-flex items-center justify-center px-8 lg:px-10 py-4 min-h-[48px] bg-ink text-bone kicker hover:bg-smoke transition-colors"
+        >
+          Send enquiry →
+        </button>
+      </Magnetic>
     </form>
   );
 }

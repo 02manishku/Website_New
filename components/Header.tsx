@@ -123,7 +123,7 @@ export default function Header() {
           <div className="flex items-center gap-2 lg:hidden">
             <Link
               href="/contact#book"
-              className={`kicker px-3.5 py-2 text-[10px] tracking-[0.22em] border transition-colors min-h-[40px] inline-flex items-center ${
+              className={`kicker px-3.5 py-2 text-[10px] tracking-[0.22em] border transition-colors min-h-11 inline-flex items-center ${
                 onLight
                   ? 'text-bone bg-ink border-ink hover:bg-ink/85'
                   : 'text-ink bg-bone border-bone hover:bg-bone/90'

@@ -74,9 +74,6 @@ export default function Footer() {
           <div className="flex flex-wrap gap-x-5 gap-y-1">
             <a href="#" className="hover:text-bone py-2.5 -my-2.5">Legal</a>
             <a href="#" className="hover:text-bone py-2.5 -my-2.5">Privacy</a>
-            <a href="#" className="hover:text-bone py-2.5 -my-2.5">Cookies</a>
-            <a href="#" className="hover:text-bone py-2.5 -my-2.5">Sitemap</a>
-            <a href="#" className="hover:text-bone py-2.5 -my-2.5">Whistleblowing</a>
           </div>
           <div>© {new Date().getFullYear()} Magppie Silverstone Pvt. Ltd. All rights reserved.</div>
         </div>
