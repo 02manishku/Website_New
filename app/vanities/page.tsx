@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
+import ScrollFloat from '@/components/ScrollFloat';
 import JsonLd from '@/components/JsonLd';
 import {
   wellnessVanitySchema,
@@ -95,11 +96,14 @@ export default function VanitiesPage() {
             <div className="kicker text-smoke">A Sanctuary in Stone</div>
           </div>
           <div className="lg:col-span-8">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-ink">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-ink"
+            >
               Where you begin and end the day
               <em className="not-italic text-smoke"> deserves </em>
               wellness too.
-            </h2>
+            </ScrollFloat>
             <p className="mt-8 lg:mt-10 text-base lg:text-lg text-ink/70 max-w-2xl leading-relaxed">
               The bathroom is the most water-and-humidity intense room in any
               home, the most welcoming surface for mold, bacteria and
@@ -129,9 +133,12 @@ export default function VanitiesPage() {
           </div>
           <div className="lg:col-span-5">
             <div className="kicker text-smoke mb-6">Built in Stone</div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight"
+            >
               Every cabinet, fascia and handle, in patented Silverstone™.
-            </h2>
+            </ScrollFloat>
             <p className="mt-6 lg:mt-8 text-ink/70 leading-relaxed">
               Where wood-based vanities swell, rot and grow mould after years
               of splashes and steam, a Magppie vanity is inert stone from the
@@ -151,9 +158,12 @@ export default function VanitiesPage() {
       {/* Concepts grid */}
       <section className="bg-bone pt-20 lg:pt-32 pb-20 lg:pb-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mb-10 lg:mb-12">
-          <h2 className="font-display text-3xl md:text-4xl text-ink">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl md:text-4xl text-ink"
+          >
             Wellness Vanity Concepts.
-          </h2>
+          </ScrollFloat>
         </div>
         <div className="grid lg:grid-cols-2 gap-2 px-2">
           {VANITIES.map((v) => (
@@ -212,9 +222,12 @@ export default function VanitiesPage() {
           </div>
           <div className="lg:col-span-5">
             <div className="kicker text-smoke mb-6">Built for Water</div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight"
+            >
               Mold-proof. Stain-proof. Steam-proof.
-            </h2>
+            </ScrollFloat>
             <p className="mt-6 lg:mt-8 text-ink/70 leading-relaxed">
               Silverstone™ is non-porous and naturally repels moisture. Where
               wood-based vanities swell, warp and grow mold within years, a
@@ -235,9 +248,12 @@ export default function VanitiesPage() {
       <section className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-4">Five Reasons</div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight max-w-3xl">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight max-w-3xl"
+          >
             Why every Magppie vanity is, quietly, the most advanced in the room.
-          </h2>
+          </ScrollFloat>
 
           <div className="mt-12 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-ink/10">
             {REASONS.map((r, i) => (
@@ -257,9 +273,12 @@ export default function VanitiesPage() {
       <section id="finishes" className="bg-sand py-20 lg:py-28 scroll-mt-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-4">Vanity Finishes</div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight max-w-3xl">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight max-w-3xl"
+          >
             A curated palette of Silverstone™ finishes for the bath.
-          </h2>
+          </ScrollFloat>
           <div className="mt-12 lg:mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {FINISHES.map((f) => (
               <div key={f.name} className="group">
@@ -290,9 +309,12 @@ export default function VanitiesPage() {
       {/* CTA */}
       <section className="bg-sandlight py-20 lg:py-28">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
-          <h2 className="font-display text-3xl sm:text-4xl md:text-6xl text-ink leading-tight">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-6xl text-ink leading-tight"
+          >
             Begin your Wellness Vanity journey.
-          </h2>
+          </ScrollFloat>
           <Link
             href="/contact"
             className="inline-flex items-center justify-center mt-8 lg:mt-10 px-8 lg:px-10 py-4 min-h-[48px] border border-ink text-ink kicker hover:bg-ink hover:text-bone transition-colors"

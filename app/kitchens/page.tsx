@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
+import ScrollFloat from '@/components/ScrollFloat';
 import JsonLd from '@/components/JsonLd';
 import {
   wellnessKitchenSchema,
@@ -111,11 +112,14 @@ export default function KitchensPage() {
             <div className="kicker text-smoke">A New Definition of Luxury</div>
           </div>
           <div className="lg:col-span-8">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-ink">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-ink"
+            >
               The most advanced kitchen in the world. Also the
               <em className="not-italic text-smoke"> most stunning </em>
               to look at.
-            </h2>
+            </ScrollFloat>
             <p className="mt-8 lg:mt-10 text-base lg:text-lg text-ink/70 max-w-2xl leading-relaxed">
               For the first time ever, every internal cabinet, door fascia,
               countertop, backsplash, accessory and even handle is made in
@@ -130,10 +134,13 @@ export default function KitchensPage() {
       <section className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-6">Lab-tested, Life-proven</div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink max-w-4xl">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink max-w-4xl"
+          >
             Every claim,{' '}
             <span className="text-smoke">physically demonstrated.</span>
-          </h2>
+          </ScrollFloat>
           <p className="mt-8 max-w-2xl text-ink/70 leading-relaxed">
             Scratch tests. Fire tests. 30-day water immersion. Load tests.
             Impact drops. Every promise Magppie makes is backed by evidence you
@@ -170,10 +177,13 @@ export default function KitchensPage() {
       <section className="bg-sand py-20 lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-6">The Evidence</div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink max-w-4xl">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink max-w-4xl"
+          >
             Wood kitchen vs.{' '}
             <span className="text-smoke">Stone kitchen.</span>
-          </h2>
+          </ScrollFloat>
 
           <div className="mt-12 lg:mt-16 border border-ink/10 overflow-hidden">
             {/* Header row - hidden on mobile, shown from lg */}
@@ -243,9 +253,12 @@ export default function KitchensPage() {
           <div className="label text-bone/90 mb-4 [text-shadow:0_1px_10px_rgba(0,0,0,0.7)]">
             A Quiet Moment
           </div>
-          <h2 className="font-display text-bone text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] [text-shadow:0_2px_18px_rgba(0,0,0,0.65)]">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-bone text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] [text-shadow:0_2px_18px_rgba(0,0,0,0.65)]"
+          >
             Built to outlast generations.
-          </h2>
+          </ScrollFloat>
         </div>
       </section>
 
@@ -263,11 +276,14 @@ export default function KitchensPage() {
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-2 gap-12 lg:gap-16 relative">
           <div>
             <div className="kicker text-bone/60 mb-6">Our Promise</div>
-            <h2 className="font-display text-bone text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-bone text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05]"
+            >
               A 25-year{' '}
               <span className="text-bone/55">unconditional</span>{' '}
               guarantee.
-            </h2>
+            </ScrollFloat>
             <p className="mt-6 lg:mt-8 max-w-xl text-bone/70 leading-relaxed">
               If anything ever happens to your Magppie kitchen, termites, water
               damage, discolouration, structural failure, it is entirely our
@@ -319,9 +335,12 @@ export default function KitchensPage() {
       {/* Concepts gallery - pulled straight from the catalog */}
       <section className="bg-bone pt-20 lg:pt-36 pb-24 lg:pb-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mb-10 lg:mb-12">
-          <h2 className="font-display text-3xl md:text-4xl text-ink">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl md:text-4xl text-ink"
+          >
             Wellness Kitchen Concepts.
-          </h2>
+          </ScrollFloat>
         </div>
         <div className="grid lg:grid-cols-2 gap-2 px-2 lg:px-2">
           {CONCEPTS.map((c, i) => (
@@ -357,9 +376,12 @@ export default function KitchensPage() {
           </div>
           <div className="lg:col-span-5">
             <div className="kicker text-smoke mb-6">Strong as Rock</div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight"
+            >
               A worry-free culinary experience for your family.
-            </h2>
+            </ScrollFloat>
             <p className="mt-6 lg:mt-8 text-ink/70 leading-relaxed">
               Silverstone™ stands resilient against fire, water, heat,
               scratches and absorption. Even if a heavy pot or lid falls,
@@ -373,9 +395,12 @@ export default function KitchensPage() {
       <section id="lighting" className="bg-ink text-bone py-20 lg:py-32 scroll-mt-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-bone/50 mb-4">Patented Lighting</div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-6xl leading-tight max-w-3xl">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-6xl leading-tight max-w-3xl"
+          >
             Five thoughtful layers of light. Patented by Magppie.
-          </h2>
+          </ScrollFloat>
           <p className="mt-6 lg:mt-8 text-bone/60 max-w-2xl">
             Lighting can completely change the way a kitchen feels. We added
             not one, but five, layers, each engineered for a specific moment
@@ -412,9 +437,12 @@ export default function KitchensPage() {
         <div className="absolute inset-0 flex items-end">
           <div className="mx-auto max-w-[1600px] px-6 lg:px-10 pb-16 lg:pb-24 w-full">
             <div className="label text-bone/80 mb-4 lg:mb-6">Concept</div>
-            <h2 className="font-display md:whitespace-nowrap text-bone text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.02] lg:leading-none">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display md:whitespace-nowrap text-bone text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.02] lg:leading-none"
+            >
               The Poolside Kitchen.
-            </h2>
+            </ScrollFloat>
             <p className="mt-5 lg:mt-6 text-bone/80 max-w-md">
               Engineered to live outside. Magppie Santorini, Persian
               Travertine and Sahara finishes resist sun, rain and time.
@@ -427,9 +455,12 @@ export default function KitchensPage() {
       <section id="accessories" className="bg-bone py-20 lg:py-32 scroll-mt-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-4">23 Accessories</div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight max-w-3xl">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight max-w-3xl"
+          >
             Designed to solve a real need. Made to make daily tasks easier.
-          </h2>
+          </ScrollFloat>
 
           <div className="mt-12 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 lg:gap-x-10 gap-y-10 lg:gap-y-12">
             {ACCESSORIES.map((a, i) => (
@@ -448,9 +479,12 @@ export default function KitchensPage() {
       {/* CTA */}
       <section className="bg-sandlight py-20 lg:py-28">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
-          <h2 className="font-display text-3xl sm:text-4xl md:text-6xl text-ink leading-tight">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-6xl text-ink leading-tight"
+          >
             Begin your Wellness Kitchen journey.
-          </h2>
+          </ScrollFloat>
           <Link
             href="/contact"
             className="inline-flex items-center justify-center mt-8 lg:mt-10 px-8 lg:px-10 py-4 min-h-[48px] border border-ink text-ink kicker hover:bg-ink hover:text-bone transition-colors"

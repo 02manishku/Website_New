@@ -128,6 +128,15 @@ a, button, [role="button"], input[type="submit"], label {
   animation: bounceSlow 2.4s ease-in-out infinite;
 }
 
+/* ScrollFloat — character-by-character heading reveal driven by GSAP
+   ScrollTrigger. Two rules only: clip the chars while they're below the
+   line-height (overflow), and make each char its own inline-block so
+   transforms work. Font-size, weight, color, leading all stay on the
+   parent's existing Tailwind classes — the wrapper is invisible. */
+.scroll-float { overflow: hidden; }
+.scroll-float-text { display: inline-block; }
+.scroll-float-char { display: inline-block; will-change: transform, opacity; }
+
 /* Honour the user's "reduce motion" OS preference (iOS Settings →
    Accessibility → Motion, macOS System Settings → Accessibility →
    Display). Marquee, fade-ups, scroll-cue bounce and tile-img zoom all go

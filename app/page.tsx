@@ -5,6 +5,7 @@ import HeroVideo from '@/components/HeroVideo';
 import CustomersMarquee from '@/components/CustomersMarquee';
 import StacyTestimonial from '@/components/StacyTestimonial';
 import PoolsideKitchenBanner from '@/components/PoolsideKitchenBanner';
+import ScrollFloat from '@/components/ScrollFloat';
 import JsonLd from '@/components/JsonLd';
 import {
   allIndiaLocalBusinessSchemas,
@@ -114,10 +115,13 @@ export default function HomePage() {
             </div>
           </div>
           <div className="lg:col-span-8 order-1 lg:order-2">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl text-bone leading-[1.05]">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl text-bone leading-[1.05]"
+            >
               Most Unexpected{' '}
               <em className="not-italic text-bone/55">Innovation.</em>
-            </h2>
+            </ScrollFloat>
             <p className="mt-5 lg:mt-7 text-bone/70 max-w-2xl leading-relaxed">
               At the inaugural KBIS Innovation Hour, judged live by an
               audience of designers, media and industry professionals,
@@ -162,13 +166,16 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-6 lg:gap-10">
           <div className="lg:col-span-7 lg:col-start-6">
             <div className="kicker text-smoke">A Wellness Movement</div>
-            <h2 className="mt-6 font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink">
-              The world needs a new kitchen: one that
+            <ScrollFloat
+              as="h2"
+              containerClassName="mt-6 font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink"
+            >
               {/* "nurtures" tinted to the deep sage-green of the leaf in the
                   background image, ties the headline to the visual. */}
+              The world needs a new kitchen: one that
               <em className="not-italic text-[#5F6F45]"> nurtures </em>
               the people who live in it.
-            </h2>
+            </ScrollFloat>
             <p className="mt-8 lg:mt-10 text-base lg:text-lg text-ink/75 max-w-xl leading-relaxed">
               Every day, our food, air and homes are filled with unseen threats
               to our well-being. From the cabinets we cook in to the wardrobes
@@ -233,11 +240,14 @@ export default function HomePage() {
               before the scroll-driven takeover starts). */}
           <div className="max-w-4xl mb-6 lg:mb-8">
             <div className="kicker text-smoke mb-6 lg:mb-8">Why Wellness Matters</div>
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.02] text-ink">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.02] text-ink"
+            >
               The <span className="text-[#c2181f]">dangers of wood,</span>
               <br />
               <em className="not-italic text-smoke">solved in stone.</em>
-            </h2>
+            </ScrollFloat>
           </div>
 
         </div>
@@ -274,9 +284,12 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-x-10 gap-y-14 lg:gap-x-20 border-t border-ink/15 pt-14 lg:pt-20">
             {PILLARS.map((p) => (
               <div key={p.label}>
-                <div className="font-display text-6xl sm:text-7xl lg:text-8xl text-ink leading-none">
+                <ScrollFloat
+                  as="div"
+                  containerClassName="font-display text-6xl sm:text-7xl lg:text-8xl text-ink leading-none"
+                >
                   {p.figure}
-                </div>
+                </ScrollFloat>
                 <div className="kicker text-smoke mt-5 lg:mt-7">
                   {p.label}
                 </div>
@@ -297,9 +310,12 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           <div className="lg:col-span-5 order-2 lg:order-1">
             <div className="kicker text-smoke mb-6">Silverstone™ Revolution</div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-ink">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-ink"
+            >
               Silver infused inside the stone, by nano technology.
-            </h2>
+            </ScrollFloat>
             <p className="mt-6 lg:mt-8 text-ink/70 leading-relaxed">
               Conventional wood-based kitchens are breeding grounds for
               termites, bacteria and fungi, and silently leak formaldehyde
@@ -345,9 +361,12 @@ export default function HomePage() {
       <section className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-4">The Wellness Promise</div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-ink max-w-3xl">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-ink max-w-3xl"
+          >
             Built in stone. Guaranteed for 25 years. Serviced for 25 years.
-          </h2>
+          </ScrollFloat>
 
           {/* Top hairline, separates the heading from the credential grid */}
           <hr className="border-0 border-t border-ink/15 mt-12 lg:mt-16" />
@@ -378,9 +397,12 @@ export default function HomePage() {
       <section className="bg-ink text-bone py-20 lg:py-36">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
           <div className="max-w-3xl mb-14 lg:mb-24">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-bone leading-[1.05]">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-bone leading-[1.05]"
+            >
               Trusted by Those Who Inspire.
-            </h2>
+            </ScrollFloat>
             <p className="mt-6 text-bone/60 leading-relaxed max-w-2xl">
               From Mumbai towers to Delhi farmhouses, from Hyderabad estates to
               boardrooms in Dubai. Magppie is the quiet signature in the homes
@@ -395,10 +417,13 @@ export default function HomePage() {
       <section className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-6">Global Recognition</div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink max-w-5xl">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-ink max-w-5xl"
+          >
             Recognised by the world&rsquo;s{' '}
             <span className="text-smoke">most prestigious</span> design bodies.
-          </h2>
+          </ScrollFloat>
 
           {(() => {
             const HERO_AWARDS = [
@@ -557,12 +582,15 @@ export default function HomePage() {
                       <div className="kicker text-smoke mb-5">
                         KBIS Innovation Hour · Inaugural Edition
                       </div>
-                      <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl text-ink leading-[1.05]">
+                      <ScrollFloat
+                        as="h3"
+                        containerClassName="font-display text-3xl sm:text-4xl lg:text-5xl text-ink leading-[1.05]"
+                      >
                         Most Unexpected{' '}
                         <em className="not-italic italic text-smoke">
                           Innovation.
                         </em>
-                      </h3>
+                      </ScrollFloat>
                       <p className="mt-5 lg:mt-7 text-ink/70 leading-relaxed">
                         At the inaugural KBIS Innovation Hour, judged live on
                         the NEXT Stage by an audience of designers, media and
@@ -600,9 +628,12 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 lg:mb-12">
             <div>
               <div className="kicker text-smoke mb-3">Stories</div>
-              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink">
+              <ScrollFloat
+                as="h2"
+                containerClassName="font-display text-3xl sm:text-4xl md:text-5xl text-ink"
+              >
                 From the Magppie journal.
-              </h2>
+              </ScrollFloat>
             </div>
             <Link href="/news" className="text-sm hover-underline tap-link">
               All stories →
@@ -638,9 +669,12 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 lg:mb-12">
             <div>
               <div className="kicker text-smoke mb-3">Library</div>
-              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-[1.05]">
+              <ScrollFloat
+                as="h2"
+                containerClassName="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-[1.05]"
+              >
                 Download the catalogs.
-              </h2>
+              </ScrollFloat>
             </div>
             <p className="text-ink/65 max-w-md sm:text-right text-sm">
               For your home, for your studio, for your archive.
@@ -675,10 +709,13 @@ export default function HomePage() {
       <section className="bg-sandlight py-24 lg:py-44">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
           <div className="kicker text-smoke mb-6">Begin</div>
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-ink leading-[1.02]">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-ink leading-[1.02]"
+          >
             Transform your kitchen.<br />
             Transform your health.
-          </h2>
+          </ScrollFloat>
           <Link
             href="/contact"
             className="inline-flex items-center justify-center mt-10 lg:mt-12 px-8 lg:px-10 py-4 min-h-[48px] border border-ink text-ink kicker hover:bg-ink hover:text-bone transition-colors"

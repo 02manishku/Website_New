@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
+import ScrollFloat from '@/components/ScrollFloat';
 import JsonLd from '@/components/JsonLd';
 import {
   wellnessWardrobeSchema,
@@ -97,10 +98,13 @@ export default function WardrobesPage() {
             <div className="kicker text-smoke">Why Wellness Matters</div>
           </div>
           <div className="lg:col-span-8">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-ink">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-ink"
+            >
               Most wardrobes silently leak formaldehyde. Yours
               <em className="not-italic text-smoke"> shouldn’t.</em>
-            </h2>
+            </ScrollFloat>
             <p className="mt-8 lg:mt-10 text-base lg:text-lg text-ink/70 max-w-2xl leading-relaxed">
               Our clothes sit inside our wardrobes for weeks, breathing in
               formaldehyde emissions from compressed wood. We then bring those
@@ -133,9 +137,12 @@ export default function WardrobesPage() {
           </div>
           <div className="lg:col-span-5">
             <div className="kicker text-smoke mb-6">Built in Stone</div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight">
+            <ScrollFloat
+              as="h2"
+              containerClassName="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight"
+            >
               Every cabinet, fascia and handle, in patented Silverstone™.
-            </h2>
+            </ScrollFloat>
             <p className="mt-6 lg:mt-8 text-ink/70 leading-relaxed">
               Where wood-based wardrobes swell, warp and leak formaldehyde
               into your clothes, a Magppie wardrobe is inert stone from the
@@ -155,9 +162,12 @@ export default function WardrobesPage() {
       {/* Wardrobe concepts */}
       <section className="bg-bone pt-20 lg:pt-32 pb-20 lg:pb-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mb-10 lg:mb-12">
-          <h2 className="font-display text-3xl md:text-4xl text-ink">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl md:text-4xl text-ink"
+          >
             Wellness Wardrobe Concepts.
-          </h2>
+          </ScrollFloat>
         </div>
         <div className="grid lg:grid-cols-2 gap-2 px-2">
           {WARDROBES.map((w) => (
@@ -183,10 +193,13 @@ export default function WardrobesPage() {
       <section className="bg-sand py-20 lg:py-40">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-6">Choose Wellness</div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-ink leading-[1.05] max-w-4xl">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-ink leading-[1.05] max-w-4xl"
+          >
             Choose family safety. Choose lifelong durability. Choose
             <em className="not-italic text-smoke"> luxurious aesthetics.</em>
-          </h2>
+          </ScrollFloat>
           <div className="mt-12 lg:mt-16 grid md:grid-cols-3 gap-px bg-ink/10">
             {[
               { t: 'Built in Stone', c: 'Where wood-based wardrobes are cancer-prone, Magppie offers wardrobes fully built in patented anti-bacterial stone.' },
@@ -206,9 +219,12 @@ export default function WardrobesPage() {
       <section id="accessories" className="bg-bone py-20 lg:py-32 scroll-mt-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-4">13 Accessories</div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight max-w-3xl">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight max-w-3xl"
+          >
             Designed to save your time, reduce effort and give peace of mind.
-          </h2>
+          </ScrollFloat>
 
           <div className="mt-12 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 lg:gap-x-10 gap-y-10 lg:gap-y-12">
             {ACCESSORIES.map((a, i) => (
@@ -227,9 +243,12 @@ export default function WardrobesPage() {
       {/* CTA */}
       <section className="bg-sandlight py-20 lg:py-28">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
-          <h2 className="font-display text-3xl sm:text-4xl md:text-6xl text-ink leading-tight">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display text-3xl sm:text-4xl md:text-6xl text-ink leading-tight"
+          >
             Choose your family&rsquo;s health.
-          </h2>
+          </ScrollFloat>
           <Link
             href="/contact"
             className="inline-flex items-center justify-center mt-8 lg:mt-10 px-8 lg:px-10 py-4 min-h-[48px] border border-ink text-ink kicker hover:bg-ink hover:text-bone transition-colors"

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import ScrollFloat from '@/components/ScrollFloat';
 
 // The pool-area video has 5 seconds of intro lead-in (camera settling, blank
 // frames) that we don't want shown on the homepage. Skip past it on first
@@ -74,9 +75,12 @@ export default function PoolsideKitchenBanner() {
       <div className="absolute inset-0 flex items-end">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 pb-14 lg:pb-20 w-full">
           <div className="label text-bone/80 mb-4 lg:mb-6">Concept</div>
-          <h2 className="font-display md:whitespace-nowrap text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-bone leading-[1.02] lg:leading-none">
+          <ScrollFloat
+            as="h2"
+            containerClassName="font-display md:whitespace-nowrap text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-bone leading-[1.02] lg:leading-none"
+          >
             The Poolside Kitchen.
-          </h2>
+          </ScrollFloat>
           <Link
             href="/kitchens#poolside"
             className="inline-block mt-8 lg:mt-10 text-sm text-bone hover-underline"
