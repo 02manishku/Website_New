@@ -6,6 +6,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import NewsletterTeaser from '@/components/NewsletterTeaser';
 import SmoothScroll from '@/components/SmoothScroll';
+import Preloader from '@/components/Preloader';
+import PageTransition from '@/components/PageTransition';
 import JsonLd from '@/components/JsonLd';
 import { organizationSchema, websiteSchema, SITE_URL } from '@/lib/seo';
 
@@ -227,12 +229,22 @@ export default function RootLayout({
             schemas (Product, FAQPage, LocalBusiness, BreadcrumbList,
             Article) live inside their individual page files. */}
         <JsonLd data={[organizationSchema, websiteSchema]} />
+        {/* First-visit preloader. Sits above everything (z-100) and locks
+            body scroll while up. Skipped after first session visit and
+            for prefers-reduced-motion users. */}
+        <Preloader />
         {/* Lenis smooth-scroll, wired into the GSAP ticker. Side-effect
-            only, renders nothing. Mounted as the very first child so it
+            only, renders nothing. Mounted before the page chrome so it
             captures wheel/touch input before any other handler. */}
         <SmoothScroll />
         <Header />
-        <main>{children}</main>
+        {/* PageTransition wraps {children} so route changes animate, but
+            Header / Footer / NewsletterTeaser stay rock-stable across
+            navigation — same pattern every Awwwards luxury winner uses
+            for persistent chrome. */}
+        <main>
+          <PageTransition>{children}</PageTransition>
+        </main>
         <Footer />
         <NewsletterTeaser />
       </body>

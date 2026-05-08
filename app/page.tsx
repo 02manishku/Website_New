@@ -552,13 +552,18 @@ export default function HomePage() {
                       className="lg:col-span-7 group relative block aspect-[4/3] overflow-hidden bg-ink"
                     >
                       <MaskReveal className="absolute inset-0">
+                        {/* No `tile-img` class here — the KBIS win photo
+                            stays static on hover. The reveal-on-scroll
+                            via MaskReveal is the only motion this image
+                            gets; cursor zoom would compete with the
+                            editorial weight. */}
                         <Image
                           src="/images/news/kbis/hero.webp"
                           alt="Magppie accepting the Most Unexpected award at KBIS 2026, Orlando"
                           fill
                           sizes="(min-width: 1024px) 60vw, 100vw"
                           quality={92}
-                          className="object-cover tile-img"
+                          className="object-cover"
                         />
                       </MaskReveal>
                       <div className="absolute inset-x-0 bottom-0 px-6 py-5 lg:px-8 lg:py-7 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent text-bone">

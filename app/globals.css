@@ -138,6 +138,47 @@ a, button, [role="button"], input[type="submit"], label {
   animation: marquee 50s linear infinite;
 }
 
+/* Preloader choreography. Each child of the preloader fades + slides up
+   on a staggered schedule so the brand mark, hairline and tagline land
+   one after another like a magazine page composing itself. The whole
+   overlay then slides upward off-screen on the `.preloader-exiting`
+   class, revealing the site beneath. Pure CSS so the SSR'd HTML is
+   visually correct from the first paint — no JS-dependent reveal. */
+@keyframes preloaderFadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes preloaderFadeUpLarge {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes preloaderHairlineGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes preloaderSlideUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-100%); }
+}
+/* Order: wordmark first, then kicker beneath, then hairline, then
+   tagline. Each delay starts after the previous element finishes its
+   reveal so the eye reads the composition top-to-bottom in sequence. */
+.preloader-wordmark {
+  animation: preloaderFadeUpLarge 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0s both;
+}
+.preloader-kicker {
+  animation: preloaderFadeUp 0.55s ease-out 0.45s both;
+}
+.preloader-hairline {
+  animation: preloaderHairlineGrow 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.8s both;
+}
+.preloader-tagline {
+  animation: preloaderFadeUp 0.55s ease-out 1.05s both;
+}
+.preloader-exiting {
+  animation: preloaderSlideUp 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
 /* WoodVsStone stage transitions. Pure opacity crossfade between stages
    — no transform, no slide, no movement. The text doesn't visibly
    migrate, it just changes. Body is offset so it lands a beat after
