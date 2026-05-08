@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import ScrollFloat from '@/components/ScrollFloat';
+import MotionSection from '@/components/MotionSection';
 import WoodVsStone from '@/components/WoodVsStone';
 import JsonLd from '@/components/JsonLd';
 import {
@@ -107,7 +108,7 @@ export default function KitchensPage() {
       />
 
       {/* Intro statement */}
-      <section id="wellness" className="bg-bone py-20 lg:py-40 scroll-mt-20">
+      <MotionSection id="wellness" className="bg-bone py-20 lg:py-40 scroll-mt-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-6 lg:gap-10">
           <div className="lg:col-span-4">
             <div className="kicker text-smoke">A New Definition of Luxury</div>
@@ -129,7 +130,7 @@ export default function KitchensPage() {
             </p>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* THE EVIDENCE - scroll-driven Wood vs Stone storytelling.
           Replaces the previous 7-row comparison table with a pinned video
@@ -141,7 +142,7 @@ export default function KitchensPage() {
       <WoodVsStone />
 
       {/* LAB-TESTED, LIFE-PROVEN */}
-      <section className="bg-bone py-20 lg:py-32">
+      <MotionSection className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-6">Lab-tested, Life-proven</div>
           <ScrollFloat
@@ -181,10 +182,10 @@ export default function KitchensPage() {
             ))}
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* A QUIET MOMENT - full-bleed banner */}
-      <section className="relative w-full h-[48dvh] min-h-[360px] max-h-[560px] overflow-hidden bg-ink">
+      <MotionSection className="relative w-full h-[48dvh] min-h-[360px] max-h-[560px] overflow-hidden bg-ink">
         <Image
           src="/images/black-kitchen.webp"
           alt="Magppie kitchen in dark stone, a quiet moment"
@@ -206,10 +207,10 @@ export default function KitchensPage() {
             Built to outlast generations.
           </ScrollFloat>
         </div>
-      </section>
+      </MotionSection>
 
       {/* OUR PROMISE - 25 year guarantee */}
-      <section className="relative bg-ink py-20 lg:py-32 overflow-hidden">
+      <MotionSection className="relative bg-ink py-20 lg:py-32 overflow-hidden">
         {/* Giant 25 watermark */}
         <div
           aria-hidden
@@ -276,10 +277,10 @@ export default function KitchensPage() {
             </div>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Concepts gallery - pulled straight from the catalog */}
-      <section className="bg-bone pt-20 lg:pt-36 pb-24 lg:pb-32">
+      <MotionSection className="bg-bone pt-20 lg:pt-36 pb-24 lg:pb-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mb-10 lg:mb-12">
           <ScrollFloat
             as="h2"
@@ -304,10 +305,10 @@ export default function KitchensPage() {
             <span className="group-hover:translate-x-2 transition-transform inline-block">→</span>
           </Link>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Strong as rock */}
-      <section className="bg-sand py-20 lg:py-40">
+      <MotionSection className="bg-sand py-20 lg:py-40">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           <div className="lg:col-span-7">
             <div className="relative aspect-[16/10] overflow-hidden">
@@ -335,10 +336,10 @@ export default function KitchensPage() {
             </p>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Patented Lighting */}
-      <section id="lighting" className="bg-ink text-bone py-20 lg:py-32 scroll-mt-20">
+      <MotionSection id="lighting" className="bg-ink text-bone py-20 lg:py-32 scroll-mt-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-bone/50 mb-4">Patented Lighting</div>
           <ScrollFloat
@@ -363,10 +364,10 @@ export default function KitchensPage() {
             ))}
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Poolside Kitchen */}
-      <section id="poolside" className="relative h-[70dvh] min-h-[440px] lg:h-[85dvh] overflow-hidden scroll-mt-20">
+      <MotionSection id="poolside" className="relative h-[70dvh] min-h-[440px] lg:h-[85dvh] overflow-hidden scroll-mt-20">
         <video
           autoPlay
           muted
@@ -395,10 +396,10 @@ export default function KitchensPage() {
             </p>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* 23 Accessories */}
-      <section id="accessories" className="bg-bone py-20 lg:py-32 scroll-mt-20">
+      <MotionSection id="accessories" className="bg-bone py-20 lg:py-32 scroll-mt-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-4">23 Accessories</div>
           <ScrollFloat
@@ -420,10 +421,10 @@ export default function KitchensPage() {
             ))}
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* CTA */}
-      <section className="bg-sandlight py-20 lg:py-28">
+      <MotionSection className="bg-sandlight py-20 lg:py-28">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
           <ScrollFloat
             as="h2"
@@ -438,7 +439,7 @@ export default function KitchensPage() {
             Book a consultation
           </Link>
         </div>
-      </section>
+      </MotionSection>
     </>
   );
 }

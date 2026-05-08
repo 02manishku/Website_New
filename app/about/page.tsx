@@ -140,7 +140,6 @@ export default function AboutPage() {
                             src={m.src}
                             alt={m.name}
                             fill
-                            priority
                             sizes="(min-width: 1024px) 340px, (min-width: 640px) 320px, 280px"
                             quality={88}
                             className="object-cover grayscale"

@@ -98,9 +98,15 @@ export default function CustomersMarquee() {
           {FAMILIES.length} homes
         </div>
       </div>
+      {/* No portrait gets `priority` — the customers grid sits far below
+          the fold (after hero, KBIS, Wellness Movement intro, three
+          tiles, Why Wellness Matters, Wellness Revolution, Wellness
+          Promise, Poolside banner). Preloading any of these would block
+          LCP-critical assets above. Each <Image> lazy-loads naturally
+          as it scrolls toward view. */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4">
-        {FAMILIES.map((p, i) => (
-          <PortraitCard key={p.src} person={p} priority={i < 6} />
+        {FAMILIES.map((p) => (
+          <PortraitCard key={p.src} person={p} priority={false} />
         ))}
         <figure className="group relative">
           <div className="relative aspect-[3/4] overflow-hidden bg-white flex items-center justify-center">

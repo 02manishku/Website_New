@@ -104,6 +104,11 @@ function Desktop() {
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+    // Desktop scrollytelling only — bail on mobile so we don't burn an
+    // idle ScrollTrigger update loop on phones (the desktop block is
+    // hidden via `hidden lg:block` and would never fire correctly
+    // anyway).
+    if (!window.matchMedia('(min-width: 1024px)').matches) return;
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: 'top top',
@@ -265,6 +270,10 @@ function Mobile() {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   useEffect(() => {
+    // Mobile fallback only — desktop hides this whole block via
+    // `lg:hidden`, so don't spin up three IntersectionObservers that
+    // can never trigger.
+    if (!window.matchMedia('(max-width: 1023px)').matches) return;
     const observers: IntersectionObserver[] = [];
     stageRefs.current.forEach((stage, i) => {
       if (!stage) return;

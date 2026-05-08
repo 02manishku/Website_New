@@ -8,6 +8,8 @@ import PoolsideKitchenBanner from '@/components/PoolsideKitchenBanner';
 import ScrollFloat from '@/components/ScrollFloat';
 import Reveal from '@/components/Reveal';
 import Magnetic from '@/components/Magnetic';
+import MotionSection from '@/components/MotionSection';
+import MaskReveal from '@/components/MaskReveal';
 import JsonLd from '@/components/JsonLd';
 import {
   allIndiaLocalBusinessSchemas,
@@ -99,7 +101,7 @@ export default function HomePage() {
           The dark register bridges from the hero into the editorial Wellness
           Movement section that follows. KBIS logo + headline + brief copy +
           link to the news story. */}
-      <section className="bg-ink text-bone py-16 lg:py-24">
+      <MotionSection className="bg-ink text-bone py-16 lg:py-24">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-4 order-2 lg:order-1">
             <div className="kicker text-bone/55 mb-5 lg:mb-6">
@@ -139,12 +141,12 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* INTRO STATEMENT, image (woman with leaf, cream wall right) sits
           behind. Text is pushed to col 6-12 so it lands on the empty cream
           side, never crossing the subject on the left. */}
-      <section className="relative bg-bone py-24 lg:py-40 overflow-hidden">
+      <MotionSection className="relative bg-bone py-24 lg:py-40 overflow-hidden">
         <Image
           src="/images/hero-below.webp"
           alt=""
@@ -193,13 +195,13 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* THREE TILES, small pt to give the tiles a touch of breathing room.
           The bigger transition lift is handled by the bottom gradient inside
           the Wellness Movement section above, which fades its image into
           bg-bone, so the two sections feel continuous, not jammed. */}
-      <section className="bg-bone pt-8 lg:pt-12 pb-20">
+      <MotionSection className="bg-bone pt-8 lg:pt-12 pb-20">
         <Reveal
           className="mx-auto max-w-[1600px] px-6 lg:px-10 grid md:grid-cols-3 gap-2"
           staggerChildren
@@ -222,7 +224,7 @@ export default function HomePage() {
             image="/images/vanities/onyx-gold-overmount.webp"
           />
         </Reveal>
-      </section>
+      </MotionSection>
 
       {/* Section break, hairline divider between the product tiles and the
           "Why Wellness Matters" editorial section below. Sits in a max-width
@@ -238,7 +240,7 @@ export default function HomePage() {
           two-line heading → full-bleed cinematic kitchen photo → three
           confident numeric answers. No card grid, no comparison strips,
           no long paragraphs. Restraint over decoration. */}
-      <section className="bg-bone py-24 lg:py-40">
+      <MotionSection className="bg-bone py-24 lg:py-40">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
 
           {/* Heading, editorial display, two lines, second line italic.
@@ -301,7 +303,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="relative mx-auto overflow-hidden aspect-[3/2] sm:aspect-[16/9] lg:aspect-[2.36/1] w-full max-w-[1400px] lg:w-[min(80vw,1400px)]">
+          <MaskReveal className="relative mx-auto overflow-hidden aspect-[3/2] sm:aspect-[16/9] lg:aspect-[2.36/1] w-full max-w-[1400px] lg:w-[min(80vw,1400px)]">
             <Image
               src="/images/kitchens/best-kitchen.webp"
               alt="Magppie Wellness Kitchen with skylights, built in Silverstone™"
@@ -309,14 +311,13 @@ export default function HomePage() {
               quality={92}
               sizes="(min-width: 1024px) 80vw, 100vw"
               className="object-cover"
-              priority
             />
-          </div>
+          </MaskReveal>
         </div>
-      </section>
+      </MotionSection>
 
       {/* SILVERSTONE FEATURE */}
-      <section className="bg-sand py-20 lg:py-40">
+      <MotionSection className="bg-sand py-20 lg:py-40">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           <div className="lg:col-span-5 order-2 lg:order-1">
             <div className="kicker text-smoke mb-6">Wellness Revolution</div>
@@ -335,7 +336,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="lg:col-span-7 order-1 lg:order-2">
-            <div className="relative aspect-[4/3] overflow-hidden bg-ink">
+            <MaskReveal className="relative aspect-[4/3] overflow-hidden bg-ink">
               {/* Copper-and-silver nano-particle reveal, autoplays muted on
                   loop. Visualises the section copy: silver infused inside the
                   stone, by nano technology. The poster is a frame extracted
@@ -353,16 +354,16 @@ export default function HomePage() {
                 <source src="/videos/copper-infused-silver.webm" type="video/webm" />
                 <source src="/videos/copper-infused-silver.mp4" type="video/mp4" />
               </video>
-            </div>
+            </MaskReveal>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* BENEFITS GRID, bracketed by hairline section breaks above and
           below the 5-column promise list, so it reads as a self-contained
           ledger of credentials within the page rather than blending into
           the surrounding bone. */}
-      <section className="bg-bone py-20 lg:py-32">
+      <MotionSection className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-4">The Wellness Promise</div>
           <ScrollFloat
@@ -396,14 +397,14 @@ export default function HomePage() {
           {/* Bottom hairline, closes the ledger */}
           <hr className="border-0 border-t border-ink/15" />
         </div>
-      </section>
+      </MotionSection>
 
       {/* POOLSIDE KITCHEN BANNER, video starts at the 5-second mark and
           loops back to 5s on each cycle (skips the dead intro frames). */}
       <PoolsideKitchenBanner />
 
       {/* CUSTOMERS GALLERY */}
-      <section className="bg-ink text-bone py-20 lg:py-36">
+      <MotionSection className="bg-ink text-bone py-20 lg:py-36">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
           <div className="max-w-3xl mb-14 lg:mb-24">
             <ScrollFloat
@@ -420,10 +421,10 @@ export default function HomePage() {
           </div>
           <CustomersMarquee />
         </div>
-      </section>
+      </MotionSection>
 
       {/* GLOBAL RECOGNITION */}
-      <section className="bg-bone py-20 lg:py-32">
+      <MotionSection className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-6">Global Recognition</div>
           <ScrollFloat
@@ -547,14 +548,16 @@ export default function HomePage() {
                       aria-label="Read the full KBIS 2026 announcement"
                       className="lg:col-span-7 group relative block aspect-[4/3] overflow-hidden bg-ink"
                     >
-                      <Image
-                        src="/images/news/kbis/hero.webp"
-                        alt="Magppie accepting the Most Unexpected award at KBIS 2026, Orlando"
-                        fill
-                        sizes="(min-width: 1024px) 60vw, 100vw"
-                        quality={92}
-                        className="object-cover tile-img"
-                      />
+                      <MaskReveal className="absolute inset-0">
+                        <Image
+                          src="/images/news/kbis/hero.webp"
+                          alt="Magppie accepting the Most Unexpected award at KBIS 2026, Orlando"
+                          fill
+                          sizes="(min-width: 1024px) 60vw, 100vw"
+                          quality={92}
+                          className="object-cover tile-img"
+                        />
+                      </MaskReveal>
                       <div className="absolute inset-x-0 bottom-0 px-6 py-5 lg:px-8 lg:py-7 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent text-bone">
                         {/* flex-wrap so on the narrowest phones (≤360px) the
                             location chip drops to its own line under the
@@ -626,13 +629,13 @@ export default function HomePage() {
             );
           })()}
         </div>
-      </section>
+      </MotionSection>
 
       {/* TESTIMONIAL - Stacy McCarthy with autoplay video */}
       <StacyTestimonial />
 
       {/* NEWS / STORIES */}
-      <section className="bg-bone py-20 lg:py-32">
+      <MotionSection className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 lg:mb-12">
             <div>
@@ -674,11 +677,11 @@ export default function HomePage() {
             />
           </Reveal>
         </div>
-      </section>
+      </MotionSection>
 
       {/* CATALOGS, sits between the Stories grid and the closing CTA, so the
           page funnels readers from journal → catalogues → consultation. */}
-      <section className="bg-bone py-20 lg:py-32">
+      <MotionSection className="bg-bone py-20 lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 lg:mb-12">
             <div>
@@ -722,10 +725,10 @@ export default function HomePage() {
             })}
           </Reveal>
         </div>
-      </section>
+      </MotionSection>
 
       {/* CTA, closing section, just before the footer */}
-      <section className="bg-sandlight py-24 lg:py-44">
+      <MotionSection className="bg-sandlight py-24 lg:py-44">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
           <div className="kicker text-smoke mb-6">Begin</div>
           <ScrollFloat
@@ -744,7 +747,7 @@ export default function HomePage() {
             </Link>
           </Magnetic>
         </div>
-      </section>
+      </MotionSection>
     </>
   );
 }
@@ -778,11 +781,13 @@ function Tile({
 }) {
   return (
     <Link href={href} className="group relative block overflow-hidden aspect-[4/5] bg-ink">
+      {/* No priority — these tiles sit below the hero + KBIS + intro
+          sections, deep into the page. Lazy-loading is correct here;
+          priority would block more critical above-the-fold assets. */}
       <Image
         src={image}
         alt={title}
         fill
-        priority
         quality={95}
         sizes="(min-width: 768px) 50vw, 100vw"
         className="object-cover tile-img opacity-95 group-hover:opacity-100"

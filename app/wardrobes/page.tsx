@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import ScrollFloat from '@/components/ScrollFloat';
+import MotionSection from '@/components/MotionSection';
 import JsonLd from '@/components/JsonLd';
 import {
   wellnessWardrobeSchema,
@@ -92,7 +93,7 @@ export default function WardrobesPage() {
       />
 
       {/* The hidden danger */}
-      <section id="wellness" className="bg-bone py-20 lg:py-40 scroll-mt-20">
+      <MotionSection id="wellness" className="bg-bone py-20 lg:py-40 scroll-mt-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-6 lg:gap-10">
           <div className="lg:col-span-4">
             <div className="kicker text-smoke">Why Wellness Matters</div>
@@ -119,10 +120,10 @@ export default function WardrobesPage() {
             </p>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Built in Stone feature */}
-      <section className="bg-sand py-20 lg:py-40">
+      <MotionSection className="bg-sand py-20 lg:py-40">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           <div className="lg:col-span-7">
             <div className="relative aspect-[4/3] overflow-hidden">
@@ -151,10 +152,10 @@ export default function WardrobesPage() {
             </p>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Wardrobe concepts */}
-      <section className="bg-bone pt-20 lg:pt-32 pb-20 lg:pb-32">
+      <MotionSection className="bg-bone pt-20 lg:pt-32 pb-20 lg:pb-32">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 mb-10 lg:mb-12">
           <ScrollFloat
             as="h2"
@@ -181,10 +182,10 @@ export default function WardrobesPage() {
             </div>
           ))}
         </div>
-      </section>
+      </MotionSection>
 
       {/* Choose family's health */}
-      <section className="bg-sand py-20 lg:py-40">
+      <MotionSection className="bg-sand py-20 lg:py-40">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-6">Choose Wellness</div>
           <ScrollFloat
@@ -207,10 +208,10 @@ export default function WardrobesPage() {
             ))}
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* 13 accessories */}
-      <section id="accessories" className="bg-bone py-20 lg:py-32 scroll-mt-20">
+      <MotionSection id="accessories" className="bg-bone py-20 lg:py-32 scroll-mt-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="kicker text-smoke mb-4">13 Accessories</div>
           <ScrollFloat
@@ -232,10 +233,10 @@ export default function WardrobesPage() {
             ))}
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* CTA */}
-      <section className="bg-sandlight py-20 lg:py-28">
+      <MotionSection className="bg-sandlight py-20 lg:py-28">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-10 text-center">
           <ScrollFloat
             as="h2"
@@ -250,7 +251,7 @@ export default function WardrobesPage() {
             Book a consultation
           </Link>
         </div>
-      </section>
+      </MotionSection>
     </>
   );
 }
