@@ -27,6 +27,8 @@ export default function HeroVideo() {
         // segment lands.
         preload="metadata"
         poster="/images/hero.webp"
+        controlsList="nodownload"
+        disablePictureInPicture
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/videos/brecciaa.webm" type="video/webm" />

@@ -64,6 +64,8 @@ export default function PoolsideKitchenBanner() {
         playsInline
         preload="metadata"
         poster="/images/02.webp"
+        controlsList="nodownload"
+        disablePictureInPicture
         className="absolute inset-0 w-full h-full object-cover"
       >
         {/* `#t=5` hint, lets the browser start decoding from the 5s mark on

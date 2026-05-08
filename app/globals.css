@@ -32,6 +32,26 @@ body {
   overflow-x: hidden;
 }
 
+/* Video download deterrent + performance hint.
+   - `pointer-events: none` makes right-clicks pass through to the parent
+     <div>, which means the browser's "Save video as" item never appears in
+     the context menu (the click target isn't a video element from the
+     browser's perspective). All of our videos are autoplay/muted/loop
+     decorative — there's no controls to interact with anyway.
+   - `transform: translateZ(0)` promotes the video to its own GPU layer so
+     decoding doesn't fight with the compositor over the rest of the page.
+   - `user-select: none` blocks long-press save flows on mobile.
+   This is a deterrent, not encryption — anyone with DevTools can still
+   read the source URL from the Network tab. To truly prevent downloads
+   you'd need signed URLs / DRM (Widevine, FairPlay), which require a
+   server. */
+video {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transform: translateZ(0);
+}
+
 /* Suppress 300ms double-tap delay on tap targets. Modern browsers mostly
    handle this, but explicit `manipulation` helps on older Android Chrome. */
 a, button, [role="button"], input[type="submit"], label {

@@ -73,7 +73,13 @@ export default function MaskReveal({
       return;
     }
 
-    gsap.set(el, { clipPath: FROM_CLIP[direction] });
+    gsap.set(el, {
+      clipPath: FROM_CLIP[direction],
+      // GPU promote during the animation so the compositor handles the
+      // mask change without repainting the whole layer. Removed in
+      // onComplete so we don't keep an idle layer around afterwards.
+      willChange: 'clip-path'
+    });
 
     const tween = gsap.to(el, {
       clipPath: 'inset(0)',
@@ -83,6 +89,14 @@ export default function MaskReveal({
       // intentional and weighty — the image isn't blinking on, it's
       // being uncovered.
       ease: 'power4.inOut',
+      onComplete: () => {
+        // Strip the clip-path entirely once revealed — keeping
+        // `inset(0)` on the element leaves a clip-path stacking
+        // context active, which costs compositor work on every
+        // subsequent paint (especially expensive over a video).
+        el.style.clipPath = '';
+        el.style.willChange = '';
+      },
       scrollTrigger: {
         trigger: el,
         start: 'top bottom-=120',

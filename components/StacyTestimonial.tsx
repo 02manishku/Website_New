@@ -103,6 +103,8 @@ export default function StacyTestimonial() {
                 loop
                 preload="metadata"
                 poster="/images/Partners/Stacy_Mc_Carthy.webp"
+                controlsList="nodownload"
+                disablePictureInPicture
                 className="absolute inset-0 w-full h-full object-cover"
               >
                 <source src="/videos/stacy.webm" type="video/webm" />

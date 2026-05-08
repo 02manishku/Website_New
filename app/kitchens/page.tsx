@@ -375,6 +375,8 @@ export default function KitchensPage() {
           playsInline
           preload="none"
           poster="/images/02.webp"
+          controlsList="nodownload"
+          disablePictureInPicture
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source src="/videos/pool-area-1.webm" type="video/webm" />

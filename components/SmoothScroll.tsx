@@ -26,6 +26,25 @@ if (typeof window !== 'undefined') {
  *  - prefers-reduced-motion users get native scroll, no Lenis.
  */
 export default function SmoothScroll() {
+  // Belt-and-braces video right-click blocker. CSS already does the
+  // heavy lifting via `pointer-events: none` on <video> (right-clicks
+  // pass through to the parent <div>, so the browser never offers a
+  // "Save video as" item). This handler covers the rare browsers /
+  // edge cases where context still bubbles up from a video target.
+  // Lives here because SmoothScroll is the one client component
+  // mounted globally in the layout, so we don't pay for an extra
+  // `'use client'` boundary just for one event listener.
+  useEffect(() => {
+    const onContextMenu = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target?.tagName === 'VIDEO') {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('contextmenu', onContextMenu);
+    return () => document.removeEventListener('contextmenu', onContextMenu);
+  }, []);
+
   useEffect(() => {
     const prefersReduced = window.matchMedia(
       '(prefers-reduced-motion: reduce)'

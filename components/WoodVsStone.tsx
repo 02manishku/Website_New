@@ -197,6 +197,8 @@ function Desktop() {
                     playsInline
                     preload={i === 0 ? 'auto' : 'metadata'}
                     poster={s.poster}
+                    controlsList="nodownload"
+                    disablePictureInPicture
                     className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${
                       i === activeIdx ? 'opacity-100' : 'opacity-0'
                     }`}
@@ -336,6 +338,8 @@ function Mobile() {
                 playsInline
                 preload="metadata"
                 poster={s.poster}
+                controlsList="nodownload"
+                disablePictureInPicture
                 className="absolute inset-0 w-full h-full object-cover"
               >
                 <source src={s.videoWebm} type="video/webm" />

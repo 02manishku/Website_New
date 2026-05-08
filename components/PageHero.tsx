@@ -24,6 +24,8 @@ export default function PageHero({
             playsInline
             preload="metadata"
             poster={image}
+            controlsList="nodownload"
+            disablePictureInPicture
             className="absolute inset-0 w-full h-full object-cover"
             style={{
               transform: 'scale(1.20) translate(4%, -5%)',

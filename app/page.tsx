@@ -336,12 +336,13 @@ export default function HomePage() {
             </p>
           </div>
           <div className="lg:col-span-7 order-1 lg:order-2">
-            <MaskReveal className="relative aspect-[4/3] overflow-hidden bg-ink">
-              {/* Copper-and-silver nano-particle reveal, autoplays muted on
-                  loop. Visualises the section copy: silver infused inside the
-                  stone, by nano technology. The poster is a frame extracted
-                  from the same video so there's no jarring swap once playback
-                  starts. */}
+            {/* No MaskReveal on the video itself — clip-path animating on
+                a decoding <video> element costs both compositor and GPU
+                budget at the same time, which causes visible scroll
+                jitter when the user enters this section. The
+                MotionSection wrapping the whole block already provides
+                the entrance; the video carries itself visually. */}
+            <div className="relative aspect-[4/3] overflow-hidden bg-ink transform-gpu">
               <video
                 autoPlay
                 muted
@@ -349,12 +350,14 @@ export default function HomePage() {
                 playsInline
                 preload="metadata"
                 poster="/images/copper-infused-silver-poster.webp"
+                controlsList="nodownload"
+                disablePictureInPicture
                 className="absolute inset-0 w-full h-full object-cover"
               >
                 <source src="/videos/copper-infused-silver.webm" type="video/webm" />
                 <source src="/videos/copper-infused-silver.mp4" type="video/mp4" />
               </video>
-            </MaskReveal>
+            </div>
           </div>
         </div>
       </MotionSection>
