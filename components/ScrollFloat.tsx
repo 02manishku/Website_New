@@ -1,5 +1,9 @@
 'use client';
 
+// audited 2026-05-09 — H-01: tween.scrollTrigger?.kill() + tween.kill() in
+// useEffect cleanup, prefers-reduced-motion bypass, ScrollTrigger
+// auto-refreshes on resize. Animates only opacity + transform.
+
 import {
   Children,
   Fragment,

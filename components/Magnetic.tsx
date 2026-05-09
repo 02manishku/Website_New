@@ -1,5 +1,9 @@
 'use client';
 
+// audited 2026-05-09 — H-01: removeEventListener for both mousemove +
+// mouseleave in cleanup; touch-device + prefers-reduced-motion bypass;
+// only x + y (transform) animated.
+
 import {
   useRef,
   useEffect,

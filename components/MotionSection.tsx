@@ -1,5 +1,8 @@
 'use client';
 
+// audited 2026-05-09 — H-01: tween.scrollTrigger?.kill() + tween.kill() in
+// cleanup, prefers-reduced-motion bypass, opacity + y (transform) only.
+
 import {
   useEffect,
   useRef,

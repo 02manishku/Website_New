@@ -342,7 +342,23 @@ After the Header.tsx fix, every route ships at most one priority Image, and that
 
 ### H. Animation (GSAP / Framer Motion / Lenis)
 
-**[HIGH] H-01 — Animation cleanup on most components is correct, but not all components were verified**
+**[FIXED — Batch 2 Phase 9] H-01 audit result: animation lifecycle audit**
+
+Walked all seven components per the Phase 9 brief. Per-file findings:
+
+| Component | Cleanup OK? | Reduced-motion | Notes |
+|---|---|---|---|
+| `ScrollFloat.tsx` | ✓ `tween.scrollTrigger?.kill()` + `tween.kill()` | ✓ | char-by-char reveal; only opacity + transform animated |
+| `Reveal.tsx` | ✓ both branches (mobile per-child / desktop single) | ✓ | only opacity + y |
+| `MotionSection.tsx` | ✓ same kill pattern | ✓ | section fade-up |
+| `MaskReveal.tsx` | ✓ same kill pattern + `willChange` strip onComplete | ✓ | clip-path only (compositor-friendly) |
+| `Magnetic.tsx` | ✓ `removeEventListener` × 2 | ✓ + touch-device bypass | only x + y |
+| `CountUp.tsx` | ✓ `trigger.kill()` | ✓ | `once: true`; DOM updates `textContent` only |
+| `WhyStoneMakesDifference.tsx` | ✓ `observers.forEach((o) => o.disconnect())` | n/a (no transform animations) | per-card IntersectionObserver only |
+
+All seven now carry an `// audited 2026-05-09 — H-01:` header comment so a future contributor can grep for it before changing the lifecycle code. ScrollTrigger auto-refreshes on resize globally — no per-trigger refresh hook needed.
+
+**[HIGH] H-01 — (original finding, retained for context)**
 - Verified clean: `components/SmoothScroll.tsx` (Lenis destroy + GSAP ticker remove), `components/WoodVsStone.tsx:125` (`trigger.kill()`).
 - Not yet verified (component sources not read): `components/ScrollFloat.tsx`, `Reveal.tsx`, `MotionSection.tsx`, `MaskReveal.tsx`, `Magnetic.tsx`, `WhyStoneMakesDifference.tsx`, `CountUp.tsx`. These ScrollTriggers / observers must `kill()` on unmount and `refresh()` on resize.
 - Fix: Audit each of these files for `gsap.context()` cleanup or per-trigger `kill()` in the effect's return.

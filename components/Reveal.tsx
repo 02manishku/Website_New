@@ -1,5 +1,9 @@
 'use client';
 
+// audited 2026-05-09 — H-01: both code branches (mobile per-child triggers,
+// desktop single trigger) kill ScrollTrigger + tween in cleanup;
+// prefers-reduced-motion bypass; only opacity + y (transform) animated.
+
 import {
   useEffect,
   useRef,

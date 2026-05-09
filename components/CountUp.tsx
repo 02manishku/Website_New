@@ -1,5 +1,9 @@
 'use client';
 
+// audited 2026-05-09 — H-01: trigger.kill() in cleanup; once: true keeps
+// it from re-firing; prefers-reduced-motion bypass; tween targets a
+// plain object (not the DOM), DOM updates are textContent only.
+
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
