@@ -100,15 +100,18 @@ a, button, [role="button"], input[type="submit"], label {
 }
 .hover-underline:hover::after { width: 100%; }
 
-/* Mobile tap-friendly small links, expands the touch area to ~44px tall
+/* Mobile tap-friendly small links, expands the touch area to ≥44px tall
    without altering the visible position (negative margin compensates the
-   added padding). Use alongside text-sm or .kicker on inline links. */
+   added padding). 0.875rem (14px) padding + ~14-21px text line-height
+   yields a 42-49px hit target — clears Apple HIG's 44pt minimum for both
+   text-xs and text-sm sizes. Use alongside text-sm or .kicker on inline
+   links. */
 .tap-link {
   display: inline-block;
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
-  margin-top: -0.625rem;
-  margin-bottom: -0.625rem;
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+  margin-top: -0.875rem;
+  margin-bottom: -0.875rem;
 }
 
 .fade-up {
