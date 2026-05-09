@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import FocusLock from 'react-focus-lock';
 
 // Persistence key. Stored in sessionStorage so the teaser comes back on a
 // fresh visit but stays gone within the current session — a forever-dismiss
@@ -32,6 +33,19 @@ export default function NewsletterTeaser() {
   // straight away — one fewer click between intent and action.
   useEffect(() => {
     if (mode === 'expanded') emailRef.current?.focus();
+  }, [mode]);
+
+  // Esc dismisses the popup whenever it's not in the collapsed state.
+  // Standard dialog-pattern expectation; combined with FocusLock below
+  // this satisfies WCAG 2.1 SC 2.1.2 (No Keyboard Trap) and the
+  // role=\"dialog\" semantics announced to screen readers.
+  useEffect(() => {
+    if (mode === 'collapsed') return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') dismiss();
+    }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [mode]);
 
   function dismiss() {
@@ -114,7 +128,13 @@ export default function NewsletterTeaser() {
       )}
 
       {(mode === 'expanded' || mode === 'sending' || mode === 'error') && (
-        <div className="relative bg-bone border border-ink/10 shadow-[0_30px_60px_-25px_rgba(0,0,0,0.45)] w-[min(92vw,360px)] p-6 lg:p-7">
+        <FocusLock returnFocus>
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Subscribe to Magppie updates"
+          className="relative bg-bone border border-ink/10 shadow-[0_30px_60px_-25px_rgba(0,0,0,0.45)] w-[min(92vw,360px)] p-6 lg:p-7"
+        >
           <button
             type="button"
             aria-label="Close newsletter form"
@@ -179,6 +199,7 @@ export default function NewsletterTeaser() {
             )}
           </form>
         </div>
+        </FocusLock>
       )}
 
       {mode === 'thanks' && (
