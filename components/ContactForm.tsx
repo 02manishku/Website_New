@@ -150,7 +150,9 @@ export default function ContactForm() {
           autoComplete="tel"
           inputMode="numeric"
           pattern="\d{10}"
+          title="Enter a 10-digit number"
           enterKeyHint="next"
+          hint="10-digit Indian mobile number"
         />
         <Field
           label="Email"
@@ -199,9 +201,31 @@ export default function ContactForm() {
       {error && (
         <div
           role="alert"
-          className="text-xs text-ink/85 border-l-2 border-ink py-2 pl-3 bg-ink/5"
+          className="flex items-start gap-2.5 text-sm text-red-700 border border-red-200 bg-red-50 px-3 py-2.5"
         >
-          {error}
+          {/* Inline warning triangle so the alert reads as an error
+              beyond colour alone (WCAG 2.1 SC 1.4.1). The literal
+              "Error:" prefix doubles the signal for screen readers
+              that don't announce role=\"alert\" loud enough. */}
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            className="shrink-0 mt-0.5"
+          >
+            <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          <span>
+            <strong className="font-medium">Error:</strong> {error}
+          </span>
         </div>
       )}
 
@@ -232,7 +256,9 @@ function Field({
   autoComplete,
   inputMode,
   pattern,
-  enterKeyHint
+  title,
+  enterKeyHint,
+  hint
 }: {
   label: string;
   name: string;
@@ -241,8 +267,14 @@ function Field({
   autoComplete?: string;
   inputMode?: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
   pattern?: string;
+  title?: string;
   enterKeyHint?: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send';
+  hint?: string;
 }) {
+  // Tie hint text to the input via aria-describedby so screen readers
+  // announce the format expectation alongside the field label.
+  const hintId = hint ? `${name}-hint` : undefined;
+
   return (
     <label className="block">
       <span className="label text-smoke mb-2 block">
@@ -256,9 +288,16 @@ function Field({
         autoComplete={autoComplete}
         inputMode={inputMode}
         pattern={pattern}
+        title={title}
         enterKeyHint={enterKeyHint}
+        aria-describedby={hintId}
         className="w-full bg-transparent border-b hairline focus:border-ink outline-none py-2 text-ink text-base min-h-[44px]"
       />
+      {hint && (
+        <span id={hintId} className="block text-[0.7rem] text-smoke/80 mt-1.5">
+          {hint}
+        </span>
+      )}
     </label>
   );
 }
