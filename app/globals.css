@@ -115,18 +115,35 @@ a, button, [role="button"], input[type="submit"], label {
 }
 
 /* Awards & Accolades masthead. Renders as a real <ul> for screen readers,
-   but visually flows as one continuous run of inline items separated by
-   middle-dots — the dot is a pseudo-element on every <li> except the
-   last, so it stays out of the accessibility tree (no "dot dot dot"
-   announced between awards). */
-.awards-masthead { list-style: none; padding: 0; margin: 0; }
+   but visually flows as a centred run of items separated by middle-dots.
+   The dot is a pseudo-element on every <li> except the last, so it
+   stays out of the accessibility tree (no "dot dot dot" announced
+   between awards).
+
+   Flexbox not text-align: with `display: inline` <li> + text-align: center
+   the wrapped lines were leaving an uneven gap because the breaks could
+   land mid-separator. flex-wrap + justify-content: center treats each
+   <li> as an atomic flex item; every wrapped line is independently
+   centred regardless of where the break lands. */
+.awards-masthead {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+}
 .awards-masthead > li {
-  display: inline;
+  display: inline-flex;
+  align-items: baseline;
 }
 .awards-masthead > li:not(:last-child)::after {
-  content: ' · ';
+  content: '·';
   color: rgba(27, 27, 27, 0.25); /* ink/25 */
-  margin: 0 0.625rem;
+  margin-left: 0.5rem;
 }
 
 .fade-up {
