@@ -38,7 +38,23 @@ bash scripts/optimize-videos.sh
 node scripts/rewrite-refs.js     # updates code refs from rename-map.json
 ```
 
-Originals are preserved locally in `public/_originals/` (gitignored).
+Originals are preserved locally in `../magppie-source-assets/_originals/`
+(outside the project root so they never accidentally ship to Vercel via a
+direct CLI deploy). Path is relative to the project root, so the source
+directory and the project sit as siblings:
+
+```
+parent/
+  magppie-source-assets/
+    _originals/         ← uncompressed source images & videos
+    og-source-*.jpg     ← OG image source files (1200x630+ landscape)
+    icon-source.png     ← square brand mark, 1024x1024+
+  magppie-site/         ← this repo
+    public/             ← only optimised, deployable assets
+```
+
+The optimisation scripts in `scripts/` and `scripts/generate-social-assets.mjs`
+read from `../magppie-source-assets/` and write to `public/`.
 
 ## Deployment
 
