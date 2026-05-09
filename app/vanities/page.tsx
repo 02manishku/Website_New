@@ -57,6 +57,7 @@ export const metadata: Metadata = {
     ]
   },
   twitter: {
+    card: 'summary_large_image',
     title: 'Luxury Bathroom Vanities in Stone | Magppie India',
     description: 'Eight Silverstone™ finishes, from Onyx Gold to Flurry Black.',
     images: ['/og/vanities-og.jpg']

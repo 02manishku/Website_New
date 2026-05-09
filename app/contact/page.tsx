@@ -49,6 +49,7 @@ export const metadata: Metadata = {
     ]
   },
   twitter: {
+    card: 'summary_large_image',
     title: 'Contact Magppie | Book a Wellness Kitchen Consultation',
     description: 'Book a consultation at a Magppie showroom.',
     images: ['/og/contact-og.jpg']

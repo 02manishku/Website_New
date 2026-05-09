@@ -71,6 +71,7 @@ export const metadata: Metadata = {
     ]
   },
   twitter: {
+    card: 'summary_large_image',
     title: 'Modular Kitchen Designs in Silverstone™ | Magppie India',
     description:
       "India's only kitchen built fully in patented antibacterial Silverstone™.",

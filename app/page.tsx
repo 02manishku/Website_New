@@ -53,6 +53,7 @@ export const metadata: Metadata = {
     ]
   },
   twitter: {
+    card: 'summary_large_image',
     title: 'Luxury Modular Kitchen in India | Magppie Wellness Kitchen',
     description:
       "Magppie's world-first Wellness Kitchen, built in patented Silverstone™. KBIS 2026 winner.",

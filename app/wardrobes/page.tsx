@@ -59,6 +59,7 @@ export const metadata: Metadata = {
     ]
   },
   twitter: {
+    card: 'summary_large_image',
     title: 'Luxury Wardrobes and Walk-In Closets | Magppie India',
     description: "India's first wardrobe built fully in Silverstone™.",
     images: ['/og/wardrobes-og.jpg']

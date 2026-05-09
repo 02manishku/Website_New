@@ -51,6 +51,7 @@ export const metadata: Metadata = {
     ]
   },
   twitter: {
+    card: 'summary_large_image',
     title: "About Magppie: World's First Wellness Kitchen Brand",
     description: 'Founded 2018, Delhi. KBIS 2026 winner.',
     images: ['/og/about-og.jpg']

@@ -46,6 +46,7 @@ export const metadata: Metadata = {
     ]
   },
   twitter: {
+    card: 'summary_large_image',
     title: 'Magppie Journal: Wellness Kitchen Stories and News',
     description: 'Stories from the Wellness Movement.',
     images: ['/og/news-og.jpg']
