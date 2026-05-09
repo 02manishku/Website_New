@@ -52,7 +52,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
         onLight
           ? 'bg-bone/95 backdrop-blur border-b hairline'
           : 'bg-gradient-to-b from-ink/40 to-transparent'
