@@ -61,7 +61,10 @@ export default function ContactForm() {
       // `location` parameter.
       location: String(formData.get('city') ?? '').trim(),
       budget: String(formData.get('budget') ?? '').trim(),
-      timeline: String(formData.get('timeline') ?? '').trim()
+      timeline: String(formData.get('timeline') ?? '').trim(),
+      // Honeypot — must be empty for a real visitor. Bots that
+      // fill every input get filtered server-side.
+      website: String(formData.get('website') ?? '')
     };
 
     setSubmitting(true);
@@ -110,6 +113,26 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
+      {/* Honeypot — hidden from visible page, kept out of the tab order,
+          ignored by screen readers. Real visitors leave this empty.
+          Bots that fill every input get filtered server-side. */}
+      <input
+        type="text"
+        name="website"
+        defaultValue=""
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          width: 1,
+          height: 1,
+          opacity: 0,
+          pointerEvents: 'none'
+        }}
+      />
+
       <Field
         label="Full Name"
         name="name"
