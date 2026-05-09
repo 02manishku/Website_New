@@ -5,6 +5,7 @@ import HeroVideo from '@/components/HeroVideo';
 import CustomersMarquee from '@/components/CustomersMarquee';
 import StacyTestimonial from '@/components/StacyTestimonial';
 import PoolsideKitchenBanner from '@/components/PoolsideKitchenBanner';
+import WhyStoneMakesDifference from '@/components/WhyStoneMakesDifference';
 import ScrollFloat from '@/components/ScrollFloat';
 import Reveal from '@/components/Reveal';
 import Magnetic from '@/components/Magnetic';
@@ -211,7 +212,7 @@ export default function HomePage() {
           <Tile
             href="/kitchens"
             title="Wellness Kitchens"
-            image="/images/22.webp"
+            image="/images/wellness-kitchen-hero.jpg"
           />
           <Tile
             href="/wardrobes"
@@ -362,45 +363,15 @@ export default function HomePage() {
         </div>
       </MotionSection>
 
-      {/* BENEFITS GRID, bracketed by hairline section breaks above and
-          below the 5-column promise list, so it reads as a self-contained
-          ledger of credentials within the page rather than blending into
-          the surrounding bone. */}
-      <MotionSection className="bg-bone py-20 lg:py-32">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div className="kicker text-smoke mb-4">The Wellness Promise</div>
-          <ScrollFloat
-            as="h2"
-            containerClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight text-ink max-w-3xl"
-          >
-            Built in stone. Guaranteed for 25 years. Serviced for 25 years.
-          </ScrollFloat>
-
-          {/* Top hairline, separates the heading from the credential grid */}
-          <hr className="border-0 border-t border-ink/15 mt-12 lg:mt-16" />
-
-          <Reveal
-            className="grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-ink/10"
-            staggerChildren
-            stagger={0.08}
-            y={20}
-          >
-            {BENEFITS.map((b) => (
-              <div key={b.kicker} className="bg-bone p-6 sm:p-8">
-                <div className="label text-smoke mb-4">{b.kicker}</div>
-                <ul className="space-y-2 text-ink">
-                  {b.items.map((i) => (
-                    <li key={i} className="text-sm leading-relaxed">{i}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </Reveal>
-
-          {/* Bottom hairline, closes the ledger */}
-          <hr className="border-0 border-t border-ink/15" />
-        </div>
-      </MotionSection>
+      {/* WHY STONE MAKES ALL THE DIFFERENCE — replaces the previous
+          5-column "Wellness Promise" credential grid. Stacking-accordion
+          scrollytelling: seven failure-mode tests (stain, scratch, load,
+          fire, water, impact, Indian-vessel fit) each with a video
+          demo. Each card's header sticks at an incrementing top offset,
+          accumulating at the top of the viewport as the user scrolls,
+          like chapters in a monograph. The active card autoplays its
+          video; siblings stay paused. */}
+      <WhyStoneMakesDifference />
 
       {/* POOLSIDE KITCHEN BANNER, video starts at the 5-second mark and
           loops back to 5s on each cycle (skips the dead intro frames). */}
@@ -440,7 +411,7 @@ export default function HomePage() {
 
           {(() => {
             const HERO_AWARDS = [
-              'Most Unexpected Innovation Award, KBIS 2026 · Orlando',
+              'Most Unexpected Innovation Award, KBIS 2026, Orlando',
               'Red Dot Best of the Best 2010',
               'iF International Design Award 2010, Germany',
               'EDIDA India, Best Kitchen 2013',
@@ -460,6 +431,7 @@ export default function HomePage() {
               'NKBA, National Kitchen & Bath Association',
               'NSI, National Stone Institute',
             ];
+            const ALL_AWARDS = [...HERO_AWARDS, ...AWARDS];
             return (
               <>
                 {/* Award logos - lead with the trophy */}
@@ -495,46 +467,92 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Awards & Accolades + Memberships, sits right under the
-                    Featured In logos so the reader scans the historical
-                    record first, then lands on the KBIS spotlight below as
-                    the closing crescendo. */}
-                <div className="pt-10 border-t border-ink/10">
-                  <div className="label text-smoke/70 mb-6 text-[0.65rem]">
+                {/* Awards & Accolades — newspaper-masthead style. All
+                    twelve awards flow as a single composed paragraph
+                    separated by middle-dots; the four most prestigious
+                    lead in heavier ink, the historical roster follows
+                    in lighter ink. Each award is `inline-block
+                    whitespace-nowrap` so the browser never splits an
+                    award name across lines — line breaks happen only
+                    *between* awards, the way a real masthead reads. */}
+                <div className="pt-12 lg:pt-16 border-t border-ink/10">
+                  <div className="label text-smoke/70 mb-8 text-[0.65rem] text-center tracking-[0.32em]">
                     Awards &amp; Accolades
                   </div>
-                  <ul className="flex flex-wrap gap-2">
-                    {HERO_AWARDS.map((a) => (
-                      <li
-                        key={a}
-                        className="text-[0.72rem] sm:text-[0.78rem] font-semibold text-ink border border-ink/35 bg-bone px-3 sm:px-3.5 py-2"
-                      >
-                        {a}
-                      </li>
-                    ))}
-                    {AWARDS.map((a) => (
-                      <li
-                        key={a}
-                        className="text-[0.72rem] sm:text-[0.78rem] font-medium text-ink/65 border border-ink/10 bg-bone px-3 sm:px-3.5 py-2 hover:border-ink/30 transition-colors"
-                      >
-                        {a}
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="text-center max-w-[78ch] mx-auto leading-[2] text-[0.82rem] sm:text-[0.88rem] lg:text-[0.95rem]">
+                    {ALL_AWARDS.map((award, idx) => {
+                      const isHero = idx < HERO_AWARDS.length;
+                      return (
+                        <span
+                          key={award}
+                          className="inline-block whitespace-nowrap align-baseline"
+                        >
+                          <span
+                            className={
+                              isHero
+                                ? 'font-display text-ink font-medium'
+                                : 'font-display text-ink/55'
+                            }
+                          >
+                            {award}
+                          </span>
+                          {idx < ALL_AWARDS.length - 1 && (
+                            <span
+                              aria-hidden
+                              className="mx-2.5 sm:mx-3 text-ink/25 font-display"
+                            >
+                              ·
+                            </span>
+                          )}
+                        </span>
+                      );
+                    })}
+                  </p>
+                </div>
 
-                  <div className="label text-smoke/70 mt-8 mb-3 text-[0.65rem]">
+                {/* Memberships — refined marquee. Treatment is a tracked-
+                    out small caps kicker (the same family as the
+                    section labels) rather than dramatic display italic
+                    — reads as a quiet partner ribbon, like the
+                    credential strip in a financial publication's
+                    footer. Edge fades resolve names in and out
+                    smoothly; pauses on hover for curious readers. */}
+                <div className="mt-14 lg:mt-20">
+                  <div className="label text-smoke/70 mb-6 text-[0.65rem] text-center tracking-[0.32em]">
                     Memberships
                   </div>
-                  <ul className="flex flex-wrap gap-2">
-                    {MEMBERSHIPS.map((m) => (
-                      <li
-                        key={m}
-                        className="text-[0.78rem] font-medium text-ink/70 border border-ink/10 bg-sand/40 px-3.5 py-2 hover:border-ink/30 transition-colors"
-                      >
-                        {m}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="relative overflow-hidden py-3 group">
+                    <div
+                      aria-hidden
+                      className="absolute inset-y-0 left-0 w-12 sm:w-24 lg:w-32 bg-gradient-to-r from-bone via-bone to-transparent z-10 pointer-events-none"
+                    />
+                    <div
+                      aria-hidden
+                      className="absolute inset-y-0 right-0 w-12 sm:w-24 lg:w-32 bg-gradient-to-l from-bone via-bone to-transparent z-10 pointer-events-none"
+                    />
+
+                    <div
+                      className="marquee-track flex items-center w-max group-hover:[animation-play-state:paused]"
+                      style={{ animationDuration: '50s' }}
+                    >
+                      {[...MEMBERSHIPS, ...MEMBERSHIPS].map((m, idx) => (
+                        <span
+                          key={`${m}-${idx}`}
+                          className="flex items-center shrink-0 whitespace-nowrap"
+                        >
+                          <span className="text-[0.7rem] sm:text-[0.76rem] lg:text-[0.82rem] uppercase tracking-[0.28em] font-medium text-ink/70 px-7 sm:px-10 lg:px-14">
+                            {m}
+                          </span>
+                          <span
+                            aria-hidden
+                            className="text-ink/25 text-[0.6rem] sm:text-[0.7rem]"
+                          >
+                            ✦
+                          </span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 {/* KBIS 2026 spotlight, closes the recognition section as
@@ -825,28 +843,35 @@ function NewsCard({
   tag: string;
   title: string;
 }) {
+  // Whole tile is a single Link so keyboard / screen-reader users can reach
+  // it. Visual "Read story →" affordance moved into the wrapper's hover
+  // state via the underline on the heading; no separate inner CTA needed.
   return (
-    <article className="group cursor-pointer">
-      <div className="relative aspect-[4/5] overflow-hidden bg-sand">
-        <Image
-          src={image}
-          alt={title}
-          fill
-          quality={92}
-          sizes="(min-width: 768px) 33vw, 100vw"
-          className="object-cover tile-img"
-        />
-      </div>
-      <div className="mt-6 flex items-center gap-3 text-[0.78rem] text-smoke">
-        <span>{date}</span>
-        <span className="w-6 h-px bg-smoke/40" />
-        <span>{tag}</span>
-      </div>
-      <h3 className="mt-3 font-display text-2xl lg:text-3xl text-ink leading-snug">
-        {title}
-      </h3>
-      <span className="tap-link mt-4 text-sm hover-underline">Read story →</span>
-    </article>
+    <Link
+      href="/news"
+      className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-bone"
+    >
+      <article>
+        <div className="relative aspect-[4/5] overflow-hidden bg-sand">
+          <Image
+            src={image}
+            alt={title}
+            fill
+            quality={92}
+            sizes="(min-width: 768px) 33vw, 100vw"
+            className="object-cover tile-img"
+          />
+        </div>
+        <div className="mt-6 flex items-center gap-3 text-[0.78rem] text-smoke">
+          <span>{date}</span>
+          <span className="w-6 h-px bg-smoke/40" />
+          <span>{tag}</span>
+        </div>
+        <h3 className="mt-3 font-display text-2xl lg:text-3xl text-ink leading-snug group-hover:underline underline-offset-4 decoration-1">
+          {title}
+        </h3>
+      </article>
+    </Link>
   );
 }
 
