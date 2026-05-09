@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import NewsletterTeaser from '@/components/NewsletterTeaser';
@@ -244,6 +246,13 @@ export default function RootLayout({
         </main>
         <Footer />
         <NewsletterTeaser />
+        {/* Vercel Analytics + Speed Insights. Both auto-activate on
+            Vercel deploy without any keys; no-ops in local dev. The
+            Speed Insights bundle reports the four Core Web Vitals
+            (LCP, INP, CLS, TTFB) plus FCP and FID, satisfying audit
+            finding N-03 without a separate web-vitals reporter. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
