@@ -17,7 +17,6 @@ import { clientIp, isAllowedOrigin, rateLimited } from '@/lib/rate-limit';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: Request) {
@@ -51,16 +50,28 @@ export async function POST(req: Request) {
   }
 
   // ── Push to Resend audience ─────────────────────────────────────
+  // Resend SDK validates the API key in its constructor, so we
+  // instantiate lazily here (per-request) rather than at module load.
+  // That way `next build` can collect page data even when
+  // RESEND_API_KEY is empty in CI / preview where the secret hasn't
+  // been wired yet.
   try {
+    if (!process.env.RESEND_API_KEY) {
+      console.warn(
+        '[newsletter] RESEND_API_KEY not set — accepting email without persisting',
+        { email }
+      );
+      return NextResponse.json({ ok: true });
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     if (process.env.RESEND_AUDIENCE_ID) {
       await resend.contacts.create({
         email,
         audienceId: process.env.RESEND_AUDIENCE_ID
       });
     } else {
-      // Resend audience not configured yet. Log and accept so the form
-      // experience isn't blocked while the audience is being created
-      // in the Resend dashboard.
       console.warn(
         '[newsletter] RESEND_AUDIENCE_ID not set — accepting email without persisting',
         { email }
