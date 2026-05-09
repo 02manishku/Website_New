@@ -56,6 +56,24 @@ parent/
 The optimisation scripts in `scripts/` and `scripts/generate-social-assets.mjs`
 read from `../magppie-source-assets/` and write to `public/`.
 
+## Environment Setup
+
+Copy `.env.example` to `.env.local` and fill in the values. Vercel
+project settings should mirror these per environment:
+
+| Var | Production | Preview | Local |
+|---|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | `https://magppie.com` | leave unset (default fallback handles it) | `http://localhost:3010` |
+| `ZOHO_API_BASE` | `https://www.zohoapis.in` | same | same |
+| `ZOHO_ACCOUNTS_URL` | `https://accounts.zoho.in` | same | same |
+| `ZOHO_CLIENT_ID` | from api-console.zoho.in self-client | same | same |
+| `ZOHO_CLIENT_SECRET` | (sensitive) | same | same |
+| `ZOHO_REFRESH_TOKEN` | (sensitive) | same | same |
+| `RESEND_API_KEY` | (sensitive) | same | same |
+| `RESEND_AUDIENCE_ID` | from Resend dashboard | same | same |
+
+Mark the four sensitive vars (Zoho secret + refresh, Resend key, audience id) as **Sensitive** in Vercel so they're not echoed in build logs.
+
 ## Deployment
 
 One-click deploy on Vercel, no config needed. Set the build command to `npm run build` and root directory to the project root.

@@ -49,4 +49,16 @@ This was a one-shot fix-while-passing — keeping it logged because the Phase 6.
 
 ---
 
+## D-06 — Sentry (Phase 12.2 / N-02) deferred by owner
+
+**Decision:** owner reply at Phase 12.2 STOP gate: defer Sentry; wire later.
+
+**Finding deferred:** **N-02** — Server / client error monitoring is unwired. Vercel build / runtime logs are the only error surface until Sentry lands.
+
+**Effect on build:** none. The site has no Sentry imports yet; CSP `connect-src` already whitelists `*.sentry.io` so the wire-up is non-breaking when it happens.
+
+**Resume path:** create a project at sentry.io named `magppie-web`, paste the DSN. I'll add the three config files (`sentry.client.config.ts`, `sentry.server.config.ts`, `sentry.edge.config.ts`), update `next.config.js` to wrap with `withSentryConfig`, and append `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT` to `.env.example`. ~30 minutes of work.
+
+---
+
 ## (Subsequent discoveries will be appended below as they arise.)

@@ -3,7 +3,7 @@
 **Date:** 2026-05-09
 **Auditor:** Claude Code (Principal Frontend Engineer persona)
 **Build commit:** N/A — project is not a git repository (per environment metadata)
-**Award readiness verdict:** **NOT READY**
+**Award readiness verdict:** **READY PENDING MANUAL VERIFY**
 **Total issues:** 58 (Critical: 9, High: 14, Medium: 18, Low: 17)
 
 ---
@@ -777,3 +777,66 @@ Date: 2026-05-09. All 15 approved Batch 1 findings closed. End-of-batch verifica
 ---
 
 `BATCH 1 COMPLETE — 15 findings closed. Awaiting Batch 2 instructions.`
+
+---
+
+## Batch 2 — Closed
+
+Date: 2026-05-09. Final state: `tsc --noEmit` clean, `npm run lint` clean (0 errors / 0 warnings), `next build` clean (16/16 routes generated), `npm audit --omit=dev` Critical = 0 (residual HIGH on `next` documented in BATCH_1_DISCOVERIES.md D-01).
+
+| # | Finding ID(s) | Status | Commit | One-line summary |
+|---|---|---|---|---|
+| 1 | A-02 | FIXED | `846c689` | ESLint configured with `next/core-web-vitals` strict preset; lint queue empty. |
+| 2 | F-01 | FIXED | `67abc43` | Moved 569 MB of source assets out of `public/` to `../magppie-source-assets/`. |
+| 3 | E-02 / F-02 | FIXED | `2ad9180` | Compressed Wellness-Kitchens hero 2.6 MB JPG → 254 KB WebP (90% smaller). |
+| 4 | F-03 | FIXED | `ea3e180` | Removed `priority` from Header logo; PageHero retains the only LCP-tier `priority` per route. |
+| 5 | B-03 | FIXED | `642d8ec` | Shipped `/legal` and `/privacy` placeholder routes; Footer links repointed. |
+| 6 | C-01 | FIXED | `7752a38` + `bd3f4dd` | Footer newsletter wired to real `/api/newsletter` (Resend) with rate-limit + honeypot. |
+| 7 | C-02 | FIXED | `9c7f59c` | NewsletterTeaser placebo replaced with real fetch + sending / thanks / error states. |
+| 8 | C-04 | FIXED | `1521173` | Honeypot + 3-leads-per-IP-per-hour rate limit on `/api/lead`. |
+| 9 | C-05 | FIXED | `1521173` | Email required client-side AND server-side; route validates with EMAIL_RE. |
+| 10 | L-05 | FIXED | `1521173` | Origin guard on both API routes — same-origin or `*.vercel.app` only. |
+| 11 | D-01 / J-02 | FIXED | `cd8d75b` | Mobile menu wrapped in FocusLock; role=dialog, aria-modal, Esc handler, aria-controls. |
+| 12 | J-03 | FIXED | `d21d0e3` | NewsletterTeaser popup gets the same FocusLock + dialog semantics + Esc. |
+| 13 | J-04 | FIXED | `6e4cc9b` | Awards masthead converted from `<p>` to semantic `<ul>` with pseudo-element separators. |
+| 14 | J-05 | FIXED | `0c42b01` | Replaced `<ol display:contents>` with `<ul role="list">` in LocationsSection. |
+| 15 | H-01 | FIXED | `f1ed9ab` | All 7 motion components audited: cleanup verified, prefers-reduced-motion verified, transform-only verified, header comments added. |
+| 16 | C-06 | FIXED | `1a26d3a` | ContactForm error block gains warning-icon SVG, "Error:" prefix, red palette — meaning beyond colour. |
+| 17 | C-07 | FIXED | `1a26d3a` | Phone field gains "10-digit Indian mobile number" hint, pattern, title, aria-describedby. |
+| 18 | L-02 | FIXED | `851a071` | Staged Content-Security-Policy + X-Frame-Options DENY + Permissions-Policy added globally. |
+| 19 | N-01 | FIXED | `1ce475f` | `@vercel/analytics` mounted in layout. |
+| 20 | N-03 | FIXED | `1ce475f` | `@vercel/speed-insights` mounted; Core Web Vitals reported automatically. |
+
+**Out-of-scope discoveries during execution:** see `BATCH_2_DISCOVERIES.md` (D-03 through D-06).
+
+**Open after Batch 2 — awaiting owner input or out-of-scope:**
+- **I-01 / I-02 / I-03** (OG images, PWA icons, apple-icon) — deferred by owner; resume by placing 8 source files in `../magppie-source-assets/` and running `node scripts/generate-social-assets.mjs`.
+- **M-01 / M-02** (founder name, 9 showroom lat/lngs) — deferred by owner; resume by pasting values into `lib/seo.ts`.
+- **N-02** (Sentry error monitoring) — deferred by owner; resume with Sentry DSN.
+
+All other findings from the original audit either fixed in Batches 1+2 or were "VERIFY-MANUAL" tags retained in the manual-verification checklist below.
+
+---
+
+## Manual Verification Checklist
+
+These items cannot be exercised from the CLI. Run them on the Vercel preview deploy before promoting to production.
+
+| ID | Item | Tooling |
+|---|---|---|
+| D-10 | Device matrix walk (iPhone SE / 14 Pro / 14 Pro Max / Pixel 7 / Galaxy S22 Ultra / iPad Mini / iPad Pro, portrait + landscape) | Chrome DevTools device emulation |
+| F-05 | Lighthouse mobile + desktop on `/`, `/kitchens`, `/about`, `/contact`. Targets: LCP < 2.5s, INP < 200ms, CLS < 0.1, TTFB < 800ms. | Lighthouse / PageSpeed Insights |
+| F-06 | Long-task profile on a throttled 4G connection, mid-tier Android profile | DevTools Performance tab |
+| I-06 | Validate JSON-LD shapes for every route | [Google Rich Results Test](https://search.google.com/test/rich-results) |
+| J-08 | Color contrast + axe-core pass per route | [axe DevTools](https://www.deque.com/axe/devtools/) extension |
+| J-09 | Keyboard tab walk-through every route end-to-end | Tab + Shift-Tab + Esc on every dialog |
+| K-01 | Cross-browser matrix: Chrome, Safari (macOS + iOS), Firefox, Edge, Samsung Internet | BrowserStack or real devices |
+| B-04 | All 9 redirects in `next.config.js` resolve to a single 301 (no chains) | `curl -I https://magppie.com/<source>` × 9 |
+| O-06 | Preview deploy renders correctly | Push a branch + open Vercel preview URL |
+| O-07 | Document rollback runbook | Vercel "Promote to Production" UI provides one-click rollback; capture in team docs |
+| L-02 | CSP violations on preview (none expected for 24h before tightening) | DevTools Console while walking every route |
+| C-01 / C-02 | Newsletter forms end-to-end: submit a real email from each, verify 200 + appearance in Resend audience | DevTools Network + Resend dashboard |
+
+---
+
+`BATCH 2 COMPLETE — 20 approved findings closed. 5 deferred awaiting owner input. Awaiting deploy authorization.`
