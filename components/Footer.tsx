@@ -74,14 +74,17 @@ export default function Footer() {
         </div>
 
         <div className="mt-14 lg:mt-20 pt-8 pb-safe border-t border-bone/20 flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between text-xs text-bone/50">
-          {/* Legal pages aren't built yet, using "#" placeholders so they
-              don't 404 on click. Repoint to /legal /privacy etc. when each
-              page is created in the app/ directory.
-              Each link uses py-2.5 -my-2.5 (≈44px touch target) so a
-              fingertip can hit them on phones without missing. */}
+          {/* Each link uses py-2.5 -my-2.5 (≈44px touch target) so a
+              fingertip can hit them on phones without missing. Both
+              routes ship as placeholder copy "Pending legal review"
+              until the real text is signed off. */}
           <div className="flex flex-wrap gap-x-5 gap-y-1">
-            <a href="#" className="hover:text-bone py-2.5 -my-2.5">Legal</a>
-            <a href="#" className="hover:text-bone py-2.5 -my-2.5">Privacy</a>
+            <Link href="/legal" className="hover:text-bone py-2.5 -my-2.5">
+              Legal
+            </Link>
+            <Link href="/privacy" className="hover:text-bone py-2.5 -my-2.5">
+              Privacy
+            </Link>
           </div>
           <div>© {new Date().getFullYear()} Magppie Silverstone Pvt. Ltd. All rights reserved.</div>
         </div>
