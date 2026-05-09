@@ -11,12 +11,14 @@ const STORAGE_KEY = 'magppie:newsletter-teaser-dismissed';
 // hero video — feels intentional, not aggressive.
 const REVEAL_DELAY_MS = 1000;
 
-type Mode = 'collapsed' | 'expanded' | 'thanks';
+type Mode = 'collapsed' | 'expanded' | 'sending' | 'thanks' | 'error';
 
 export default function NewsletterTeaser() {
   const [visible, setVisible] = useState(false);
   const [mode, setMode] = useState<Mode>('collapsed');
   const [email, setEmail] = useState('');
+  const [website, setWebsite] = useState(''); // honeypot
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -39,13 +41,35 @@ export default function NewsletterTeaser() {
     }
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Endpoint TBD — until then, optimistic acknowledgement so the
-    // experience feels finished. Replace with a real fetch call when the
-    // newsletter API ships.
-    setMode('thanks');
-    window.setTimeout(dismiss, 2400);
+    if (mode === 'sending') return;
+
+    setMode('sending');
+    setErrorMsg(null);
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, website })
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Subscription failed.');
+      }
+
+      setMode('thanks');
+      // Auto-dismiss the popup after the user has had time to read the
+      // confirmation. Same beat as the original placebo behaviour.
+      window.setTimeout(dismiss, 2400);
+    } catch (err) {
+      setErrorMsg(
+        err instanceof Error ? err.message : 'Something went wrong.'
+      );
+      setMode('error');
+    }
   }
 
   if (!visible) return null;
@@ -89,7 +113,7 @@ export default function NewsletterTeaser() {
         </div>
       )}
 
-      {mode === 'expanded' && (
+      {(mode === 'expanded' || mode === 'sending' || mode === 'error') && (
         <div className="relative bg-bone border border-ink/10 shadow-[0_30px_60px_-25px_rgba(0,0,0,0.45)] w-[min(92vw,360px)] p-6 lg:p-7">
           <button
             type="button"
@@ -104,6 +128,26 @@ export default function NewsletterTeaser() {
             Magppie stories, new openings, and design notes. Quietly delivered.
           </p>
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Honeypot — hidden from the visible page, kept out of the
+                tab order, ignored by screen readers. Bots that fill
+                every input get filtered server-side. */}
+            <input
+              type="text"
+              name="website"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                left: '-9999px',
+                width: 1,
+                height: 1,
+                opacity: 0,
+                pointerEvents: 'none'
+              }}
+            />
             <input
               ref={emailRef}
               type="email"
@@ -115,14 +159,24 @@ export default function NewsletterTeaser() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               aria-label="Email address"
-              className="w-full bg-transparent border-b border-ink/30 focus:border-ink outline-none py-2 text-ink placeholder:text-ink/35 text-sm"
+              disabled={mode === 'sending'}
+              className="w-full bg-transparent border-b border-ink/30 focus:border-ink outline-none py-2 text-ink placeholder:text-ink/35 text-sm disabled:opacity-60"
             />
             <button
               type="submit"
-              className="kicker w-full bg-ink text-bone py-3 hover:bg-ink/85 transition-colors"
+              disabled={mode === 'sending'}
+              className="kicker w-full bg-ink text-bone py-3 hover:bg-ink/85 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Subscribe
+              {mode === 'sending' ? 'Subscribing…' : 'Subscribe'}
             </button>
+            {mode === 'error' && errorMsg && (
+              <div
+                role="alert"
+                className="text-xs text-ink/85 border-l-2 border-ink py-2 pl-3 bg-ink/5"
+              >
+                {errorMsg}
+              </div>
+            )}
           </form>
         </div>
       )}
