@@ -151,12 +151,9 @@ export const metadata: Metadata = {
       'max-snippet': -1
     }
   },
-  // TODO: paste real tokens once Search Console / Bing Webmaster
-  // properties are verified for magppie.com.
-  verification: {
-    google: 'GOOGLE_SEARCH_CONSOLE_VERIFICATION_TOKEN',
-    other: { 'msvalidate.01': 'BING_WEBMASTER_VERIFICATION_TOKEN' }
-  },
+  // `verification` block is intentionally omitted until Search Console and
+  // Bing Webmaster issue real tokens for magppie.com. Re-add as:
+  //   verification: { google: '...', other: { 'msvalidate.01': '...' } }
   category: 'Home and Garden',
   classification: 'Modular Kitchen, Luxury Furniture, Sintered Stone Surfaces',
   openGraph: {
