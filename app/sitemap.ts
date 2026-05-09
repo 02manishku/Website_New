@@ -74,22 +74,11 @@ const STATIC_ROUTES: Array<{
   }
 ];
 
-// Journal posts. Hard-coded for now; once Sanity is wired in this becomes a
-// `await sanityClient.fetch(...)` call.
-const JOURNAL_POSTS: Array<{
-  slug: string;
-  lastModified: string;
-  images?: string[];
-}> = [
-  {
-    slug: 'kbis-2026',
-    lastModified: '2026-02-18',
-    images: [
-      `${SITE_URL}/images/news/kbis/hero.webp`,
-      `${SITE_URL}/images/news/kbis/winners-podium.webp`
-    ]
-  }
-];
+// Journal posts will be added here once `app/news/[slug]/page.tsx` ships.
+// Until then, /news/* slug entries would point at non-existent routes and
+// emit 404s into the sitemap — worse SEO than not advertising them at all.
+// When Sanity is wired in, this becomes:
+//   const posts = await sanityClient.fetch('*[_type == "post"]{slug, _updatedAt}')
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -108,19 +97,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }));
 
-  const postEntries: MetadataRoute.Sitemap = JOURNAL_POSTS.map((p) => ({
-    url: `${SITE_URL}/news/${p.slug}`,
-    lastModified: new Date(p.lastModified),
-    changeFrequency: 'monthly',
-    priority: 0.7,
-    images: p.images,
-    alternates: {
-      languages: {
-        'en-IN': `${SITE_URL}/news/${p.slug}`,
-        'x-default': `${SITE_URL}/news/${p.slug}`
-      }
-    }
-  }));
-
-  return [...staticEntries, ...postEntries];
+  return staticEntries;
 }
