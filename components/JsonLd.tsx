@@ -17,7 +17,13 @@ export default function JsonLd({ data }: { data: object | object[] }) {
     <script
       type="application/ld+json"
       // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(payload) }}
+      dangerouslySetInnerHTML={{
+        // Defence-in-depth: replace `<` with its unicode escape so a hostile
+        // string ending in `</script>` (e.g. via a future Sanity-fed name
+        // field) cannot break out of the script tag. JSON parsers honour
+        // <, browsers don't see a `<` in the raw HTML stream.
+        __html: JSON.stringify(payload).replace(/</g, '\\u003c')
+      }}
     />
   );
 }
