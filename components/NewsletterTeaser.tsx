@@ -108,6 +108,9 @@ export default function NewsletterTeaser() {
               ref={emailRef}
               type="email"
               required
+              autoComplete="email"
+              inputMode="email"
+              enterKeyHint="send"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"

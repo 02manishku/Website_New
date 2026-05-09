@@ -47,6 +47,9 @@ export default function Footer() {
               <input
                 type="email"
                 required
+                autoComplete="email"
+                inputMode="email"
+                enterKeyHint="send"
                 placeholder="Your email"
                 aria-label="Email address"
                 className="flex-1 min-w-0 bg-transparent placeholder-bone/40 text-base focus:outline-none py-2 min-h-11"

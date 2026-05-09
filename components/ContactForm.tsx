@@ -41,11 +41,59 @@ const TIMELINE = [
 
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSent(true);
-    // Wire to a real backend (Resend / Brevo / EmailJS / API route) when available.
+    if (submitting) return;
+
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+      name: String(formData.get('name') ?? '').trim(),
+      // Route validates `^\d{10}$` after stripping non-digits, so any
+      // input format ("9999999999", "+91 99999 99999", "(99) 999-9999")
+      // is fine — the route normalises it.
+      phone: String(formData.get('phone') ?? '').replace(/\D/g, ''),
+      email: String(formData.get('email') ?? '').trim(),
+      state: String(formData.get('state') ?? '').trim(),
+      // Form's `city` lands in Zoho's City field via the route's
+      // `location` parameter.
+      location: String(formData.get('city') ?? '').trim(),
+      budget: String(formData.get('budget') ?? '').trim(),
+      timeline: String(formData.get('timeline') ?? '').trim()
+    };
+
+    setSubmitting(true);
+    setError(null);
+
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(
+          body.error || 'Submission failed. Please try again.'
+        );
+      }
+
+      // Both fresh leads and `duplicate: true` responses are success
+      // from the visitor's POV — they see the thank-you panel either
+      // way. The route already preserves first-touch attribution
+      // server-side.
+      setSent(true);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong. Please try again.'
+      );
+      setSubmitting(false);
+    }
   }
 
   if (sent) {
@@ -62,16 +110,45 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
-      <Field label="Full Name" name="name" required />
+      <Field
+        label="Full Name"
+        name="name"
+        required
+        autoComplete="name"
+        enterKeyHint="next"
+      />
 
       <div className="grid sm:grid-cols-2 gap-6">
-        <Field label="Contact No" name="phone" type="tel" required />
-        <Field label="Email" name="email" type="email" required />
+        <Field
+          label="Contact No"
+          name="phone"
+          type="tel"
+          required
+          autoComplete="tel"
+          inputMode="numeric"
+          pattern="\d{10}"
+          enterKeyHint="next"
+        />
+        <Field
+          label="Email"
+          name="email"
+          type="email"
+          required
+          autoComplete="email"
+          inputMode="email"
+          enterKeyHint="next"
+        />
       </div>
 
       <div className="grid sm:grid-cols-2 gap-6">
         <StateField required />
-        <Field label="City" name="city" required />
+        <Field
+          label="City"
+          name="city"
+          required
+          autoComplete="address-level2"
+          enterKeyHint="next"
+        />
       </div>
 
       <div className="grid sm:grid-cols-2 gap-6">
@@ -96,12 +173,26 @@ export default function ContactForm() {
         </span>
       </label>
 
+      {error && (
+        <div
+          role="alert"
+          className="text-xs text-ink/85 border-l-2 border-ink py-2 pl-3 bg-ink/5"
+        >
+          {error}
+        </div>
+      )}
+
       <Magnetic className="block w-full sm:inline-block sm:w-auto" strength={0.3}>
         <button
           type="submit"
-          className="w-full sm:w-auto inline-flex items-center justify-center px-8 lg:px-10 py-4 min-h-[48px] bg-ink text-bone kicker hover:bg-smoke transition-colors"
+          disabled={submitting}
+          className={`w-full sm:w-auto inline-flex items-center justify-center px-8 lg:px-10 py-4 min-h-[48px] bg-ink text-bone kicker transition-colors ${
+            submitting
+              ? 'opacity-60 cursor-not-allowed'
+              : 'hover:bg-smoke'
+          }`}
         >
-          Send enquiry →
+          {submitting ? 'Sending…' : 'Send enquiry →'}
         </button>
       </Magnetic>
     </form>
@@ -114,12 +205,20 @@ function Field({
   label,
   name,
   type = 'text',
-  required
+  required,
+  autoComplete,
+  inputMode,
+  pattern,
+  enterKeyHint
 }: {
   label: string;
   name: string;
   type?: string;
   required?: boolean;
+  autoComplete?: string;
+  inputMode?: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
+  pattern?: string;
+  enterKeyHint?: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send';
 }) {
   return (
     <label className="block">
@@ -131,6 +230,10 @@ function Field({
         name={name}
         type={type}
         required={required}
+        autoComplete={autoComplete}
+        inputMode={inputMode}
+        pattern={pattern}
+        enterKeyHint={enterKeyHint}
         className="w-full bg-transparent border-b hairline focus:border-ink outline-none py-2 text-ink text-base min-h-[44px]"
       />
     </label>
