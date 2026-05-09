@@ -46,7 +46,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        // Indexing control + transport security for everything.
+        // Indexing control + transport security + CSP for everything.
         source: '/(.*)',
         headers: [
           {
@@ -60,7 +60,42 @@ const nextConfig = {
             value: 'max-age=63072000; includeSubDomains; preload'
           },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' }
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+
+          // Content-Security-Policy. Staged rollout: this version is
+          // permissive (allows 'unsafe-inline' + 'unsafe-eval' on
+          // script-src) so the App Router's RSC/Hydration scripts and
+          // any inline framer-motion / GSAP setup don't break in
+          // preview. Walk every route on the preview deploy and watch
+          // DevTools console for any CSP violation; add the missing
+          // host to the relevant directive before promoting to prod.
+          //
+          // TODO post-launch: replace 'unsafe-inline' / 'unsafe-eval'
+          // on script-src with a nonce-based CSP using middleware
+          // (per https://nextjs.org/docs/app/building-your-application/configuring/content-security-policy).
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.vercel-scripts.com https://va.vercel-scripts.com https://*.sentry.io",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob: https://cdn.sanity.io",
+              "font-src 'self' data:",
+              "connect-src 'self' https://www.zohoapis.in https://accounts.zoho.in https://api.resend.com https://*.vercel-insights.com https://*.sentry.io",
+              "media-src 'self'",
+              "frame-ancestors 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "object-src 'none'",
+              'upgrade-insecure-requests'
+            ].join('; ')
+          },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          {
+            key: 'Permissions-Policy',
+            value:
+              'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()'
+          }
         ]
       },
       {
