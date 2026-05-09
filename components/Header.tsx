@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import FocusLock from 'react-focus-lock';
 
 // Routes that don't render a full-bleed dark hero behind the header. On these
 // pages the header must start in its light (bone background, dark logo) state
@@ -42,6 +43,17 @@ export default function Header() {
         document.body.style.overflow = prev;
       };
     }
+  }, [open]);
+
+  // Esc closes the drawer. Standard dialog-pattern expectation; previously
+  // the only close paths were the X button or tapping a nav link.
+  useEffect(() => {
+    if (!open) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [open]);
 
   // While at the top of any page, every page begins with a dark/visual hero,
@@ -137,6 +149,7 @@ export default function Header() {
             <button
               aria-label={open ? 'Close menu' : 'Open menu'}
               aria-expanded={open}
+              aria-controls="mobile-nav"
               onClick={() => setOpen(!open)}
               className="p-3 -mr-3 min-h-[44px] min-w-[44px] flex flex-col justify-center items-end"
             >
@@ -149,31 +162,42 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="lg:hidden bg-bone border-t hairline max-h-[calc(100dvh-4rem)] overflow-y-auto">
-          <div className="px-6 py-6 space-y-1">
-            {NAV.map((item) => (
-              <div key={item.label} className="border-b border-ink/5 last:border-b-0">
+        <FocusLock returnFocus>
+          <div
+            id="mobile-nav"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+            className="lg:hidden bg-bone border-t hairline max-h-[calc(100dvh-4rem)] overflow-y-auto"
+          >
+            <div className="px-6 py-6 space-y-1">
+              {NAV.map((item) => (
+                <div
+                  key={item.label}
+                  className="border-b border-ink/5 last:border-b-0"
+                >
+                  <Link
+                    href={item.href}
+                    className="flex items-center min-h-[44px] kicker text-ink py-2"
+                    onClick={() => setOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </div>
+              ))}
+              <div className="flex items-center justify-between pt-6">
                 <Link
-                  href={item.href}
-                  className="flex items-center min-h-[44px] kicker text-ink py-2"
+                  href="/contact#book"
+                  className="inline-flex items-center justify-center kicker px-6 py-3 bg-ink text-bone min-h-[44px]"
                   onClick={() => setOpen(false)}
                 >
-                  {item.label}
+                  Book now
                 </Link>
+                <span className="kicker text-ink/40">EN</span>
               </div>
-            ))}
-            <div className="flex items-center justify-between pt-6">
-              <Link
-                href="/contact#book"
-                className="inline-flex items-center justify-center kicker px-6 py-3 bg-ink text-bone min-h-[44px]"
-                onClick={() => setOpen(false)}
-              >
-                Book now
-              </Link>
-              <span className="kicker text-ink/40">EN</span>
             </div>
           </div>
-        </div>
+        </FocusLock>
       )}
     </header>
   );
