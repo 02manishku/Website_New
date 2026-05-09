@@ -177,9 +177,9 @@ export default function NewsPage() {
                   {s.title}
                 </h2>
                 <p className="mt-4 lg:mt-5 text-ink/70 leading-relaxed">{s.excerpt}</p>
-                <a href="#" className="tap-link mt-5 lg:mt-6 text-sm hover-underline">
-                  Read story →
-                </a>
+                {/* "Read story →" CTA intentionally omitted until per-story
+                    routes (app/news/[slug]/page.tsx) ship. The card stays;
+                    a dead href="#" anchor would scroll to top on click. */}
               </div>
             </article>
           ))}
