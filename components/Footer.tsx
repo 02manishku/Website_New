@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import FooterNewsletterForm from '@/components/FooterNewsletterForm';
 
 export default function Footer() {
   return (
@@ -39,37 +40,7 @@ export default function Footer() {
             <p className="text-sm text-bone/70 mb-5">
               Receive Magppie stories, new openings, and design notes.
             </p>
-            <form className="flex items-center gap-x-3 border-b border-bone/30 pb-2 mb-6">
-              {/* `text-base` (16px) on the input, anything smaller triggers
-                  iOS Safari's auto-zoom on focus, which on a luxury site
-                  feels like a bug. min-h-11 keeps the touch target at
-                  44px without altering the visual baseline. */}
-              <input
-                type="email"
-                required
-                autoComplete="email"
-                inputMode="email"
-                enterKeyHint="send"
-                placeholder="Your email"
-                aria-label="Email address"
-                className="flex-1 min-w-0 bg-transparent placeholder-bone/40 text-base focus:outline-none py-2 min-h-11"
-              />
-              <button
-                type="submit"
-                className="text-sm font-medium text-bone hover:text-sand transition-colors py-2 px-1 shrink-0 min-h-11"
-              >
-                Submit →
-              </button>
-            </form>
-            <label className="flex items-start gap-2 text-xs text-bone/50">
-              <input
-                type="checkbox"
-                className="mt-1 accent-sand"
-                required
-                aria-required="true"
-              />
-              <span>I have read and accept the privacy policy.</span>
-            </label>
+            <FooterNewsletterForm />
           </div>
         </div>
 
