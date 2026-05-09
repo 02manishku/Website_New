@@ -275,6 +275,20 @@ All of these are fixable. Most are surgical (one file, ten lines). Submission fo
 - 2.6 MB JPG on the homepage Wellness-Kitchens tile.
 - Effort: S
 
+**[FIXED — Batch 2 Phase 2.3] F-03 audit result: `<Image priority>` inventory**
+
+Walked every `<Image>` in `app/` and `components/`. Findings:
+
+| Location | priority? | Verdict |
+|---|---|---|
+| `components/Header.tsx:72` | was `priority`, removed | Logo is 36-145px, never the LCP. Removing prevents preload-budget contention with the real LCP image. |
+| `components/PageHero.tsx:46` | `priority` | Full-bleed hero on every PageHero-using route (kitchens, wardrobes, vanities, about, news). Genuine LCP element. ✓ |
+| `components/CustomersMarquee.tsx:61` | `priority={priority}` (default `false`, only call site passes `false`) | Effectively never priority. ✓ |
+| `app/page.tsx:813` | explicit "no priority" comment | Below-the-fold tile grid. ✓ |
+| All others | no `priority` | ✓ |
+
+After the Header.tsx fix, every route ships at most one priority Image, and that Image is the LCP candidate.
+
 **[HIGH] F-03 — No image-by-image weight scan against the 200 kB threshold**
 - The audit prompt requires flagging any image > 200 kB on mobile.
 - Findings (selected, > 200 kB):

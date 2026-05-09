@@ -69,7 +69,10 @@ export default function Header() {
               alt="Magppie"
               width={onLight ? 280 : 160}
               height={onLight ? 145 : 36}
-              priority
+              // No `priority`. The logo is small (~36-145px) and is never the
+              // LCP element. PageHero (or HeroVideo on the homepage) carries
+              // the LCP role; promoting the logo too would compete for the
+              // browser's preload budget.
               // The black logo PNG is taller (R-mark stacked under wordmark);
               // it needs ~2x the height of the white SVG to read at the
               // same visual weight. Mobile-scrolled state uses h-9 (was
