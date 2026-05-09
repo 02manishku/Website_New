@@ -179,11 +179,16 @@ function Directory({
         </span>
       </div>
 
-      <ol className="contents">
+      {/* Plain <ul role=\"list\"> rather than <ol className=\"contents\">.
+          display: contents was stripping the list semantics from
+          older Safari's accessibility tree. The Row already manages
+          its own internal grid; the list wrapper just needs to exist
+          for screen readers to announce \"list of N items\". */}
+      <ul role="list" className="m-0 p-0 list-none">
         {locations.map((loc) => (
           <Row key={loc.country + loc.city + loc.region} loc={loc} />
         ))}
-      </ol>
+      </ul>
     </div>
   );
 }
