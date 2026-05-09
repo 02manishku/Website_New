@@ -62,7 +62,12 @@ export default function Footer() {
               </button>
             </form>
             <label className="flex items-start gap-2 text-xs text-bone/50">
-              <input type="checkbox" className="mt-1 accent-sand" required />
+              <input
+                type="checkbox"
+                className="mt-1 accent-sand"
+                required
+                aria-required="true"
+              />
               <span>I have read and accept the privacy policy.</span>
             </label>
           </div>
