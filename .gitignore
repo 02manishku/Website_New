@@ -14,3 +14,4 @@ scripts/rename-map.json
 scripts/image-rename.json
 
 .vercel
+tsconfig.tsbuildinfo
