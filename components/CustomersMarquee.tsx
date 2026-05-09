@@ -52,7 +52,10 @@ function PortraitCard({
         {!errored ? (
           <Image
             src={person.src}
-            alt={person.name}
+            // Decorative — the figcaption below carries the person's name
+            // as the semantic content. A non-empty alt would announce the
+            // name twice to screen readers.
+            alt=""
             fill
             quality={82}
             priority={priority}

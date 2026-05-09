@@ -38,7 +38,10 @@ export default function PageHero({
         ) : (
           <Image
             src={image}
-            alt={title}
+            // Decorative — the same `title` is rendered as the page <h1>
+            // immediately below this hero, so a non-empty alt would
+            // duplicate the announcement to screen readers.
+            alt=""
             fill
             priority
             sizes="100vw"
