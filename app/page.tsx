@@ -480,35 +480,29 @@ export default function HomePage() {
                   <div className="label text-smoke/70 mb-8 text-[0.65rem] text-center tracking-[0.32em]">
                     Awards &amp; Accolades
                   </div>
-                  <p className="text-center max-w-[78ch] mx-auto leading-[2] text-[0.82rem] sm:text-[0.88rem] lg:text-[0.95rem]">
+                  {/* Real <ul> so screen readers announce each award as
+                      a discrete list item ("Most Unexpected Innovation
+                      Award, KBIS 2026, Orlando — list item 1 of 12") and
+                      the visual masthead flow (one paragraph of inline
+                      items separated by middle-dots) is achieved by
+                      flexbox + a ::after pseudo on every li except the
+                      last. The pseudo separator stays out of the
+                      accessibility tree. */}
+                  <ul className="awards-masthead text-center max-w-[78ch] mx-auto leading-[2] text-[0.82rem] sm:text-[0.88rem] lg:text-[0.95rem]">
                     {ALL_AWARDS.map((award, idx) => {
                       const isHero = idx < HERO_AWARDS.length;
                       return (
-                        <span
+                        <li
                           key={award}
-                          className="inline-block whitespace-nowrap align-baseline"
+                          className={`font-display ${
+                            isHero ? 'text-ink font-medium' : 'text-ink/55'
+                          }`}
                         >
-                          <span
-                            className={
-                              isHero
-                                ? 'font-display text-ink font-medium'
-                                : 'font-display text-ink/55'
-                            }
-                          >
-                            {award}
-                          </span>
-                          {idx < ALL_AWARDS.length - 1 && (
-                            <span
-                              aria-hidden
-                              className="mx-2.5 sm:mx-3 text-ink/25 font-display"
-                            >
-                              ·
-                            </span>
-                          )}
-                        </span>
+                          <span className="whitespace-nowrap">{award}</span>
+                        </li>
                       );
                     })}
-                  </p>
+                  </ul>
                 </div>
 
                 {/* Memberships — refined marquee. Treatment is a tracked-
