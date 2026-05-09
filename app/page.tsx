@@ -213,7 +213,7 @@ export default function HomePage() {
           <Tile
             href="/kitchens"
             title="Wellness Kitchens"
-            image="/images/wellness-kitchen-hero.jpg"
+            image="/images/wellness-kitchen-hero.webp"
           />
           <Tile
             href="/wardrobes"
