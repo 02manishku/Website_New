@@ -158,12 +158,14 @@ export async function POST(req: NextRequest) {
   try {
     // ── 0. Origin + rate-limit gate ───────────────────────────────
     // Same-origin only. Rejects scripted submissions from arbitrary
-    // domains. 3 leads per IP per hour caps the abuse surface; real
-    // visitors never approach this rate.
+    // domains. 10 leads per IP per hour caps the abuse surface; real
+    // visitors never approach this rate, but it's loose enough for
+    // QA testing without triggering on every reload during the same
+    // session.
     if (!isAllowedOrigin(req)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (rateLimited(clientIp(req), 3, 60 * 60 * 1000)) {
+    if (rateLimited(clientIp(req), 10, 60 * 60 * 1000)) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },
         { status: 429 }

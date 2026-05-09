@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   if (!isAllowedOrigin(req)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
-  if (rateLimited(clientIp(req), 5, 60 * 60 * 1000)) {
+  if (rateLimited(clientIp(req), 10, 60 * 60 * 1000)) {
     return NextResponse.json(
       { error: 'Too many requests' },
       { status: 429 }
