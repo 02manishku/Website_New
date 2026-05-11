@@ -180,7 +180,10 @@ export default function NewsletterTeaser() {
               placeholder="your@email.com"
               aria-label="Email address"
               disabled={mode === 'sending'}
-              className="w-full bg-transparent border-b border-ink/30 focus:border-ink outline-none py-2 text-ink placeholder:text-ink/35 text-sm disabled:opacity-60"
+              // text-base (16px) NOT text-sm — anything smaller triggers
+              // iOS Safari's auto-zoom on focus, which on a fixed-
+              // position popup looks broken.
+              className="w-full bg-transparent border-b border-ink/30 focus:border-ink outline-none py-2 text-ink placeholder:text-ink/35 text-base disabled:opacity-60"
             />
             <button
               type="submit"
