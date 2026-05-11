@@ -1,24 +1,22 @@
-// audited 2026-05-11 — section rewritten from a sticky stacking-cards
-// design to a plain static feature-panel layout. The previous version
-// stacked seven sticky <article>s with z-indexed headers; in practice
-// cards 03 and 04 intermittently failed to render between cards 02 and
-// 05 on both desktop and iOS Safari (sticky-window collapse under
-// `dvh` viewport changes, decoder pressure from 7 simultaneous video
-// candidates, and IntersectionObserver state thrash during fast
-// scrolls). This rewrite removes every moving part: no sticky, no
-// IntersectionObserver, no `dvh`, no `<video>`, no shared state. Each
-// feature is a self-contained side-by-side panel using the same
-// /posters/why-stone-N.webp first-frame WebPs the videos used to start
-// on, so the visual identity is preserved. The kitchen demonstration
-// frames carry the substance on their own; motion was decoration.
-//
-// Bonus: this drops 7 H.264 decoder slots off the iOS budget — which
-// is the root cause class for the section-scroll crashes the owner
-// reported on the iPhone, since iOS Safari only holds ~1–4 decoder
-// contexts before the WatchDog reaps the tab.
+'use client';
 
-import Image from 'next/image';
+// audited 2026-05-11 — section laid out as plain static feature panels
+// (no sticky, no IntersectionObserver, no shared state), but each
+// panel now renders a <video> directly instead of a poster <Image>.
+// The owner explicitly asked for videos on every panel here. The
+// global video-coordinator (lib/video-coordinator) keeps MAX=1
+// concurrent playback site-wide, and each video uses useVideoLazyPlay
+// for visibility-gated play/pause + preload upgrade, so iOS only ever
+// has one decoder context in flight even with 7 elements mounted.
+//
+// preload="none" + poster attribute keeps the page lightweight on
+// first paint. The hook flips preload→"metadata" when each <video>
+// is within 200px of the viewport, and only requests playback when
+// 25%+ of the element is visible.
+
+import { useEffect, useRef } from 'react';
 import ScrollFloat from '@/components/ScrollFloat';
+import { requestPlay, releasePlay } from '@/lib/video-coordinator';
 
 type Feature = {
   id: string;
@@ -26,6 +24,8 @@ type Feature = {
   label: string;
   heading: string;
   body: string;
+  videoMp4: string;
+  videoWebm: string;
   poster: string;
 };
 
@@ -37,6 +37,8 @@ const FEATURES: Feature[] = [
     heading: 'Everyday spills wipe off easily.',
     body:
       "Magppie kitchens are made from a non-porous Silverstone™ that doesn't absorb spills. Coffee, haldi or oil wipes off in a single stroke. Your kitchen stays clean every day, with no permanent marks.",
+    videoMp4: '/videos/why-stone-1.mp4',
+    videoWebm: '/videos/why-stone-1.webm',
     poster: '/posters/why-stone-1.webp'
   },
   {
@@ -46,6 +48,8 @@ const FEATURES: Feature[] = [
     heading: 'Handles daily chopping without damage.',
     body:
       "Magppie kitchens use a scratch-resistant Silverstone™ surface built for daily Indian cooking. Regular chopping and knife work won't leave a mark, so your kitchen looks new for years.",
+    videoMp4: '/videos/why-stone-2.mp4',
+    videoWebm: '/videos/why-stone-2.webm',
     poster: '/posters/why-stone-2.webp'
   },
   {
@@ -55,6 +59,8 @@ const FEATURES: Feature[] = [
     heading: 'Holds heavy kitchen loads with ease.',
     body:
       'Magppie drawers are built to carry weight. Each drawer supports up to 80 kilos of vessels, groceries and appliances without bending, sagging or losing stability, even after a decade of use.',
+    videoMp4: '/videos/why-stone-3.mp4',
+    videoWebm: '/videos/why-stone-3.webm',
     poster: '/posters/why-stone-3.webp'
   },
   {
@@ -64,6 +70,8 @@ const FEATURES: Feature[] = [
     heading: 'Safe around heat and open flame.',
     body:
       'The kitchen is used around heat and open flame every day. Because Magppie kitchens are made entirely from stone, the surface does not catch fire or help flames spread. Built for daily Indian open-flame cooking.',
+    videoMp4: '/videos/why-stone-4.mp4',
+    videoWebm: '/videos/why-stone-4.webm',
     poster: '/posters/why-stone-4.webp'
   },
   {
@@ -73,6 +81,8 @@ const FEATURES: Feature[] = [
     heading: 'Stays strong even with water exposure.',
     body:
       'Kitchens are exposed to water every day. We placed a wooden panel and a Magppie stone sample in water for thirty days. The wood swelled and weakened. The stone stayed exactly the same. It does not absorb water, bend, or lose strength.',
+    videoMp4: '/videos/why-stone-5.mp4',
+    videoWebm: '/videos/why-stone-5.webm',
     poster: '/posters/why-stone-5.webp'
   },
   {
@@ -82,6 +92,8 @@ const FEATURES: Feature[] = [
     heading: 'Handles sudden drops and accidents.',
     body:
       'To test impact strength, we dropped a heavy ceramic jar on the surface. The stone stayed intact, making it safe for the everyday knocks and drops of a busy Indian kitchen.',
+    videoMp4: '/videos/why-stone-6.mp4',
+    videoWebm: '/videos/why-stone-6.webm',
     poster: '/posters/why-stone-6.webp'
   },
   {
@@ -91,9 +103,104 @@ const FEATURES: Feature[] = [
     heading: 'Made for maximum storage.',
     body:
       "With extra depth and height, Magppie wall cabinets offer up to 62% more storage than standard kitchens. They're designed to fit large Indian plates and vessels that usually don't fit in regular cabinets.",
+    videoMp4: '/videos/why-stone-7.mp4',
+    videoWebm: '/videos/why-stone-7.webm',
     poster: '/posters/why-stone-7.webp'
   }
 ];
+
+// Per-panel video. Has its own three-stage observer set:
+//   1. preloadObs at rootMargin: 200px — upgrade preload="none"
+//      → "metadata" as the panel nears the viewport.
+//   2. playObs at threshold 0.4 — request play through the global
+//      coordinator (MAX=1) when 40% visible, pause + release on
+//      scroll-out.
+//   3. visibilitychange listener — pause when tab hides.
+function FeatureVideoPanel({ f }: { f: Feature }) {
+  const ref = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    let inView = false;
+
+    const preloadObs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting && v.preload === 'none') {
+            v.preload = 'metadata';
+          }
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    preloadObs.observe(v);
+
+    const playObs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          inView = e.isIntersecting && e.intersectionRatio >= 0.4;
+          if (inView) {
+            requestPlay(v);
+          } else if (!v.paused) {
+            v.pause();
+            releasePlay(v);
+          }
+        }
+      },
+      { threshold: [0, 0.4, 1] }
+    );
+    playObs.observe(v);
+
+    const onVis = () => {
+      if (document.visibilityState === 'hidden') {
+        v.pause();
+        releasePlay(v);
+      } else if (inView) {
+        requestPlay(v);
+      }
+    };
+    document.addEventListener('visibilitychange', onVis);
+
+    return () => {
+      preloadObs.disconnect();
+      playObs.disconnect();
+      document.removeEventListener('visibilitychange', onVis);
+      try {
+        v.pause();
+        releasePlay(v);
+      } catch {
+        // element already detached
+      }
+    };
+  }, []);
+
+  return (
+    <video
+      ref={ref}
+      playsInline
+      muted
+      loop
+      preload="none"
+      poster={f.poster}
+      disablePictureInPicture
+      disableRemotePlayback
+      controls={false}
+      aria-hidden="true"
+      className="absolute inset-0 w-full h-full object-cover"
+    >
+      {/* MP4 first, mobile variant first within MP4. iOS reads the
+          first matching source and never falls back. */}
+      <source
+        src={f.videoMp4.replace('.mp4', '-mobile.mp4')}
+        type="video/mp4"
+        media="(max-width: 768px)"
+      />
+      <source src={f.videoMp4} type="video/mp4" />
+      <source src={f.videoWebm} type="video/webm" />
+    </video>
+  );
+}
 
 export default function WhyStoneMakesDifference() {
   return (
@@ -115,11 +222,10 @@ export default function WhyStoneMakesDifference() {
       </div>
 
       {/* Feature panels — each card is a plain, self-contained block.
-          No sticky, no IntersectionObserver, no shared state. The
-          alternating image side on desktop (even indexes left, odd
-          right) gives the section visual rhythm without depending on
-          scroll-position tracking. On mobile the image sits below the
-          copy in single-column order, regardless of index. */}
+          The alternating image side on desktop (even indexes left,
+          odd right) gives the section visual rhythm without depending
+          on scroll-position tracking. On mobile the video sits below
+          the copy in single-column order, regardless of index. */}
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10 mt-14 lg:mt-24 pb-20 lg:pb-32">
         <ul className="space-y-6 lg:space-y-10">
           {FEATURES.map((f, i) => {
@@ -149,25 +255,16 @@ export default function WhyStoneMakesDifference() {
                     </p>
                   </div>
 
-                  {/* Image column — fixed aspect on mobile, fills column
-                      on desktop. The poster is the same /posters/why-
-                      stone-N.webp the video used to start on, so the
-                      visual identity matches the previous design. */}
+                  {/* Video column — same /posters/why-stone-N.webp the
+                      browser shows as the HTML5 `poster` attribute
+                      until the lazy-play hook flips the source on. */}
                   <div
                     className={`relative lg:col-span-6 aspect-[16/10] sm:aspect-[16/9] lg:aspect-auto lg:min-h-[420px] bg-ink ${
                       imageLeftOnDesktop ? 'lg:order-1' : 'lg:order-2'
                     }`}
                   >
-                    <Image
-                      src={f.poster}
-                      alt=""
-                      fill
-                      sizes="(min-width: 1024px) 50vw, 100vw"
-                      quality={82}
-                      className="object-cover"
-                    />
-                    {/* Soft inner vignette keeps the photographic feel
-                        the old video container had. */}
+                    <FeatureVideoPanel f={f} />
+                    {/* Soft inner vignette keeps the photographic feel. */}
                     <div
                       aria-hidden
                       className="absolute inset-0 pointer-events-none"
