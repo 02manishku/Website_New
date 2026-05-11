@@ -118,14 +118,25 @@ const FEATURES: Feature[] = [
 ];
 
 // Per-panel video. Has its own observer set, independent of every
-// other panel and independent of the global video-coordinator:
-//   1. preloadObs at rootMargin: 200px — upgrade preload="none"
-//      → "metadata" as the panel nears the viewport.
+// other panel and independent of the global video-coordinator. iOS
+// Safari rejects v.play() silently when the video has insufficient
+// data buffered, so the flow is:
+//
+//   1. preloadObs at rootMargin: 200px — flip preload="none" → "auto"
+//      (NOT "metadata", which iOS doesn't buffer enough of for play
+//      to succeed) AND call v.load() to actually start the network
+//      fetch. Setting `preload` alone is just a hint.
 //   2. playObs at threshold 0.25 — call v.play() directly when 25%
-//      visible, v.pause() on scroll-out. Multiple panels visible at
-//      once = multiple panels playing at once. The MAX=1 coordinator
-//      is intentionally bypassed here (see file header for why).
+//      visible. If the Promise rejects (data not ready yet), retry
+//      once on the `canplay` event. v.pause() on scroll-out.
+//      Multiple panels visible at once = multiple panels playing at
+//      once. The MAX=1 coordinator is intentionally bypassed here.
 //   3. visibilitychange listener — pause when tab hides.
+//
+// The <video> element also carries the `autoPlay` attribute as a
+// belt-and-braces fallback — iOS Safari's native autoplay handling
+// for muted+playsInline videos kicks in as soon as data buffers,
+// independent of our observer code firing.
 function FeatureVideoPanel({ f }: { f: Feature }) {
   const ref = useRef<HTMLVideoElement | null>(null);
 
@@ -133,19 +144,45 @@ function FeatureVideoPanel({ f }: { f: Feature }) {
     const v = ref.current;
     if (!v) return;
     let inView = false;
+    let canPlayHandler: (() => void) | null = null;
 
-    const playSafe = () => {
-      const p = v.play();
-      if (p && typeof p.catch === 'function') {
-        p.catch(() => {});
-      }
+    const playWithRetry = () => {
+      const tryPlay = () => {
+        const p = v.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch(() => {
+            if (canPlayHandler) {
+              v.removeEventListener('canplay', canPlayHandler);
+            }
+            canPlayHandler = () => {
+              if (canPlayHandler) {
+                v.removeEventListener('canplay', canPlayHandler);
+                canPlayHandler = null;
+              }
+              if (inView) {
+                const p2 = v.play();
+                if (p2 && typeof p2.catch === 'function') {
+                  p2.catch(() => {});
+                }
+              }
+            };
+            v.addEventListener('canplay', canPlayHandler);
+          });
+        }
+      };
+      tryPlay();
     };
 
     const preloadObs = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting && v.preload === 'none') {
-            v.preload = 'metadata';
+          if (e.isIntersecting && v.preload !== 'auto') {
+            v.preload = 'auto';
+            try {
+              v.load();
+            } catch {
+              // load() can throw mid-navigation; observer will retry.
+            }
           }
         }
       },
@@ -158,7 +195,7 @@ function FeatureVideoPanel({ f }: { f: Feature }) {
         for (const e of entries) {
           inView = e.isIntersecting && e.intersectionRatio >= 0.25;
           if (inView) {
-            playSafe();
+            playWithRetry();
           } else if (!v.paused) {
             v.pause();
           }
@@ -172,7 +209,7 @@ function FeatureVideoPanel({ f }: { f: Feature }) {
       if (document.visibilityState === 'hidden') {
         v.pause();
       } else if (inView) {
-        playSafe();
+        playWithRetry();
       }
     };
     document.addEventListener('visibilitychange', onVis);
@@ -181,6 +218,10 @@ function FeatureVideoPanel({ f }: { f: Feature }) {
       preloadObs.disconnect();
       playObs.disconnect();
       document.removeEventListener('visibilitychange', onVis);
+      if (canPlayHandler) {
+        v.removeEventListener('canplay', canPlayHandler);
+        canPlayHandler = null;
+      }
       try {
         v.pause();
       } catch {
@@ -192,6 +233,7 @@ function FeatureVideoPanel({ f }: { f: Feature }) {
   return (
     <video
       ref={ref}
+      autoPlay
       playsInline
       muted
       loop

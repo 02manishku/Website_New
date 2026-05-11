@@ -8,50 +8,46 @@ import { requestPlay, releasePlay } from './video-coordinator';
 // Returns a **callback ref** (not a RefObject). React invokes the
 // callback every time a <video> element attaches OR detaches —
 // crucially, this means when one component swaps its conditionally-
-// rendered <video> for another (e.g. WhyStone's active card changing
-// as the user scrolls), the hook tears down observers on the old
-// element and sets up fresh observers on the new one.
+// rendered <video> for another (e.g. WoodVsStone's active stage
+// changing as the user scrolls), the hook tears down observers on
+// the old element and sets up fresh observers on the new one.
 //
-// The previous useRef + useEffect([]) implementation captured
-// ref.current at mount time and never re-ran — so if the video wasn't
-// in the DOM yet, the hook bailed permanently. Videos that mounted
-// later (active-card swaps, capability gate flips) got NO observers
-// and never auto-played.
+// iOS Safari is the hard target — it rejects `v.play()` silently when
+// the video has insufficient data buffered, even for muted+playsInline
+// videos. So the three-stage flow is more aggressive than the typical
+// "upgrade preload to metadata" pattern:
 //
-// Three stages of pressure relief per element:
-//
-//   Stage 1  — IntersectionObserver at rootMargin: 200 px. When the
-//              video is within 200 px of viewport, upgrade
-//              preload="none" → preload="metadata".
-//   Stage 2  — IntersectionObserver at threshold 0.25. When 25%
-//              visible, ask the video-coordinator for the play slot
-//              (max 1 concurrent globally). Pause + release on
-//              scroll-out.
+//   Stage 1  — IntersectionObserver at rootMargin: 200 px. Upgrade
+//              preload="none" → "auto" (NOT "metadata", which iOS
+//              doesn't buffer enough of for play() to succeed). Call
+//              v.load() to actually start the network fetch — setting
+//              `preload` after construction is just a hint, not a
+//              trigger.
+//   Stage 2  — IntersectionObserver at the configured threshold. When
+//              enough of the element is visible, request the global
+//              coordinator's play slot (max 1 concurrent). The play
+//              call is wrapped in a `canplay` retry: if play() rejects
+//              because data isn't ready, we listen once for `canplay`
+//              and try again. iOS reliably autoplays muted+playsInline
+//              videos once data is buffered.
 //   Stage 3  — `document.visibilitychange`. Tab hidden? Pause.
-//              Tab shown again? Play if still in view.
+//              Tab shown again? Re-request if still in view.
 //
 //   Cleanup  — When React detaches the element (passes null to the
 //              callback), pause, release slot, strip src, force
 //              `load()` to release the iOS hardware decoder.
 //
-// Usage:
-//   const videoRef = useVideoLazyPlay();
-//   <video ref={videoRef} playsInline muted ... />
-//
-// For components that ALSO need to access the underlying element
-// (e.g. PoolsideKitchenBanner with its custom loop-seek), wrap with
-// a combined callback ref that captures the element in a useRef too.
+// IMPORTANT: every <video> consuming this hook ALSO needs the
+// `autoPlay` JSX attribute. iOS Safari's native autoplay logic for
+// muted+playsInline videos is the most reliable trigger; the hook's
+// programmatic play() is a backup for when the autoplay attribute
+// gets ignored (low power mode, reduced motion preference, etc).
 
 type LazyPlayCallbackRef = (v: HTMLVideoElement | null) => void;
 
 export function useVideoLazyPlay(threshold = 0.25): LazyPlayCallbackRef {
-  // Holds the cleanup fn for whatever element is currently attached.
   const cleanupRef = useRef<(() => void) | null>(null);
 
-  // Component-unmount safety net: if the component using this hook
-  // unmounts WITHOUT the ref callback being called with null first
-  // (rare but possible during very fast navigation), make sure
-  // observers + listeners aren't leaked.
   useEffect(() => {
     return () => {
       if (cleanupRef.current) {
@@ -63,23 +59,61 @@ export function useVideoLazyPlay(threshold = 0.25): LazyPlayCallbackRef {
 
   return useCallback(
     (v: HTMLVideoElement | null) => {
-      // Always tear down previous setup before attaching to a new
-      // element. React calls this with null when the element detaches.
       if (cleanupRef.current) {
         cleanupRef.current();
         cleanupRef.current = null;
       }
       if (!v) return;
 
-      // Fresh setup for the new element.
       let inView = false;
+      let canPlayHandler: (() => void) | null = null;
 
-      // Stage 1: upgrade preload as the element nears the viewport.
+      // play() that retries via the `canplay` event when iOS rejects
+      // because data hasn't buffered. Only one canplay handler is
+      // attached at a time — replaced if play is requested again.
+      const playWithRetry = () => {
+        const tryPlay = () => {
+          const p = requestPlay(v);
+          if (p && typeof p.catch === 'function') {
+            p.catch(() => {
+              if (canPlayHandler) {
+                v.removeEventListener('canplay', canPlayHandler);
+              }
+              canPlayHandler = () => {
+                if (canPlayHandler) {
+                  v.removeEventListener('canplay', canPlayHandler);
+                  canPlayHandler = null;
+                }
+                if (inView) {
+                  const p2 = requestPlay(v);
+                  if (p2 && typeof p2.catch === 'function') {
+                    p2.catch(() => {});
+                  }
+                }
+              };
+              v.addEventListener('canplay', canPlayHandler);
+            });
+          }
+        };
+        tryPlay();
+      };
+
+      // Stage 1: upgrade preload + kick off network fetch.
       const preloadObs = new IntersectionObserver(
         (entries) => {
           for (const e of entries) {
-            if (e.isIntersecting && v.preload === 'none') {
-              v.preload = 'metadata';
+            if (e.isIntersecting && v.preload !== 'auto') {
+              v.preload = 'auto';
+              try {
+                // Setting preload alone doesn't trigger the browser
+                // to start fetching when preload was previously
+                // "none". load() forces the network fetch + decode.
+                v.load();
+              } catch {
+                // Some browsers throw when load() is called mid-
+                // navigation. Ignore — the visible-state handler
+                // will retry play() once metadata fires.
+              }
             }
           }
         },
@@ -94,10 +128,6 @@ export function useVideoLazyPlay(threshold = 0.25): LazyPlayCallbackRef {
             inView =
               e.isIntersecting && e.intersectionRatio >= threshold;
             if (inView) {
-              // Dev-only telemetry: confirms in console that the hook
-              // fired requestPlay() with the right resolved source.
-              // Stripped from production by next.config.js
-              // compiler.removeConsole.
               if (process.env.NODE_ENV !== 'production') {
                 // eslint-disable-next-line no-console
                 console.info(
@@ -105,7 +135,7 @@ export function useVideoLazyPlay(threshold = 0.25): LazyPlayCallbackRef {
                   v.currentSrc || v.src
                 );
               }
-              requestPlay(v);
+              playWithRetry();
             } else if (!v.paused) {
               v.pause();
               releasePlay(v);
@@ -122,7 +152,7 @@ export function useVideoLazyPlay(threshold = 0.25): LazyPlayCallbackRef {
           v.pause();
           releasePlay(v);
         } else if (inView) {
-          requestPlay(v);
+          playWithRetry();
         }
       };
       document.addEventListener('visibilitychange', onVis);
@@ -131,11 +161,15 @@ export function useVideoLazyPlay(threshold = 0.25): LazyPlayCallbackRef {
         preloadObs.disconnect();
         playObs.disconnect();
         document.removeEventListener('visibilitychange', onVis);
+        if (canPlayHandler) {
+          v.removeEventListener('canplay', canPlayHandler);
+          canPlayHandler = null;
+        }
         try {
           v.pause();
           releasePlay(v);
           v.removeAttribute('src');
-          v.load(); // forces iOS hardware decoder release
+          v.load();
         } catch {
           // element may already be detached; ignore
         }

@@ -31,6 +31,7 @@ export default function PageHero({
         {showVideo ? (
           <video
             ref={videoRef}
+            autoPlay
             playsInline
             muted
             loop

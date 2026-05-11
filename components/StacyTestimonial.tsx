@@ -77,6 +77,7 @@ export default function StacyTestimonial() {
                 <>
                   <video
                     ref={attachVideo}
+                    autoPlay
                     playsInline
                     muted
                     loop

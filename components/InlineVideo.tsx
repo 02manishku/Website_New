@@ -52,6 +52,7 @@ export default function InlineVideo({
   return (
     <video
       ref={ref}
+      autoPlay
       playsInline
       muted
       loop={loop}

@@ -18,6 +18,7 @@ export default function HeroVideo() {
       {canPlayHeavyVideo ? (
         <video
           ref={videoRef}
+          autoPlay
           playsInline
           muted
           loop

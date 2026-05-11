@@ -213,6 +213,7 @@ function Desktop() {
                   <video
                     key={activeStage.id}
                     ref={activeVideoRef}
+                    autoPlay
                     playsInline
                     muted
                     loop
@@ -365,6 +366,7 @@ function Mobile() {
               {i === activeIdx && canPlayHeavyVideo ? (
                 <video
                   ref={activeVideoRef}
+                  autoPlay
                   playsInline
                   muted
                   loop

@@ -71,6 +71,7 @@ export default function PoolsideKitchenBanner() {
       {canPlayHeavyVideo ? (
         <video
           ref={attachVideo}
+          autoPlay
           playsInline
           muted
           preload="none"
