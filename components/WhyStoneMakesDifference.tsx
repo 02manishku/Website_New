@@ -145,10 +145,34 @@ const STACK_GAP = 4;
 const STACK_TOP_PAD_DESKTOP = 12;
 const STACK_TOP_PAD_MOBILE = 10;
 
+// Gate the <video> element behind a desktop check. On phones / small
+// tablets we render the poster image only — no <video> at all, no
+// hardware decoder context allocated, no GPU video plane. This is the
+// fix for the iOS Safari renderer crash + reload that older + low-RAM
+// iPhones (iOS 12 era through current) hit when scrolling into this
+// section: 7 sticky stacking contexts plus even one active video plus
+// the rest of the page's video assets pushes total decoder/GPU pressure
+// past what the renderer process can hold, and iOS WatchDog kills it.
+// On desktop where memory headroom is huge, we keep the active-video
+// experience.
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const handler = () => setIsDesktop(mq.matches);
+    handler();
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  return isDesktop;
+}
+
 export default function WhyStoneMakesDifference() {
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [activeIdx, setActiveIdx] = useState(0);
+  const isDesktop = useIsDesktop();
 
   // Per-card IntersectionObserver. The rootMargin defines the "active
   // band" — vertical 30%–50% of viewport. As each card scrolls through
@@ -317,16 +341,17 @@ export default function WhyStoneMakesDifference() {
                       height: 'clamp(220px, 38vh, 360px)'
                     }}
                   >
-                    {/* Render the <video> element ONLY for the active
-                        card. Inactive cards show the poster image
-                        instead — same visual frame, zero decoder cost.
-                        Why: mounting 7 simultaneous <video> elements on
-                        iOS Safari blows past the ~4-6 decoder ceiling
-                        and triggers a renderer process kill (the page
-                        crashes + reloads from the top). One active
-                        <video> + 6 static posters is what fits inside
-                        Safari's GPU + decoder budget. */}
-                    {isActive ? (
+                    {/* Mount <video> ONLY on desktop AND for the active
+                        card. Every other case (any mobile size, any
+                        inactive card on desktop) renders the static
+                        poster as an <Image>. This is the iOS Safari
+                        renderer-crash fix: no video element means no
+                        decoder context allocated, no GPU video plane,
+                        no chance of pushing the renderer past its
+                        memory ceiling. First card's poster gets
+                        priority so it preloads with the rest of the
+                        above-the-fold assets. */}
+                    {isDesktop && isActive ? (
                       <video
                         ref={(el) => {
                           videoRefs.current[i] = el;
@@ -348,6 +373,7 @@ export default function WhyStoneMakesDifference() {
                         src={f.poster}
                         alt=""
                         fill
+                        priority={i === 0}
                         sizes="(min-width: 1024px) 58vw, 100vw"
                         className="object-cover"
                       />
