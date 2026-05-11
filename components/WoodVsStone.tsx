@@ -154,7 +154,12 @@ function Desktop() {
       className="hidden lg:block relative"
       style={{ height: '220vh' }}
     >
-      <div className="sticky top-0 h-screen flex flex-col bg-sand overflow-hidden">
+      {/* `h-[100svh]` (smallest viewport) not `h-screen` (= 100vh) so the
+          pinned section never gets clipped behind iOS Safari's dynamic
+          address bar. svh guarantees the smallest possible viewport
+          height, so as the address bar shows / hides the content stays
+          fully visible. */}
+      <div className="sticky top-0 h-[100svh] flex flex-col bg-sand overflow-hidden">
         {/* ── HEADING ROW — sits at top of the pinned viewport, stays
             put while the user scrolls through stages. */}
         <div className="pt-16 xl:pt-20">
