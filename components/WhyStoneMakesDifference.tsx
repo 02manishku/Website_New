@@ -6,6 +6,7 @@
 // which is a paint not a layout cost).
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import ScrollFloat from '@/components/ScrollFloat';
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -306,7 +307,7 @@ export default function WhyStoneMakesDifference() {
 
                 <div className="lg:col-span-7">
                   <div
-                    className="relative w-full bg-ink overflow-hidden rounded-xl lg:rounded-2xl shadow-[0_24px_48px_-22px_rgba(40,28,18,0.45),0_60px_120px_-40px_rgba(40,28,18,0.22)] transform-gpu"
+                    className="relative w-full bg-ink overflow-hidden rounded-xl lg:rounded-2xl shadow-[0_24px_48px_-22px_rgba(40,28,18,0.45),0_60px_120px_-40px_rgba(40,28,18,0.22)]"
                     style={{
                       // Fixed-height container with object-cover means
                       // the video never overflows the body region, no
@@ -316,22 +317,41 @@ export default function WhyStoneMakesDifference() {
                       height: 'clamp(220px, 38vh, 360px)'
                     }}
                   >
-                    <video
-                      ref={(el) => {
-                        videoRefs.current[i] = el;
-                      }}
-                      muted
-                      loop
-                      playsInline
-                      preload={i === 0 ? 'auto' : 'metadata'}
-                      poster={f.poster}
-                      controlsList="nodownload"
-                      disablePictureInPicture
-                      className="absolute inset-0 w-full h-full object-cover"
-                    >
-                      <source src={f.videoWebm} type="video/webm" />
-                      <source src={f.videoMp4} type="video/mp4" />
-                    </video>
+                    {/* Render the <video> element ONLY for the active
+                        card. Inactive cards show the poster image
+                        instead — same visual frame, zero decoder cost.
+                        Why: mounting 7 simultaneous <video> elements on
+                        iOS Safari blows past the ~4-6 decoder ceiling
+                        and triggers a renderer process kill (the page
+                        crashes + reloads from the top). One active
+                        <video> + 6 static posters is what fits inside
+                        Safari's GPU + decoder budget. */}
+                    {isActive ? (
+                      <video
+                        ref={(el) => {
+                          videoRefs.current[i] = el;
+                        }}
+                        muted
+                        loop
+                        playsInline
+                        preload="auto"
+                        poster={f.poster}
+                        controlsList="nodownload"
+                        disablePictureInPicture
+                        className="absolute inset-0 w-full h-full object-cover"
+                      >
+                        <source src={f.videoWebm} type="video/webm" />
+                        <source src={f.videoMp4} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <Image
+                        src={f.poster}
+                        alt=""
+                        fill
+                        sizes="(min-width: 1024px) 58vw, 100vw"
+                        className="object-cover"
+                      />
+                    )}
 
                     {/* Soft inner vignette for cinematic feel. */}
                     <div
