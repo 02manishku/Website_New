@@ -54,7 +54,7 @@ const FEATURES: Feature[] = [
       "Magppie kitchens are made from a non-porous Silverstone™ that doesn't absorb spills. Coffee, haldi or oil wipes off in a single stroke. Your kitchen stays clean every day, with no permanent marks.",
     videoMp4: '/videos/why-stone-1.mp4',
     videoWebm: '/videos/why-stone-1.webm',
-    poster: '/images/why-stone/why-stone-1.webp'
+    poster: '/posters/why-stone-1.webp'
   },
   {
     id: 'scratch',
@@ -65,7 +65,7 @@ const FEATURES: Feature[] = [
       "Magppie kitchens use a scratch-resistant Silverstone™ surface built for daily Indian cooking. Regular chopping and knife work won't leave a mark, so your kitchen looks new for years.",
     videoMp4: '/videos/why-stone-2.mp4',
     videoWebm: '/videos/why-stone-2.webm',
-    poster: '/images/why-stone/why-stone-2.webp'
+    poster: '/posters/why-stone-2.webp'
   },
   {
     id: 'load',
@@ -76,7 +76,7 @@ const FEATURES: Feature[] = [
       'Magppie drawers are built to carry weight. Each drawer supports up to 80 kilos of vessels, groceries and appliances without bending, sagging or losing stability, even after a decade of use.',
     videoMp4: '/videos/why-stone-3.mp4',
     videoWebm: '/videos/why-stone-3.webm',
-    poster: '/images/why-stone/why-stone-3.webp'
+    poster: '/posters/why-stone-3.webp'
   },
   {
     id: 'fire',
@@ -87,7 +87,7 @@ const FEATURES: Feature[] = [
       'The kitchen is used around heat and open flame every day. Because Magppie kitchens are made entirely from stone, the surface does not catch fire or help flames spread. Built for daily Indian open-flame cooking.',
     videoMp4: '/videos/why-stone-4.mp4',
     videoWebm: '/videos/why-stone-4.webm',
-    poster: '/images/why-stone/why-stone-4.webp'
+    poster: '/posters/why-stone-4.webp'
   },
   {
     id: 'water',
@@ -98,7 +98,7 @@ const FEATURES: Feature[] = [
       'Kitchens are exposed to water every day. We placed a wooden panel and a Magppie stone sample in water for thirty days. The wood swelled and weakened. The stone stayed exactly the same. It does not absorb water, bend, or lose strength.',
     videoMp4: '/videos/why-stone-5.mp4',
     videoWebm: '/videos/why-stone-5.webm',
-    poster: '/images/why-stone/why-stone-5.webp'
+    poster: '/posters/why-stone-5.webp'
   },
   {
     id: 'impact',
@@ -109,7 +109,7 @@ const FEATURES: Feature[] = [
       'To test impact strength, we dropped a heavy ceramic jar on the surface. The stone stayed intact, making it safe for the everyday knocks and drops of a busy Indian kitchen.',
     videoMp4: '/videos/why-stone-6.mp4',
     videoWebm: '/videos/why-stone-6.webm',
-    poster: '/images/why-stone/why-stone-6.webp'
+    poster: '/posters/why-stone-6.webp'
   },
   {
     id: 'storage',
@@ -120,7 +120,7 @@ const FEATURES: Feature[] = [
       "With extra depth and height, Magppie wall cabinets offer up to 62% more storage than standard kitchens. They're designed to fit large Indian plates and vessels that usually don't fit in regular cabinets.",
     videoMp4: '/videos/why-stone-7.mp4',
     videoWebm: '/videos/why-stone-7.webm',
-    poster: '/images/why-stone/why-stone-7.webp'
+    poster: '/posters/why-stone-7.webp'
   }
 ];
 
@@ -147,33 +147,17 @@ const STACK_GAP = 4;
 const STACK_TOP_PAD_DESKTOP = 12;
 const STACK_TOP_PAD_MOBILE = 10;
 
-// Gate the <video> element behind a desktop check. On phones / small
-// tablets we render the poster image only — no <video> at all, no
-// hardware decoder context allocated, no GPU video plane. This is the
-// fix for the iOS Safari renderer crash + reload that older + low-RAM
-// iPhones (iOS 12 era through current) hit when scrolling into this
-// section: 7 sticky stacking contexts plus even one active video plus
-// the rest of the page's video assets pushes total decoder/GPU pressure
-// past what the renderer process can hold, and iOS WatchDog kills it.
-// On desktop where memory headroom is huge, we keep the active-video
-// experience.
-function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(false);
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mq = window.matchMedia('(min-width: 1024px)');
-    const handler = () => setIsDesktop(mq.matches);
-    handler();
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-  return isDesktop;
-}
-
 export default function WhyStoneMakesDifference() {
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const [activeIdx, setActiveIdx] = useState(0);
-  const isDesktop = useIsDesktop();
+  // Single capability gate: lib/use-device-capability is the only place
+  // that decides if this device can play heavy video. Viewport width
+  // is NOT a capability signal — modern iPhones can play one
+  // H.264 main-profile MP4 at 960px without breaking a sweat, and the
+  // MAX=1 global coordinator in lib/video-coordinator ensures we never
+  // overlap concurrent playback. The gate falls back to <Image> only
+  // for genuinely incapable devices: <=4 GB RAM, <=4 cores, 2g/3g,
+  // save-data, or prefers-reduced-motion.
   const { canPlayHeavyVideo } = useDeviceCapability();
   // Single shared ref: only ONE card ever mounts a <video> (the active
   // one on desktop). The lazy-play hook handles its play/pause via
@@ -348,7 +332,7 @@ export default function WhyStoneMakesDifference() {
                         memory ceiling. First card's poster gets
                         priority so it preloads with the rest of the
                         above-the-fold assets. */}
-                    {isDesktop && isActive && canPlayHeavyVideo ? (
+                    {isActive && canPlayHeavyVideo ? (
                       <video
                         ref={activeVideoRef}
                         playsInline
