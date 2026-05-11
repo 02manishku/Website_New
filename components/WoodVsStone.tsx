@@ -52,7 +52,7 @@ const STAGES: Stage[] = [
     captionStone: 'Magppie Silverstone™. Untouched.',
     videoWebm: '/videos/wood-vs-stone-termites.webm',
     videoMp4: '/videos/wood-vs-stone-termites.mp4',
-    poster: '/images/wood-vs-stone/wood-vs-stone-termites.webp'
+    poster: '/posters/wood-vs-stone-termites.webp'
   },
   {
     id: 'fungus',
@@ -67,7 +67,7 @@ const STAGES: Stage[] = [
     captionStone: 'Magppie Silverstone™. Zero absorption.',
     videoWebm: '/videos/wood-vs-stone-fungus.webm',
     videoMp4: '/videos/wood-vs-stone-fungus.mp4',
-    poster: '/images/wood-vs-stone/wood-vs-stone-fungus.webp'
+    poster: '/posters/wood-vs-stone-fungus.webp'
   },
   {
     id: 'formaldehyde',
@@ -82,7 +82,7 @@ const STAGES: Stage[] = [
     captionStone: 'Magppie Silverstone™. Inert. Forever.',
     videoWebm: '/videos/wood-vs-stone-formaldehyde.webm',
     videoMp4: '/videos/wood-vs-stone-formaldehyde.mp4',
-    poster: '/images/wood-vs-stone/wood-vs-stone-formaldehyde.webp'
+    poster: '/posters/wood-vs-stone-formaldehyde.webp'
   }
 ];
 
@@ -298,22 +298,22 @@ function Mobile() {
   // <article> is an HTMLElement, not HTMLDivElement — keep the ref array
   // type loose so the callback assignment compiles.
   const stageRefs = useRef<(HTMLElement | null)[]>([]);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const [activeIdx, setActiveIdx] = useState(-1);
+  const { canPlayHeavyVideo } = useDeviceCapability();
+  // Single shared ref: only ONE stage card mounts a <video> at a time
+  // (the one currently in view). Other stages render the poster Image.
+  // The global MAX=1 coordinator + capability gate keep this safe even
+  // on iOS Safari with 7 sticky cards above it on the same page.
+  const activeVideoRef = useVideoLazyPlay(0.3);
 
   useEffect(() => {
-    // Mobile fallback only — desktop hides this whole block via
-    // `lg:hidden`, so don't spin up three IntersectionObservers that
-    // can never trigger.
     if (!window.matchMedia('(max-width: 1023px)').matches) return;
     const observers: IntersectionObserver[] = [];
     stageRefs.current.forEach((stage, i) => {
       if (!stage) return;
       const observer = new IntersectionObserver(
         ([entry]) => {
-          const v = videoRefs.current[i];
-          if (!v) return;
-          if (entry.isIntersecting) v.play().catch(() => {});
-          else v.pause();
+          if (entry.isIntersecting) setActiveIdx(i);
         },
         { threshold: 0.3 }
       );
@@ -358,22 +358,41 @@ function Mobile() {
             </h3>
 
             <div className="relative aspect-[16/10] bg-ink overflow-hidden mt-6 shadow-[0_15px_25px_-12px_rgba(40,28,18,0.3),0_40px_70px_-25px_rgba(40,28,18,0.18)]">
-              {/* Mobile renders the poster only — no <video>. This block
-                  lives inside .lg:hidden, so the desktop scrollytelling
-                  with cross-faded videos is untouched. Phones already
-                  carry HeroVideo + StacyTestimonial + PoolsideKitchenBanner
-                  + WhyStone video budget; adding 3 more videos here
-                  pushes the renderer past iOS Safari's decoder ceiling
-                  and the page reloads under WatchDog. Static poster is
-                  a graceful degradation — the heading + body copy
-                  already carry the argument. */}
-              <Image
-                src={s.poster}
-                alt=""
-                fill
-                sizes="100vw"
-                className="object-cover"
-              />
+              {/* Active stage on a capable device mounts a <video> via
+                  the global MAX=1 coordinator. Other stages (and any
+                  incapable device) render the poster — same first
+                  frame the video would have started on. */}
+              {i === activeIdx && canPlayHeavyVideo ? (
+                <video
+                  ref={activeVideoRef}
+                  playsInline
+                  muted
+                  loop
+                  preload="none"
+                  poster={s.poster}
+                  disablePictureInPicture
+                  disableRemotePlayback
+                  controls={false}
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover"
+                >
+                  <source
+                    src={s.videoMp4.replace('.mp4', '-mobile.mp4')}
+                    type="video/mp4"
+                    media="(max-width: 768px)"
+                  />
+                  <source src={s.videoMp4} type="video/mp4" />
+                  <source src={s.videoWebm} type="video/webm" />
+                </video>
+              ) : (
+                <Image
+                  src={s.poster}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                />
+              )}
               <div
                 aria-hidden
                 className="absolute inset-y-0 left-1/2 w-px bg-bone/15"
