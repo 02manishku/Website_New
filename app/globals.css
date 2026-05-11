@@ -26,10 +26,18 @@ html, body {
 }
 
 /* Belt-and-braces overflow guard. The site contains a few full-bleed video
-   sections and a marquee, this prevents any rogue child from triggering a
-   horizontal scrollbar on phones. */
+   sections and a marquee — this prevents any rogue child from triggering a
+   horizontal scrollbar on phones.
+   `overflow-x: clip` is preferred over `hidden`: `hidden` establishes a
+   scroll container, which on iOS Safari breaks `position: sticky`
+   descendants (the WhyStoneMakesDifference card stack and the WoodVsStone
+   scrollytelling both depend on it). `clip` doesn't establish a scroll
+   container, so sticky behaves correctly. We declare both; iOS 16+ /
+   Chrome 90+ honour the second rule, older browsers fall back to the
+   first. */
 body {
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Video download deterrent + performance hint.
