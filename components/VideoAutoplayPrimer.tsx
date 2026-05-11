@@ -9,11 +9,18 @@ import { useEffect } from 'react';
 // versions in private browsing, certain network-saver modes — the
 // browser ALWAYS permits .play() after a touchstart/scroll/click.
 //
-// This component listens once for the first gesture of any kind,
-// then calls .play() on every <video> currently in the viewport.
-// Off-screen videos are skipped so we don't burn iOS decoder
-// budget. Native autoplay still does its job on capable devices;
-// this primer just rescues the edge cases.
+// Two iOS-specific gotchas this primer deliberately respects:
+//
+//   1. The .play() call MUST happen synchronously inside the gesture
+//      handler. Deferring with requestAnimationFrame or setTimeout
+//      loses the user-gesture context, and iOS Safari then blocks the
+//      .play() call with NotAllowedError. Earlier version of this
+//      primer used rAF and silently failed on iOS.
+//
+//   2. If the video's readyState is 0 (HAVE_NOTHING — no data yet)
+//      calling .play() returns a rejected Promise. We call v.load()
+//      first to kick off the network fetch, then .play() — iOS picks
+//      up the load and starts playback once the first frame buffers.
 
 export default function VideoAutoplayPrimer() {
   useEffect(() => {
@@ -28,36 +35,54 @@ export default function VideoAutoplayPrimer() {
     const prime = () => {
       if (primed) return;
       primed = true;
-      // Run on next frame so the gesture event finishes propagating
-      // first — some iOS versions reject .play() if called inside
-      // the gesture handler's micro-task queue.
-      requestAnimationFrame(() => {
-        const videos = document.querySelectorAll('video');
-        videos.forEach((v) => {
-          // Only kick videos that should already be visible. Off-
-          // screen videos with autoplay will start on their own
-          // when scrolled into view.
-          if (isInView(v)) {
-            const p = v.play();
-            if (p && typeof p.catch === 'function') {
-              p.catch(() => {});
-            }
+      // Synchronous play loop — must stay inside the user-gesture
+      // handler frame so iOS does not reject .play().
+      const videos = document.querySelectorAll('video');
+      videos.forEach((v) => {
+        if (!isInView(v)) return;
+        try {
+          if (v.readyState === 0) {
+            v.load();
           }
-        });
+          const p = v.play();
+          if (p && typeof p.catch === 'function') {
+            p.catch(() => {
+              // Final fallback: retry once when the element reaches
+              // canplay state. After this the lazy-play hook keeps
+              // managing the lifecycle.
+              const retry = () => {
+                v.removeEventListener('canplay', retry);
+                const p2 = v.play();
+                if (p2 && typeof p2.catch === 'function') {
+                  p2.catch(() => {});
+                }
+              };
+              v.addEventListener('canplay', retry, { once: true });
+            });
+          }
+        } catch {
+          // Swallow — element might be detached mid-event.
+        }
       });
     };
 
-    // `once` fires the handler at most one time and auto-removes.
+    // `once: true` removes the listener after a single fire. Multiple
+    // gesture types because iOS Safari fires touchstart on tap and
+    // scroll on flick; either one is enough to unlock autoplay.
     document.addEventListener('touchstart', prime, { once: true, passive: true });
+    document.addEventListener('touchend', prime, { once: true, passive: true });
     document.addEventListener('scroll', prime, { once: true, passive: true });
     document.addEventListener('click', prime, { once: true });
     document.addEventListener('keydown', prime, { once: true });
+    document.addEventListener('pointerdown', prime, { once: true });
 
     return () => {
       document.removeEventListener('touchstart', prime);
+      document.removeEventListener('touchend', prime);
       document.removeEventListener('scroll', prime);
       document.removeEventListener('click', prime);
       document.removeEventListener('keydown', prime);
+      document.removeEventListener('pointerdown', prime);
     };
   }, []);
 
