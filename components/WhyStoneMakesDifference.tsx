@@ -373,7 +373,6 @@ export default function WhyStoneMakesDifference() {
                         src={f.poster}
                         alt=""
                         fill
-                        priority={i === 0}
                         sizes="(min-width: 1024px) 58vw, 100vw"
                         className="object-cover"
                       />
