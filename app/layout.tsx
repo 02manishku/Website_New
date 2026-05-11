@@ -8,6 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import NewsletterTeaser from '@/components/NewsletterTeaser';
 import SmoothScroll from '@/components/SmoothScroll';
+import ScrollTriggerRefresh from '@/components/ScrollTriggerRefresh';
 import Preloader from '@/components/Preloader';
 import PageTransition from '@/components/PageTransition';
 import JsonLd from '@/components/JsonLd';
@@ -236,6 +237,11 @@ export default function RootLayout({
             only, renders nothing. Mounted before the page chrome so it
             captures wheel/touch input before any other handler. */}
         <SmoothScroll />
+        {/* Debounced ScrollTrigger.refresh() on resize + orientationchange.
+            Mounted at layout level so every page's GSAP triggers stay
+            aligned after iOS address-bar collapse, device rotation, or
+            window resize. */}
+        <ScrollTriggerRefresh />
         <Header />
         {/* PageTransition wraps {children} so route changes animate, but
             Header / Footer / NewsletterTeaser stay rock-stable across
