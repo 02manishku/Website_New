@@ -7,6 +7,7 @@ import StacyTestimonial from '@/components/StacyTestimonial';
 import PoolsideKitchenBanner from '@/components/PoolsideKitchenBanner';
 import WhyStoneMakesDifference from '@/components/WhyStoneMakesDifference';
 import InlineVideo from '@/components/InlineVideo';
+import SafeBoundary from '@/components/SafeBoundary';
 import ScrollFloat from '@/components/ScrollFloat';
 import Reveal from '@/components/Reveal';
 import Magnetic from '@/components/Magnetic';
@@ -98,7 +99,7 @@ export default function HomePage() {
       />
 
       {/* HERO */}
-      <HeroVideo />
+      <SafeBoundary><HeroVideo /></SafeBoundary>
 
       {/* KBIS 2026 AWARD ANNOUNCEMENT, sits directly under the hero video.
           The dark register bridges from the hero into the editorial Wellness
@@ -364,11 +365,11 @@ export default function HomePage() {
           accumulating at the top of the viewport as the user scrolls,
           like chapters in a monograph. The active card autoplays its
           video; siblings stay paused. */}
-      <WhyStoneMakesDifference />
+      <SafeBoundary><WhyStoneMakesDifference /></SafeBoundary>
 
       {/* POOLSIDE KITCHEN BANNER, video starts at the 5-second mark and
           loops back to 5s on each cycle (skips the dead intro frames). */}
-      <PoolsideKitchenBanner />
+      <SafeBoundary><PoolsideKitchenBanner /></SafeBoundary>
 
       {/* CUSTOMERS GALLERY */}
       <MotionSection className="bg-ink text-bone py-20 lg:py-36">
@@ -386,7 +387,7 @@ export default function HomePage() {
               of people who build the culture we live in.
             </p>
           </div>
-          <CustomersMarquee />
+          <SafeBoundary><CustomersMarquee /></SafeBoundary>
         </div>
       </MotionSection>
 
@@ -645,7 +646,7 @@ export default function HomePage() {
       </MotionSection>
 
       {/* TESTIMONIAL - Stacy McCarthy with autoplay video */}
-      <StacyTestimonial />
+      <SafeBoundary><StacyTestimonial /></SafeBoundary>
 
       {/* NEWS / STORIES */}
       <MotionSection className="bg-bone py-20 lg:py-32">

@@ -11,6 +11,7 @@ import SmoothScroll from '@/components/SmoothScroll';
 import ScrollTriggerRefresh from '@/components/ScrollTriggerRefresh';
 import Preloader from '@/components/Preloader';
 import PageTransition from '@/components/PageTransition';
+import SafeBoundary from '@/components/SafeBoundary';
 import JsonLd from '@/components/JsonLd';
 import { organizationSchema, websiteSchema, SITE_URL } from '@/lib/seo';
 
@@ -229,29 +230,29 @@ export default function RootLayout({
             schemas (Product, FAQPage, LocalBusiness, BreadcrumbList,
             Article) live inside their individual page files. */}
         <JsonLd data={[organizationSchema, websiteSchema]} />
-        {/* First-visit preloader. Sits above everything (z-100) and locks
-            body scroll while up. Skipped after first session visit and
-            for prefers-reduced-motion users. */}
-        <Preloader />
-        {/* Lenis smooth-scroll, wired into the GSAP ticker. Side-effect
-            only, renders nothing. Mounted before the page chrome so it
-            captures wheel/touch input before any other handler. */}
-        <SmoothScroll />
-        {/* Debounced ScrollTrigger.refresh() on resize + orientationchange.
-            Mounted at layout level so every page's GSAP triggers stay
-            aligned after iOS address-bar collapse, device rotation, or
-            window resize. */}
-        <ScrollTriggerRefresh />
+        {/* Every component below sits behind a SafeBoundary so a single
+            crashing widget can't take down the whole page. The
+            top-level app/error.tsx is the last line of defence if a
+            failure escapes the per-component boundaries. */}
+        <SafeBoundary>
+          <Preloader />
+        </SafeBoundary>
+        <SafeBoundary>
+          <SmoothScroll />
+        </SafeBoundary>
+        <SafeBoundary>
+          <ScrollTriggerRefresh />
+        </SafeBoundary>
         <Header />
-        {/* PageTransition wraps {children} so route changes animate, but
-            Header / Footer / NewsletterTeaser stay rock-stable across
-            navigation — same pattern every Awwwards luxury winner uses
-            for persistent chrome. */}
         <main>
-          <PageTransition>{children}</PageTransition>
+          <SafeBoundary>
+            <PageTransition>{children}</PageTransition>
+          </SafeBoundary>
         </main>
         <Footer />
-        <NewsletterTeaser />
+        <SafeBoundary>
+          <NewsletterTeaser />
+        </SafeBoundary>
         {/* Vercel Analytics + Speed Insights. Both auto-activate on
             Vercel deploy without any keys; no-ops in local dev. The
             Speed Insights bundle reports the four Core Web Vitals
