@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ScrollFloat from '@/components/ScrollFloat';
@@ -14,14 +14,26 @@ import { useDeviceCapability } from '@/lib/use-device-capability';
 const LOOP_START = 5;
 
 export default function PoolsideKitchenBanner() {
-  const videoRef = useVideoLazyPlay();
+  // Two refs: the callback ref from useVideoLazyPlay wires the
+  // lazy-play observers, and a local ref captures the element so the
+  // loop-seek effect below can attach `loadedmetadata` + `ended`
+  // listeners. The combined `attachVideo` callback runs both.
+  const lazyPlayRef = useVideoLazyPlay();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const { canPlayHeavyVideo } = useDeviceCapability();
+
+  const attachVideo = useCallback(
+    (v: HTMLVideoElement | null) => {
+      videoRef.current = v;
+      lazyPlayRef(v);
+    },
+    [lazyPlayRef]
+  );
 
   // Loop-point custom seek: native `loop` would restart at 0, defeating
   // the whole point. We listen for `loadedmetadata` to seek past the
   // intro on first load, and for `ended` to seek back on every loop.
-  // Plays via the coordinator (useVideoLazyPlay) so the slot accounting
-  // stays correct.
+  // Playback itself is driven by useVideoLazyPlay's coordinator slot.
   useEffect(() => {
     if (!canPlayHeavyVideo) return;
     const v = videoRef.current;
@@ -52,13 +64,13 @@ export default function PoolsideKitchenBanner() {
       v.removeEventListener('loadedmetadata', onLoadedMeta);
       v.removeEventListener('ended', onEnded);
     };
-  }, [canPlayHeavyVideo, videoRef]);
+  }, [canPlayHeavyVideo]);
 
   return (
     <section className="relative h-[65dvh] min-h-[420px] lg:h-[80dvh] overflow-hidden">
       {canPlayHeavyVideo ? (
         <video
-          ref={videoRef}
+          ref={attachVideo}
           playsInline
           muted
           preload="none"

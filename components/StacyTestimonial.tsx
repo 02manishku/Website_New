@@ -1,12 +1,22 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useVideoLazyPlay } from '@/lib/use-video-lazy-play';
 import { useDeviceCapability } from '@/lib/use-device-capability';
 
 export default function StacyTestimonial() {
-  const videoRef = useVideoLazyPlay(0.45);
+  // Two refs: lazy-play callback ref wires the observers; local ref
+  // gives the mute toggle access to the underlying element.
+  const lazyPlayRef = useVideoLazyPlay(0.45);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const attachVideo = useCallback(
+    (v: HTMLVideoElement | null) => {
+      videoRef.current = v;
+      lazyPlayRef(v);
+    },
+    [lazyPlayRef]
+  );
   const { canPlayHeavyVideo } = useDeviceCapability();
   // Video starts muted (iOS autoplay policy). User tap toggles audio.
   // We mirror the muted state in React for the button's aria-pressed.
@@ -66,7 +76,7 @@ export default function StacyTestimonial() {
               {canPlayHeavyVideo ? (
                 <>
                   <video
-                    ref={videoRef}
+                    ref={attachVideo}
                     playsInline
                     muted
                     loop
