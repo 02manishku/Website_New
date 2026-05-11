@@ -51,6 +51,17 @@ export default function SmoothScroll() {
     ).matches;
     if (prefersReduced) return;
 
+    // Bail on touch + narrow viewport. iOS Safari's native scroll
+    // momentum and Lenis's interpolated wheel scroll fight each other
+    // — the result is jank at best, crashes at worst (sticky stacking
+    // contexts + Lenis re-layout per frame is a documented OOM
+    // vector). Native scroll wins on mobile.
+    const isTouch =
+      typeof window !== 'undefined' && 'ontouchstart' in window;
+    const isNarrow =
+      typeof window !== 'undefined' && window.innerWidth < 1024;
+    if (isTouch && isNarrow) return;
+
     const lenis = new Lenis({
       // Higher duration = slower momentum decay. 1.2s is the Studio
       // Freight default — feels intentional without being sluggish.
