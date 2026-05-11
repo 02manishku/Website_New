@@ -8,6 +8,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import ScrollFloat from '@/components/ScrollFloat';
+import { useVideoLazyPlay } from '@/lib/use-video-lazy-play';
+import { useDeviceCapability } from '@/lib/use-device-capability';
 
 // ─────────────────────────────────────────────────────────────────────────
 // Stacking-cards accordion. Each feature is a self-contained rounded
@@ -170,14 +172,19 @@ function useIsDesktop() {
 
 export default function WhyStoneMakesDifference() {
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [activeIdx, setActiveIdx] = useState(0);
   const isDesktop = useIsDesktop();
+  const { canPlayHeavyVideo } = useDeviceCapability();
+  // Single shared ref: only ONE card ever mounts a <video> (the active
+  // one on desktop). The lazy-play hook handles its play/pause via
+  // the global coordinator (MAX=1 concurrent video site-wide), no
+  // per-card video-ref book-keeping needed.
+  const activeVideoRef = useVideoLazyPlay(0.25);
 
   // Per-card IntersectionObserver. The rootMargin defines the "active
   // band" — vertical 30%–50% of viewport. As each card scrolls through
   // that band, the observer flips it to active, swapping border /
-  // shadow emphasis and starting its video.
+  // shadow emphasis and remounting the video into the active card.
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
     cardRefs.current.forEach((card, i) => {
@@ -196,16 +203,6 @@ export default function WhyStoneMakesDifference() {
     });
     return () => observers.forEach((o) => o.disconnect());
   }, []);
-
-  // Only the active card's video plays — others stay paused so the
-  // GPU decoder budget isn't shared seven ways.
-  useEffect(() => {
-    videoRefs.current.forEach((v, i) => {
-      if (!v) return;
-      if (i === activeIdx) v.play().catch(() => {});
-      else v.pause();
-    });
-  }, [activeIdx]);
 
   // Click a stacked header to jump to that card. Computes the target
   // scroll position so the card's natural top lands just below the
@@ -351,22 +348,30 @@ export default function WhyStoneMakesDifference() {
                         memory ceiling. First card's poster gets
                         priority so it preloads with the rest of the
                         above-the-fold assets. */}
-                    {isDesktop && isActive ? (
+                    {isDesktop && isActive && canPlayHeavyVideo ? (
                       <video
-                        ref={(el) => {
-                          videoRefs.current[i] = el;
-                        }}
+                        ref={activeVideoRef}
+                        playsInline
                         muted
                         loop
-                        playsInline
-                        preload="auto"
+                        preload="none"
                         poster={f.poster}
-                        controlsList="nodownload"
                         disablePictureInPicture
+                        disableRemotePlayback
+                        controls={false}
+                        aria-hidden="true"
                         className="absolute inset-0 w-full h-full object-cover"
                       >
-                        <source src={f.videoWebm} type="video/webm" />
+                        {/* MP4 first, mobile variant first within MP4.
+                            iOS reads the first matching source and
+                            never falls back. */}
+                        <source
+                          src={f.videoMp4.replace('.mp4', '-mobile.mp4')}
+                          type="video/mp4"
+                          media="(max-width: 768px)"
+                        />
                         <source src={f.videoMp4} type="video/mp4" />
+                        <source src={f.videoWebm} type="video/webm" />
                       </video>
                     ) : (
                       <Image

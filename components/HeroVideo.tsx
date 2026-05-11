@@ -1,39 +1,55 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { useVideoLazyPlay } from '@/lib/use-video-lazy-play';
+import { useDeviceCapability } from '@/lib/use-device-capability';
 
 export default function HeroVideo() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.play().catch(() => {});
-  }, []);
+  const videoRef = useVideoLazyPlay();
+  const { canPlayHeavyVideo } = useDeviceCapability();
 
   return (
     <section className="relative h-[100dvh] min-h-[560px] lg:min-h-[640px] w-full overflow-hidden bg-ink">
-      {/* Hero video - clean source, full bleed */}
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        // `metadata` (not `auto`), so we don't push ~3 MB of video bytes to
-        // every mobile visitor before they've even looked at the page. The
-        // poster covers the gap; playback starts as soon as the first
-        // segment lands.
-        preload="metadata"
-        poster="/images/hero.webp"
-        controlsList="nodownload"
-        disablePictureInPicture
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src="/videos/brecciaa.webm" type="video/webm" />
-        <source src="/videos/brecciaa.mp4" type="video/mp4" />
-      </video>
+      {/* Low-end / save-data / slow-network / reduced-motion users skip
+          the video entirely and see the brand hero image. Same
+          composition, zero decoder cost. The text overlay still
+          renders on top. */}
+      {canPlayHeavyVideo ? (
+        <video
+          ref={videoRef}
+          playsInline
+          muted
+          loop
+          preload="none"
+          poster="/images/hero.webp"
+          disablePictureInPicture
+          disableRemotePlayback
+          controls={false}
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          {/* MP4 sources before WebM \xe2\x80\x94 iOS reads first matching source
+              and never falls back. Mobile (<=768px) gets a smaller
+              re-encoded variant. */}
+          <source
+            src="/videos/brecciaa-mobile.mp4"
+            type="video/mp4"
+            media="(max-width: 768px)"
+          />
+          <source src="/videos/brecciaa.mp4" type="video/mp4" />
+          <source src="/videos/brecciaa.webm" type="video/webm" />
+        </video>
+      ) : (
+        <Image
+          src="/images/hero.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+      )}
 
       {/* Stronger darkening on the left where the copy sits, for legibility on bright scenes */}
       <div className="absolute inset-0 bg-gradient-to-r from-ink/75 via-ink/30 to-transparent pointer-events-none" />

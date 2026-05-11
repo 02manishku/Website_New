@@ -5,6 +5,7 @@ import PageHero from '@/components/PageHero';
 import ScrollFloat from '@/components/ScrollFloat';
 import MotionSection from '@/components/MotionSection';
 import WoodVsStone from '@/components/WoodVsStone';
+import InlineVideo from '@/components/InlineVideo';
 import JsonLd from '@/components/JsonLd';
 import {
   wellnessKitchenSchema,
@@ -369,20 +370,11 @@ export default function KitchensPage() {
 
       {/* Poolside Kitchen */}
       <MotionSection id="poolside" className="relative h-[70dvh] min-h-[440px] lg:h-[85dvh] overflow-hidden scroll-mt-20">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
+        <InlineVideo
+          videoMp4="/videos/pool-area-1.mp4"
           poster="/images/02.webp"
-          controlsList="nodownload"
-          disablePictureInPicture
           className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/videos/pool-area-1.webm" type="video/webm" />
-          <source src="/videos/pool-area-1.mp4" type="video/mp4" />
-        </video>
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
         <div className="absolute inset-0 flex items-end">
           <div className="mx-auto max-w-[1600px] px-6 lg:px-10 pb-16 lg:pb-24 w-full">

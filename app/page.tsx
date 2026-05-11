@@ -6,6 +6,7 @@ import CustomersMarquee from '@/components/CustomersMarquee';
 import StacyTestimonial from '@/components/StacyTestimonial';
 import PoolsideKitchenBanner from '@/components/PoolsideKitchenBanner';
 import WhyStoneMakesDifference from '@/components/WhyStoneMakesDifference';
+import InlineVideo from '@/components/InlineVideo';
 import ScrollFloat from '@/components/ScrollFloat';
 import Reveal from '@/components/Reveal';
 import Magnetic from '@/components/Magnetic';
@@ -344,21 +345,12 @@ export default function HomePage() {
                 jitter when the user enters this section. The
                 MotionSection wrapping the whole block already provides
                 the entrance; the video carries itself visually. */}
-            <div className="relative aspect-[4/3] overflow-hidden bg-ink transform-gpu">
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
+            <div className="relative aspect-[4/3] overflow-hidden bg-ink">
+              <InlineVideo
+                videoMp4="/videos/copper-infused-silver.mp4"
                 poster="/images/copper-infused-silver-poster.webp"
-                controlsList="nodownload"
-                disablePictureInPicture
                 className="absolute inset-0 w-full h-full object-cover"
-              >
-                <source src="/videos/copper-infused-silver.webm" type="video/webm" />
-                <source src="/videos/copper-infused-silver.mp4" type="video/mp4" />
-              </video>
+              />
             </div>
           </div>
         </div>

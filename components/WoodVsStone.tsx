@@ -1,9 +1,16 @@
 'use client';
 
+// audited 2026-05-09 — H-01: trigger.kill() in cleanup; only the
+// active stage's <video> is mounted (others are Images); ScrollTrigger
+// is desktop-only; per-card video play/pause handled by lazy-play hook
+// + coordinator.
+
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useVideoLazyPlay } from '@/lib/use-video-lazy-play';
+import { useDeviceCapability } from '@/lib/use-device-capability';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -98,9 +105,14 @@ export default function WoodVsStone() {
 
 function Desktop() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [progress, setProgress] = useState(0);
   const [activeIdx, setActiveIdx] = useState(0);
+  const { canPlayHeavyVideo } = useDeviceCapability();
+  // Single shared ref: only the active stage's <video> mounts at a
+  // time. The cross-fade trick from the original 3-video layout is
+  // replaced by a re-mount on activeIdx change — saves 2 simultaneous
+  // decoder contexts on iOS Safari.
+  const activeVideoRef = useVideoLazyPlay(0.25);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -125,14 +137,6 @@ function Desktop() {
     });
     return () => trigger.kill();
   }, []);
-
-  useEffect(() => {
-    videoRefs.current.forEach((v, i) => {
-      if (!v) return;
-      if (i === activeIdx) v.play().catch(() => {});
-      else v.pause();
-    });
-  }, [activeIdx]);
 
   const yearDisplay = (() => {
     const segment = 1 / STAGES.length;
@@ -192,27 +196,46 @@ function Desktop() {
                   the rectangle reads as a layered card on cream rather
                   than a black box dropped on a coloured surface. */}
               <div className="relative aspect-[16/10] bg-ink overflow-hidden shadow-[0_18px_30px_-15px_rgba(40,28,18,0.35),0_50px_90px_-30px_rgba(40,28,18,0.22)]">
-                {STAGES.map((s, i) => (
+                {/* Active stage's poster sits underneath as the
+                    cross-fade fallback — when the video remounts on
+                    activeIdx change, the poster is visible for the
+                    ~100ms it takes the new video element to render
+                    its first frame. */}
+                <Image
+                  key={`poster-${activeStage.id}`}
+                  src={activeStage.poster}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 60vw, 100vw"
+                  className="object-cover"
+                />
+                {canPlayHeavyVideo && (
                   <video
-                    key={s.id}
-                    ref={(el) => {
-                      videoRefs.current[i] = el;
-                    }}
+                    key={activeStage.id}
+                    ref={activeVideoRef}
+                    playsInline
                     muted
                     loop
-                    playsInline
-                    preload={i === 0 ? 'auto' : 'metadata'}
-                    poster={s.poster}
-                    controlsList="nodownload"
+                    preload="none"
+                    poster={activeStage.poster}
                     disablePictureInPicture
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${
-                      i === activeIdx ? 'opacity-100' : 'opacity-0'
-                    }`}
+                    disableRemotePlayback
+                    controls={false}
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover"
                   >
-                    <source src={s.videoWebm} type="video/webm" />
-                    <source src={s.videoMp4} type="video/mp4" />
+                    {/* MP4 first, mobile variant first within MP4. iOS
+                        reads the first matching source and never
+                        falls back. */}
+                    <source
+                      src={activeStage.videoMp4.replace('.mp4', '-mobile.mp4')}
+                      type="video/mp4"
+                      media="(max-width: 768px)"
+                    />
+                    <source src={activeStage.videoMp4} type="video/mp4" />
+                    <source src={activeStage.videoWebm} type="video/webm" />
                   </video>
-                ))}
+                )}
                 {/* Hairline split between wood / stone halves. */}
                 <div
                   aria-hidden

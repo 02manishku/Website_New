@@ -1,4 +1,8 @@
+'use client';
+
 import Image from 'next/image';
+import { useVideoLazyPlay } from '@/lib/use-video-lazy-play';
+import { useDeviceCapability } from '@/lib/use-device-capability';
 
 export default function PageHero({
   kicker,
@@ -13,27 +17,45 @@ export default function PageHero({
   video?: string;
   subtitle?: string;
 }) {
+  const videoRef = useVideoLazyPlay();
+  const { canPlayHeavyVideo } = useDeviceCapability();
+
+  // Derive mobile + webm paths from the desktop MP4 path. Callers pass
+  // `video="/videos/foo.mp4"` and we expand to the family.
+  const videoBase = video?.replace(/\.mp4$/, '');
+  const showVideo = video && canPlayHeavyVideo;
+
   return (
     <section className="relative h-[100dvh] min-h-[560px] lg:min-h-[640px] w-full overflow-hidden bg-ink">
       <div className="absolute inset-0 overflow-hidden">
-        {video ? (
+        {showVideo ? (
           <video
-            autoPlay
+            ref={videoRef}
+            playsInline
             muted
             loop
-            playsInline
-            preload="metadata"
+            preload="none"
             poster={image}
-            controlsList="nodownload"
             disablePictureInPicture
+            disableRemotePlayback
+            controls={false}
+            aria-hidden="true"
             className="absolute inset-0 w-full h-full object-cover"
             style={{
               transform: 'scale(1.20) translate(4%, -5%)',
               transformOrigin: 'center center'
             }}
           >
-            <source src={video.replace(/\.mp4$/, '.webm')} type="video/webm" />
-            <source src={video} type="video/mp4" />
+            {/* MP4 first, mobile variant first within MP4. iOS reads the
+                first matching source and never falls back; WebM as a
+                terminal fallback for Firefox / Chrome on desktop. */}
+            <source
+              src={`${videoBase}-mobile.mp4`}
+              type="video/mp4"
+              media="(max-width: 768px)"
+            />
+            <source src={`${videoBase}.mp4`} type="video/mp4" />
+            <source src={`${videoBase}.webm`} type="video/webm" />
           </video>
         ) : (
           <Image

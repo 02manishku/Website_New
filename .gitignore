@@ -15,3 +15,8 @@ scripts/image-rename.json
 
 .vercel
 tsconfig.tsbuildinfo
+
+# Pre-re-encode backups of every video, kept locally as a safety net so
+# we can roll back if a new encode regresses visually. Gitignored
+# because the live encoded versions ship from public/videos/ directly.
+public/videos/_backup/
