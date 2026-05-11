@@ -322,16 +322,14 @@ export default function WhyStoneMakesDifference() {
                       height: 'clamp(220px, 38vh, 360px)'
                     }}
                   >
-                    {/* Mount <video> ONLY on desktop AND for the active
-                        card. Every other case (any mobile size, any
-                        inactive card on desktop) renders the static
-                        poster as an <Image>. This is the iOS Safari
-                        renderer-crash fix: no video element means no
-                        decoder context allocated, no GPU video plane,
-                        no chance of pushing the renderer past its
-                        memory ceiling. First card's poster gets
-                        priority so it preloads with the rest of the
-                        above-the-fold assets. */}
+                    {/* Mount <video> for the active card on any device
+                        that passes the capability gate. Inactive cards
+                        and incapable devices render the matching
+                        /posters/<name>.webp (ffmpeg-extracted frame 0
+                        of the same video). The MAX=1 global video
+                        coordinator pauses any other video site-wide
+                        before this one plays, so iOS Safari's renderer
+                        only ever holds one decoder context at a time. */}
                     {isActive && canPlayHeavyVideo ? (
                       <video
                         ref={activeVideoRef}

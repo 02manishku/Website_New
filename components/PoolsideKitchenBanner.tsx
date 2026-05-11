@@ -62,7 +62,7 @@ export default function PoolsideKitchenBanner() {
           playsInline
           muted
           preload="none"
-          poster="/images/02.webp"
+          poster="/posters/pool-area-1.webp"
           disablePictureInPicture
           disableRemotePlayback
           controls={false}
@@ -83,7 +83,7 @@ export default function PoolsideKitchenBanner() {
         </video>
       ) : (
         <Image
-          src="/images/02.webp"
+          src="/posters/pool-area-1.webp"
           alt=""
           fill
           sizes="100vw"

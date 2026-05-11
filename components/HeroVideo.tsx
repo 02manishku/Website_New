@@ -22,7 +22,7 @@ export default function HeroVideo() {
           muted
           loop
           preload="none"
-          poster="/images/hero.webp"
+          poster="/posters/brecciaa.webp"
           disablePictureInPicture
           disableRemotePlayback
           controls={false}
@@ -41,8 +41,10 @@ export default function HeroVideo() {
           <source src="/videos/brecciaa.webm" type="video/webm" />
         </video>
       ) : (
+        // Same /posters/brecciaa.webp the video would have started on \xe2\x80\x94
+        // capable + incapable devices see the exact same frame.
         <Image
-          src="/images/hero.webp"
+          src="/posters/brecciaa.webp"
           alt=""
           fill
           priority

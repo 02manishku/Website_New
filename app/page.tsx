@@ -349,7 +349,7 @@ export default function HomePage() {
             <div className="relative aspect-[4/3] overflow-hidden bg-ink">
               <InlineVideo
                 videoMp4="/videos/copper-infused-silver.mp4"
-                poster="/images/copper-infused-silver-poster.webp"
+                poster="/posters/copper-infused-silver.webp"
                 className="absolute inset-0 w-full h-full object-cover"
               />
             </div>

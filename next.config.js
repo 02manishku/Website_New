@@ -30,6 +30,17 @@ const nextConfig = {
   // duplicates. Canonicals declared per-route reinforce the same.
   trailingSlash: false,
 
+  // Strip console.* calls (except error/warn) from the production bundle.
+  // Dev / preview still see them; production gets the smaller, quieter
+  // bundle. The `[video] requestPlay` telemetry in lib/use-video-lazy-play
+  // relies on this so prod doesn't leak the noisy log line.
+  compiler: {
+    removeConsole:
+      process.env.NODE_ENV === 'production'
+        ? { exclude: ['error', 'warn'] }
+        : false
+  },
+
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1600, 1920, 2400, 3200],

@@ -71,7 +71,7 @@ export default function StacyTestimonial() {
                     muted
                     loop
                     preload="none"
-                    poster="/images/Partners/Stacy_Mc_Carthy.webp"
+                    poster="/posters/stacy.webp"
                     disablePictureInPicture
                     disableRemotePlayback
                     controls={false}
@@ -115,9 +115,14 @@ export default function StacyTestimonial() {
                   </button>
                 </>
               ) : (
+                // Same /posters/stacy.webp the video would have started
+                // on (the video's true first frame) \xe2\x80\x94 keeps visual
+                // identity across capable + incapable devices. The small
+                // portrait avatar next to the blockquote keeps the
+                // recognisable face.
                 <Image
-                  src="/images/Partners/Stacy_Mc_Carthy.webp"
-                  alt="Stacy McCarthy"
+                  src="/posters/stacy.webp"
+                  alt=""
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover"

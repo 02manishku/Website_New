@@ -54,6 +54,14 @@ export function useVideoLazyPlay(threshold = 0.25) {
         for (const e of entries) {
           inView = e.isIntersecting && e.intersectionRatio >= threshold;
           if (inView) {
+            // Dev-only telemetry: confirms in console that the hook
+            // fired requestPlay() with the right resolved source. Helps
+            // debug "why isn't this video playing on my phone" issues.
+            // Stripped from production by next.config.js compiler.
+            if (process.env.NODE_ENV !== 'production') {
+              // eslint-disable-next-line no-console
+              console.info('[video] requestPlay', v.currentSrc || v.src);
+            }
             requestPlay(v);
           } else if (!v.paused) {
             v.pause();

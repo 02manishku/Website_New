@@ -372,7 +372,7 @@ export default function KitchensPage() {
       <MotionSection id="poolside" className="relative h-[70dvh] min-h-[440px] lg:h-[85dvh] overflow-hidden scroll-mt-20">
         <InlineVideo
           videoMp4="/videos/pool-area-1.mp4"
-          poster="/images/02.webp"
+          poster="/posters/pool-area-1.webp"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
