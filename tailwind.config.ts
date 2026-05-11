@@ -5,6 +5,13 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}'
   ],
+  // Gate Tailwind `hover:*` utilities behind `@media (hover: hover)`.
+  // Without this, iOS Safari fires :hover on tap and the style sticks
+  // until you tap elsewhere — looks like a bug ("why is this button
+  // permanently in the hover state?"). With it on, hover styles only
+  // apply on devices that actually have a hover pointer (mouse,
+  // trackpad). Touch users get only :active / :focus feedback.
+  future: { hoverOnlyWhenSupported: true },
   theme: {
     extend: {
       colors: {

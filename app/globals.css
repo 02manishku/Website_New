@@ -17,6 +17,11 @@ html {
   scroll-behavior: smooth;
   /* Stop iOS Safari from auto-enlarging text in landscape. */
   -webkit-text-size-adjust: 100%;
+  /* Suppress the default gray tap-highlight rectangle on iOS Safari /
+     Android Chrome. The brand uses ink-on-bone; a gray flash looks like a
+     bug. Tap feedback is provided by :active states on individual
+     buttons / links instead. */
+  -webkit-tap-highlight-color: transparent;
 }
 html, body {
   background: #F4F1EA;
@@ -64,6 +69,25 @@ video {
    handle this, but explicit `manipulation` helps on older Android Chrome. */
 a, button, [role="button"], input[type="submit"], label {
   touch-action: manipulation;
+}
+
+/* Global focus-visible system. Bone-coloured rings would disappear on
+   the page background; ink-coloured 2px outline with 2px offset is
+   visible on both bone and ink surfaces.
+   :focus-visible (vs :focus) means the ring shows for keyboard tabbing
+   but NOT for mouse clicks — exactly what we want. iOS Bluetooth-
+   keyboard users + macOS Safari Tab-navigation users both see it. */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid rgba(27, 27, 27, 0.85);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+/* On the dark ink footer the ink outline disappears. Bone outline
+   when focused-visible inside an ink surface. */
+.bg-ink :focus-visible,
+footer :focus-visible {
+  outline-color: rgba(244, 241, 234, 0.95);
 }
 
 ::selection {
