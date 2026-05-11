@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -334,22 +335,22 @@ function Mobile() {
             </h3>
 
             <div className="relative aspect-[16/10] bg-ink overflow-hidden mt-6 shadow-[0_15px_25px_-12px_rgba(40,28,18,0.3),0_40px_70px_-25px_rgba(40,28,18,0.18)]">
-              <video
-                ref={(el) => {
-                  videoRefs.current[i] = el;
-                }}
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                poster={s.poster}
-                controlsList="nodownload"
-                disablePictureInPicture
-                className="absolute inset-0 w-full h-full object-cover"
-              >
-                <source src={s.videoWebm} type="video/webm" />
-                <source src={s.videoMp4} type="video/mp4" />
-              </video>
+              {/* Mobile renders the poster only — no <video>. This block
+                  lives inside .lg:hidden, so the desktop scrollytelling
+                  with cross-faded videos is untouched. Phones already
+                  carry HeroVideo + StacyTestimonial + PoolsideKitchenBanner
+                  + WhyStone video budget; adding 3 more videos here
+                  pushes the renderer past iOS Safari's decoder ceiling
+                  and the page reloads under WatchDog. Static poster is
+                  a graceful degradation — the heading + body copy
+                  already carry the argument. */}
+              <Image
+                src={s.poster}
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-cover"
+              />
               <div
                 aria-hidden
                 className="absolute inset-y-0 left-1/2 w-px bg-bone/15"
