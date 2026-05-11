@@ -3,20 +3,28 @@
 // audited 2026-05-11 — section laid out as plain static feature panels
 // (no sticky, no IntersectionObserver, no shared state), but each
 // panel now renders a <video> directly instead of a poster <Image>.
-// The owner explicitly asked for videos on every panel here. The
-// global video-coordinator (lib/video-coordinator) keeps MAX=1
-// concurrent playback site-wide, and each video uses useVideoLazyPlay
-// for visibility-gated play/pause + preload upgrade, so iOS only ever
-// has one decoder context in flight even with 7 elements mounted.
+// The owner explicitly asked for videos on every panel here AND for
+// every visible panel's video to play simultaneously (not one-by-one).
 //
-// preload="none" + poster attribute keeps the page lightweight on
-// first paint. The hook flips preload→"metadata" when each <video>
-// is within 200px of the viewport, and only requests playback when
-// 25%+ of the element is visible.
+// So unlike Hero / Stacy / Poolside, these panels do NOT route through
+// lib/video-coordinator (which enforces MAX=1 concurrent playback
+// site-wide). Each panel manages its own play/pause via a per-element
+// IntersectionObserver — if two panels are on screen at once, both
+// play. Mobile decoder safety is preserved by:
+//
+//   1. preload="none" → upgraded to "metadata" only when within 200px
+//      of the viewport, so we never decode bytes for off-screen panels.
+//   2. Pause + preload reset on scroll-out (iOS releases the decoder
+//      context after a pause when the element loses focus).
+//   3. Mobile MP4 source is 854x480 H.264 main / CRF 27 — small enough
+//      that decoding 2-3 simultaneously fits comfortably on any iPhone
+//      that has shipped since 2018.
+//   4. Phones only show 1-2 panels in viewport at any time anyway, so
+//      the worst case is 2 simultaneous decoders, not 7.
+//   5. Tab hide pauses everything.
 
 import { useEffect, useRef } from 'react';
 import ScrollFloat from '@/components/ScrollFloat';
-import { requestPlay, releasePlay } from '@/lib/video-coordinator';
 
 type Feature = {
   id: string;
@@ -109,12 +117,14 @@ const FEATURES: Feature[] = [
   }
 ];
 
-// Per-panel video. Has its own three-stage observer set:
+// Per-panel video. Has its own observer set, independent of every
+// other panel and independent of the global video-coordinator:
 //   1. preloadObs at rootMargin: 200px — upgrade preload="none"
 //      → "metadata" as the panel nears the viewport.
-//   2. playObs at threshold 0.4 — request play through the global
-//      coordinator (MAX=1) when 40% visible, pause + release on
-//      scroll-out.
+//   2. playObs at threshold 0.25 — call v.play() directly when 25%
+//      visible, v.pause() on scroll-out. Multiple panels visible at
+//      once = multiple panels playing at once. The MAX=1 coordinator
+//      is intentionally bypassed here (see file header for why).
 //   3. visibilitychange listener — pause when tab hides.
 function FeatureVideoPanel({ f }: { f: Feature }) {
   const ref = useRef<HTMLVideoElement | null>(null);
@@ -123,6 +133,13 @@ function FeatureVideoPanel({ f }: { f: Feature }) {
     const v = ref.current;
     if (!v) return;
     let inView = false;
+
+    const playSafe = () => {
+      const p = v.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch(() => {});
+      }
+    };
 
     const preloadObs = new IntersectionObserver(
       (entries) => {
@@ -139,25 +156,23 @@ function FeatureVideoPanel({ f }: { f: Feature }) {
     const playObs = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          inView = e.isIntersecting && e.intersectionRatio >= 0.4;
+          inView = e.isIntersecting && e.intersectionRatio >= 0.25;
           if (inView) {
-            requestPlay(v);
+            playSafe();
           } else if (!v.paused) {
             v.pause();
-            releasePlay(v);
           }
         }
       },
-      { threshold: [0, 0.4, 1] }
+      { threshold: [0, 0.25, 1] }
     );
     playObs.observe(v);
 
     const onVis = () => {
       if (document.visibilityState === 'hidden') {
         v.pause();
-        releasePlay(v);
       } else if (inView) {
-        requestPlay(v);
+        playSafe();
       }
     };
     document.addEventListener('visibilitychange', onVis);
@@ -168,7 +183,6 @@ function FeatureVideoPanel({ f }: { f: Feature }) {
       document.removeEventListener('visibilitychange', onVis);
       try {
         v.pause();
-        releasePlay(v);
       } catch {
         // element already detached
       }
