@@ -74,7 +74,7 @@ export default function PoolsideKitchenBanner() {
           autoPlay
           playsInline
           muted
-          preload="none"
+          preload="metadata"
           poster="/posters/pool-area-1.webp"
           disablePictureInPicture
           disableRemotePlayback

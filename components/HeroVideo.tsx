@@ -22,7 +22,7 @@ export default function HeroVideo() {
           playsInline
           muted
           loop
-          preload="none"
+          preload="metadata"
           poster="/posters/brecciaa.webp"
           disablePictureInPicture
           disableRemotePlayback

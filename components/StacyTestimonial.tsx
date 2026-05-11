@@ -81,7 +81,7 @@ export default function StacyTestimonial() {
                     playsInline
                     muted
                     loop
-                    preload="none"
+                    preload="metadata"
                     poster="/posters/stacy.webp"
                     disablePictureInPicture
                     disableRemotePlayback

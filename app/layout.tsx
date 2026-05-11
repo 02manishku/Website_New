@@ -9,6 +9,7 @@ import Footer from '@/components/Footer';
 import NewsletterTeaser from '@/components/NewsletterTeaser';
 import SmoothScroll from '@/components/SmoothScroll';
 import ScrollTriggerRefresh from '@/components/ScrollTriggerRefresh';
+import VideoAutoplayPrimer from '@/components/VideoAutoplayPrimer';
 import Preloader from '@/components/Preloader';
 import PageTransition from '@/components/PageTransition';
 import SafeBoundary from '@/components/SafeBoundary';
@@ -242,6 +243,9 @@ export default function RootLayout({
         </SafeBoundary>
         <SafeBoundary>
           <ScrollTriggerRefresh />
+        </SafeBoundary>
+        <SafeBoundary>
+          <VideoAutoplayPrimer />
         </SafeBoundary>
         <Header />
         <main>

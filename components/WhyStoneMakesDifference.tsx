@@ -12,7 +12,7 @@
 // IntersectionObserver — if two panels are on screen at once, both
 // play. Mobile decoder safety is preserved by:
 //
-//   1. preload="none" → upgraded to "metadata" only when within 200px
+//   1. preload="metadata" → upgraded to "metadata" only when within 200px
 //      of the viewport, so we never decode bytes for off-screen panels.
 //   2. Pause + preload reset on scroll-out (iOS releases the decoder
 //      context after a pause when the element loses focus).
@@ -122,7 +122,7 @@ const FEATURES: Feature[] = [
 // Safari rejects v.play() silently when the video has insufficient
 // data buffered, so the flow is:
 //
-//   1. preloadObs at rootMargin: 200px — flip preload="none" → "auto"
+//   1. preloadObs at rootMargin: 200px — flip preload="metadata" → "auto"
 //      (NOT "metadata", which iOS doesn't buffer enough of for play
 //      to succeed) AND call v.load() to actually start the network
 //      fetch. Setting `preload` alone is just a hint.
@@ -237,7 +237,7 @@ function FeatureVideoPanel({ f }: { f: Feature }) {
       playsInline
       muted
       loop
-      preload="none"
+      preload="metadata"
       poster={f.poster}
       disablePictureInPicture
       disableRemotePlayback

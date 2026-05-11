@@ -217,7 +217,7 @@ function Desktop() {
                     playsInline
                     muted
                     loop
-                    preload="none"
+                    preload="metadata"
                     poster={activeStage.poster}
                     disablePictureInPicture
                     disableRemotePlayback
@@ -370,7 +370,7 @@ function Mobile() {
                   playsInline
                   muted
                   loop
-                  preload="none"
+                  preload="metadata"
                   poster={s.poster}
                   disablePictureInPicture
                   disableRemotePlayback

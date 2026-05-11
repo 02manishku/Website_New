@@ -35,7 +35,7 @@ export default function PageHero({
             playsInline
             muted
             loop
-            preload="none"
+            preload="metadata"
             poster={image}
             disablePictureInPicture
             disableRemotePlayback

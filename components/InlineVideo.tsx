@@ -56,7 +56,7 @@ export default function InlineVideo({
       playsInline
       muted
       loop={loop}
-      preload="none"
+      preload="metadata"
       poster={poster}
       disablePictureInPicture
       disableRemotePlayback
