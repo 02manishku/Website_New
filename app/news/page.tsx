@@ -161,7 +161,7 @@ export default function NewsPage() {
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
                     src={s.image}
-                    alt={s.title}
+                    alt={`${s.title} | Magppie wellness kitchen news and recognition`}
                     fill
                     sizes="(min-width: 1024px) 60vw, 100vw"
                     className="object-cover"

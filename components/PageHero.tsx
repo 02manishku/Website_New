@@ -8,15 +8,32 @@ export default function PageHero({
   kicker,
   title,
   image,
+  imageAlt,
+  videoTitle,
   video,
   subtitle
 }: {
   kicker: string;
   title: string;
   image: string;
+  /** SEO alt text for the hero image. Defaults to a brand-keyword
+   *  composite derived from the page title; pass an explicit
+   *  string for keyword-targeted copy on a per-page basis. */
+  imageAlt?: string;
+  /** SEO title attribute applied to the underlying <video> element.
+   *  Surfaces in Google Video Search results + the browser tooltip
+   *  on hover. Defaults to the same composite as imageAlt. */
+  videoTitle?: string;
   video?: string;
   subtitle?: string;
 }) {
+  // Default SEO-friendly alt/title if the caller doesn't pass one.
+  // Includes the page title verbatim + the brand + a primary keyword
+  // anchor so even un-customised heroes carry a useful signal.
+  const altText =
+    imageAlt ||
+    `${title} | Magppie luxury modular kitchen, wardrobe and vanity India`;
+  const titleText = videoTitle || altText;
   const videoRef = useVideoLazyPlay();
   const { canPlayHeavyVideo } = useDeviceCapability();
 
@@ -41,6 +58,7 @@ export default function PageHero({
             disableRemotePlayback
             controls={false}
             aria-hidden="true"
+            title={titleText}
             className="absolute inset-0 w-full h-full object-cover"
             style={{
               transform: 'scale(1.20) translate(4%, -5%)',
@@ -61,10 +79,15 @@ export default function PageHero({
         ) : (
           <Image
             src={image}
-            // Decorative — the same `title` is rendered as the page <h1>
-            // immediately below this hero, so a non-empty alt would
-            // duplicate the announcement to screen readers.
-            alt=""
+            // SEO-keyword-rich alt now. The hero image is the largest
+            // crawlable image on every sub-page and is a high-value
+            // signal for Google Image Search. Screen-reader users
+            // still see the page <h1> immediately below; the alt
+            // here repeats the heading verbatim only by default, and
+            // call-sites can override with imageAlt for sharper
+            // per-keyword targeting (kitchens / wardrobes / vanities
+            // / about / contact / news).
+            alt={altText}
             fill
             priority
             sizes="100vw"

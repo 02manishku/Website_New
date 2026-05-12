@@ -126,7 +126,7 @@ export default function VanitiesPage() {
             <div className="relative aspect-[4/3] overflow-hidden">
               <Image
                 src="/images/vanities/onyx-gold-overmount.webp"
-                alt="Magppie Wellness Vanity, built entirely in Silverstone™"
+                alt="Magppie wellness vanity in Onyx Gold Silverstone with overmount basin | Luxury bathroom vanity India"
                 fill
                 sizes="(min-width: 1024px) 60vw, 100vw"
                 className="object-cover"
@@ -167,7 +167,7 @@ export default function VanitiesPage() {
               <div className="relative aspect-[4/3]">
                 <Image
                   src={v.image}
-                  alt={`${v.name}, ${v.finish}`}
+                  alt={`Magppie wellness vanity ${v.name} in ${v.finish} Silverstone | Luxury bathroom vanity India`}
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover tile-img"
@@ -209,7 +209,7 @@ export default function VanitiesPage() {
             <div className="relative aspect-[4/3] overflow-hidden">
               <Image
                 src="/images/vanities/03.webp"
-                alt="Magppie Wellness Vanity, built for water"
+                alt="Magppie wellness vanity built for water, non-porous Silverstone | Waterproof luxury bathroom vanity India"
                 fill
                 sizes="(min-width: 1024px) 60vw, 100vw"
                 className="object-cover"
@@ -275,7 +275,7 @@ export default function VanitiesPage() {
                 <div className="relative aspect-[3/4] overflow-hidden bg-sandlight">
                   <Image
                     src={f.image}
-                    alt={f.name}
+                    alt={`${f.name} Silverstone finish for Magppie wellness vanity | Luxury bathroom vanity India`}
                     fill
                     quality={90}
                     sizes="(min-width: 1024px) 16vw, (min-width: 768px) 25vw, 50vw"

@@ -49,10 +49,11 @@ export default function StacyTestimonial() {
               <div className="relative w-14 h-14 lg:w-16 lg:h-16 rounded-full overflow-hidden bg-smoke/20 shrink-0">
                 <Image
                   src="/images/Partners/Stacy_Mc_Carthy.webp"
-                  alt="Stacy McCarthy"
+                  alt="Stacy McCarthy, Certified Master Kitchen and Bath Designer | Magppie wellness kitchen expert testimonial"
                   fill
                   sizes="64px"
                   quality={85}
+                  data-file-name="stacy-mccarthy-certified-kitchen-designer-magppie-testimonial.webp"
                   className="object-cover"
                 />
               </div>
@@ -86,6 +87,9 @@ export default function StacyTestimonial() {
                     disablePictureInPicture
                     disableRemotePlayback
                     controls={false}
+                    aria-label="Stacy McCarthy, Certified Master Kitchen and Bath Designer, reviews the Magppie wellness kitchen"
+                    title="Certified kitchen designer Stacy McCarthy reviews Magppie Silverstone wellness kitchen | Expert testimonial"
+                    data-file-name="stacy-mccarthy-kitchen-designer-magppie-wellness-kitchen-review.mp4"
                     className="absolute inset-0 w-full h-full object-cover"
                   >
                     <source
@@ -133,9 +137,10 @@ export default function StacyTestimonial() {
                 // recognisable face.
                 <Image
                   src="/posters/stacy.webp"
-                  alt=""
+                  alt="Stacy McCarthy, Certified Master Kitchen and Bath Designer in Florida, reviewing Magppie wellness kitchen"
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
+                  data-file-name="stacy-mccarthy-certified-kitchen-designer-magppie-review-poster.webp"
                   className="object-cover"
                 />
               )}

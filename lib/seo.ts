@@ -843,12 +843,58 @@ export const kbisHeroImageSchema = {
   '@context': 'https://schema.org',
   '@type': 'ImageObject',
   contentUrl: `${SITE_URL}/images/news/kbis/hero.webp`,
+  name: 'Magppie wins Most Unexpected Innovation Award at KBIS 2026 Orlando',
   description:
     'Magppie accepting the Most Unexpected Innovation Award at KBIS 2026, Orlando.',
   creditText: 'Magppie',
   copyrightNotice: '© 2026 Magppie Silverstone Pvt. Ltd.',
   license: `${SITE_URL}/legal`,
-  acquireLicensePage: `${SITE_URL}/contact`
+  acquireLicensePage: `${SITE_URL}/contact`,
+  author: { '@id': ORG_ID }
+};
+
+// ─────────────────────────────────────────────────────────────────────────
+// ImageObject (homepage editorial hero kitchen, "Yes! This is a Magppie
+// Kitchen.") — high-value image for Google Image Search, ranks for
+// "luxury wellness kitchen India" / "Magppie kitchen with skylights"
+// type queries. Licensable for press use via /contact.
+// ─────────────────────────────────────────────────────────────────────────
+export const bestKitchenImageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ImageObject',
+  contentUrl: `${SITE_URL}/images/kitchens/best-kitchen.webp`,
+  name: 'Magppie Wellness Kitchen with skylights and stone island, built in patented Silverstone',
+  description:
+    'Editorial photograph of a Magppie Wellness Kitchen built entirely in patented Silverstone™ antibacterial sintered stone, featuring skylights, a marble island and integrated planters. Luxury modular kitchen India.',
+  creditText: 'Magppie',
+  copyrightNotice: '© 2026 Magppie Silverstone Pvt. Ltd.',
+  license: `${SITE_URL}/legal`,
+  acquireLicensePage: `${SITE_URL}/contact`,
+  representativeOfPage: true,
+  author: { '@id': ORG_ID }
+};
+
+// ─────────────────────────────────────────────────────────────────────────
+// VideoObject (homepage hero kitchen film) — eligible for Google Video
+// Search rich results. The hero loop on the homepage is the brand's
+// most-watched piece of motion content; declaring it as a VideoObject
+// gives Google explicit metadata it would otherwise have to guess at
+// (and usually guesses wrong on autoplay/loop hero videos).
+// ─────────────────────────────────────────────────────────────────────────
+export const heroVideoSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: 'Magppie Silverstone wellness kitchen with stone countertops and hanging plants',
+  description:
+    'Atmospheric homepage hero film of a Magppie Wellness Kitchen built entirely in patented Silverstone™ antibacterial sintered stone, featuring stone countertops and a biophilic interior. Luxury modular kitchen India.',
+  thumbnailUrl: `${SITE_URL}/posters/brecciaa.webp`,
+  uploadDate: '2026-01-15',
+  duration: 'PT15S',
+  contentUrl: `${SITE_URL}/videos/brecciaa.mp4`,
+  embedUrl: `${SITE_URL}`,
+  publisher: { '@id': ORG_ID },
+  isFamilyFriendly: true,
+  inLanguage: 'en-IN'
 };
 
 // ─────────────────────────────────────────────────────────────────────────

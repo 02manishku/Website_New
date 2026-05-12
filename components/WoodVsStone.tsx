@@ -36,6 +36,11 @@ type Stage = {
   videoWebm: string;
   videoMp4: string;
   poster: string;
+  // SEO copy for the active stage's <video> + poster <Image>. Title
+  // surfaces in Google Video Search and the tooltip; alt is the
+  // textual fallback when the video is not yet decoded.
+  seoTitle: string;
+  seoAlt: string;
 };
 
 const STAGES: Stage[] = [
@@ -52,7 +57,11 @@ const STAGES: Stage[] = [
     captionStone: 'Magppie Silverstone™. Untouched.',
     videoWebm: '/videos/wood-vs-stone-termites.webm',
     videoMp4: '/videos/wood-vs-stone-termites.mp4',
-    poster: '/posters/wood-vs-stone-termites.webp'
+    poster: '/posters/wood-vs-stone-termites.webp',
+    seoTitle:
+      'Wood kitchen versus Magppie Silverstone stone kitchen termite test | Termite-proof wellness kitchen',
+    seoAlt:
+      'Termite-damaged wood kitchen cabinet next to undamaged Magppie Silverstone kitchen panel | Termite-proof modular kitchen India'
   },
   {
     id: 'fungus',
@@ -67,7 +76,11 @@ const STAGES: Stage[] = [
     captionStone: 'Magppie Silverstone™. Zero absorption.',
     videoWebm: '/videos/wood-vs-stone-fungus.webm',
     videoMp4: '/videos/wood-vs-stone-fungus.mp4',
-    poster: '/posters/wood-vs-stone-fungus.webp'
+    poster: '/posters/wood-vs-stone-fungus.webp',
+    seoTitle:
+      'Wood kitchen mould versus Magppie Silverstone stone kitchen | Mould-proof wellness kitchen',
+    seoAlt:
+      'Mould-blooming wood kitchen panel next to dry Magppie Silverstone kitchen panel | Non-porous wellness kitchen'
   },
   {
     id: 'formaldehyde',
@@ -82,7 +95,11 @@ const STAGES: Stage[] = [
     captionStone: 'Magppie Silverstone™. Inert. Forever.',
     videoWebm: '/videos/wood-vs-stone-formaldehyde.webm',
     videoMp4: '/videos/wood-vs-stone-formaldehyde.mp4',
-    poster: '/posters/wood-vs-stone-formaldehyde.webp'
+    poster: '/posters/wood-vs-stone-formaldehyde.webp',
+    seoTitle:
+      'Formaldehyde-emitting wood kitchen versus Magppie Silverstone stone kitchen | Zero-formaldehyde wellness kitchen',
+    seoAlt:
+      'Wood kitchen leaking formaldehyde versus inert Magppie Silverstone stone kitchen | Zero-VOC wellness kitchen'
   }
 ];
 
@@ -238,7 +255,7 @@ function Desktop() {
                 <Image
                   key={`poster-${activeStage.id}`}
                   src={activeStage.poster}
-                  alt=""
+                  alt={activeStage.seoAlt}
                   fill
                   sizes="(min-width: 1024px) 60vw, 100vw"
                   className="object-cover"
@@ -257,6 +274,8 @@ function Desktop() {
                     disableRemotePlayback
                     controls={false}
                     aria-hidden="true"
+                    title={activeStage.seoTitle}
+                    data-file-name={`wood-vs-stone-${activeStage.id}-magppie-silverstone-wellness-kitchen.mp4`}
                     className="absolute inset-0 w-full h-full object-cover"
                   >
                     {/* MP4 first, mobile variant first within MP4. iOS
@@ -410,6 +429,8 @@ function Mobile() {
                   disableRemotePlayback
                   controls={false}
                   aria-hidden="true"
+                  title={s.seoTitle}
+                  data-file-name={`wood-vs-stone-${s.id}-magppie-silverstone-wellness-kitchen.mp4`}
                   className="absolute inset-0 w-full h-full object-cover"
                 >
                   <source
@@ -423,7 +444,7 @@ function Mobile() {
               ) : (
                 <Image
                   src={s.poster}
-                  alt=""
+                  alt={s.seoAlt}
                   fill
                   sizes="100vw"
                   className="object-cover"

@@ -80,6 +80,8 @@ export default function PoolsideKitchenBanner() {
           disableRemotePlayback
           controls={false}
           aria-hidden="true"
+          title="Poolside wellness kitchen concept in Magppie Silverstone | Luxury outdoor kitchen design"
+          data-file-name="poolside-luxury-wellness-kitchen-silverstone-magppie.mp4"
           className="absolute inset-0 w-full h-full object-cover"
         >
           {/* MP4 first, mobile variant first within MP4. The `#t=5` hint
@@ -97,9 +99,10 @@ export default function PoolsideKitchenBanner() {
       ) : (
         <Image
           src="/posters/pool-area-1.webp"
-          alt=""
+          alt="Poolside wellness kitchen with marble island and natural light | Luxury outdoor kitchen design | Magppie"
           fill
           sizes="100vw"
+          data-file-name="poolside-luxury-wellness-kitchen-marble-island-magppie.webp"
           className="object-cover"
         />
       )}

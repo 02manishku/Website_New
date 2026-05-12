@@ -130,7 +130,7 @@ export default function WardrobesPage() {
             <div className="relative aspect-[4/3] overflow-hidden">
               <Image
                 src="/images/wardrobes/03.webp"
-                alt="Magppie Wellness Wardrobe, built entirely in Silverstone™"
+                alt="Magppie wellness wardrobe in patented Silverstone | Luxury stone wardrobe design India with backlit shelving"
                 fill
                 sizes="(min-width: 1024px) 60vw, 100vw"
                 className="object-cover"
@@ -171,7 +171,7 @@ export default function WardrobesPage() {
               <div className="relative aspect-[4/3]">
                 <Image
                   src={w.image}
-                  alt={`${w.name}, ${w.finish}`}
+                  alt={`Magppie wellness wardrobe ${w.name} in ${w.finish} Silverstone | Luxury stone wardrobe design India`}
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover tile-img"

@@ -22,6 +22,8 @@ import {
   faqSchema,
   stacyTestimonialVideoSchema,
   kbisHeroImageSchema,
+  bestKitchenImageSchema,
+  heroVideoSchema,
   indiaShowroomsItemListSchema,
   breadcrumbSchema
 } from '@/lib/seo';
@@ -93,7 +95,9 @@ export default function HomePage() {
           howToDesignWellnessKitchenSchema,
           faqSchema,
           stacyTestimonialVideoSchema,
+          heroVideoSchema,
           kbisHeroImageSchema,
+          bestKitchenImageSchema,
           breadcrumbSchema([{ name: 'Home', path: '/' }])
         ]}
       />
@@ -114,7 +118,7 @@ export default function HomePage() {
             <div className="relative h-16 sm:h-20 lg:h-24 w-[180px] sm:w-[200px] lg:w-[220px]">
               <Image
                 src="/images/awards/KBIS.webp"
-                alt="KBIS, Kitchen & Bath Industry Show 2026"
+                alt="KBIS 2026 Kitchen and Bath Industry Show, Orlando | Magppie Most Unexpected Innovation Award winner"
                 fill
                 quality={85}
                 sizes="(min-width: 1024px) 220px, (min-width: 640px) 200px, 180px"
@@ -216,16 +220,19 @@ export default function HomePage() {
             href="/kitchens"
             title="Wellness Kitchens"
             image="/images/wellness-kitchen-hero.webp"
+            alt="Magppie wellness kitchen with stone cabinets and integrated planters | Luxury modular kitchen India"
           />
           <Tile
             href="/wardrobes"
             title="Wellness Wardrobes"
             image="/images/wardrobes/concept-1.webp"
+            alt="Magppie wellness wardrobe with backlit shelving in patented Silverstone | Luxury stone wardrobe design India"
           />
           <Tile
             href="/vanities"
             title="Wellness Vanities"
             image="/images/vanities/onyx-gold-overmount.webp"
+            alt="Magppie wellness vanity in Onyx Gold Silverstone | Luxury bathroom vanity India"
           />
         </Reveal>
       </MotionSection>
@@ -310,10 +317,11 @@ export default function HomePage() {
           <MaskReveal className="relative mx-auto overflow-hidden aspect-[3/2] sm:aspect-[16/9] lg:aspect-[2.36/1] w-full max-w-[1400px] lg:w-[min(80vw,1400px)]">
             <Image
               src="/images/kitchens/best-kitchen.webp"
-              alt="Magppie Wellness Kitchen with skylights, built in Silverstone™"
+              alt="Magppie Wellness Kitchen with skylights and stone island, built in patented Silverstone | Luxury modular kitchen India"
               fill
               quality={92}
               sizes="(min-width: 1024px) 80vw, 100vw"
+              data-file-name="magppie-wellness-kitchen-stone-island-skylights-luxury-india.webp"
               className="object-cover"
             />
           </MaskReveal>
@@ -435,15 +443,15 @@ export default function HomePage() {
                   </div>
                   <div className="flex flex-wrap items-center justify-center gap-x-10 sm:gap-x-16 lg:gap-x-28 gap-y-8 lg:gap-y-8">
                     {[
-                      { src: '/images/awards/red_dot-logo.webp', label: 'Red Dot Design Award', caption: 'Germany' },
-                      { src: '/images/awards/KBIS.webp', label: 'KBIS', caption: 'Kitchen & Bath Industry Show' },
-                      { src: '/images/awards/if-design-awards.webp', label: 'iF Design Award', caption: 'International Forum' },
+                      { src: '/images/awards/red_dot-logo.webp', label: 'Red Dot Design Award', caption: 'Germany', alt: 'Red Dot Design Award Germany | Magppie kitchen design recognition' },
+                      { src: '/images/awards/KBIS.webp', label: 'KBIS', caption: 'Kitchen & Bath Industry Show', alt: 'KBIS Kitchen and Bath Industry Show Orlando 2026 | Magppie Most Unexpected Innovation' },
+                      { src: '/images/awards/if-design-awards.webp', label: 'iF Design Award', caption: 'International Forum', alt: 'iF International Design Award Germany | Magppie luxury kitchen design recognition' },
                     ].map((logo) => (
                       <div key={logo.src} className="flex flex-col items-start">
                         <div className="relative h-20 sm:h-24 lg:h-28 w-[180px] sm:w-[200px] lg:w-[220px] mb-4">
                           <Image
                             src={logo.src}
-                            alt={logo.label}
+                            alt={logo.alt}
                             fill
                             quality={80}
                             sizes="(min-width: 1024px) 220px, (min-width: 640px) 200px, 180px"
@@ -565,10 +573,11 @@ export default function HomePage() {
                             editorial weight. */}
                         <Image
                           src="/images/news/kbis/hero.webp"
-                          alt="Magppie accepting the Most Unexpected award at KBIS 2026, Orlando"
+                          alt="Magppie accepting Most Unexpected Innovation Award at KBIS 2026 Orlando | Luxury modular kitchen India global recognition"
                           fill
                           sizes="(min-width: 1024px) 60vw, 100vw"
                           quality={92}
+                          data-file-name="magppie-kbis-2026-most-unexpected-innovation-award-orlando.webp"
                           className="object-cover"
                         />
                       </MaskReveal>
@@ -676,18 +685,21 @@ export default function HomePage() {
               date="Nov 2024"
               tag="Exhibition"
               title="Magppie at FOAID, New Delhi: the Wellness Kitchen unveiled"
+              alt="Magppie wellness kitchen unveiled at FOAID New Delhi 2024 | Luxury modular kitchen India exhibition"
             />
             <NewsCard
               image="/images/silverstone-nano-silver.webp"
               date="Apr 2026"
               tag="Innovation"
               title="Inside Silverstone™: nano-silver and the science of safer surfaces"
+              alt="Silverstone nano silver infused kitchen stone material | Antibacterial kitchen surface technology | Magppie"
             />
             <NewsCard
               image="/images/vanities/02.webp"
               date="Apr 2026"
               tag="Design Partners"
               title="Karim Rashid, Stefan Diez & Cory Grosser join the Wellness Movement"
+              alt="Magppie wellness vanity design partnership with Karim Rashid, Stefan Diez and Cory Grosser | Luxury bathroom vanity India"
             />
           </Reveal>
         </div>
@@ -787,11 +799,16 @@ const CATALOGS: Catalog[] = [
 function Tile({
   href,
   title,
-  image
+  image,
+  alt
 }: {
   href: string;
   title: string;
   image: string;
+  /** Optional SEO-keyword alt. Falls back to `title` if not supplied
+   *  (preserves backwards-compat for any future Tile call sites
+   *  that haven't been keyword-targeted yet). */
+  alt?: string;
 }) {
   return (
     <Link href={href} className="group relative block overflow-hidden aspect-[4/5] bg-ink">
@@ -800,7 +817,7 @@ function Tile({
           priority would block more critical above-the-fold assets. */}
       <Image
         src={image}
-        alt={title}
+        alt={alt || title}
         fill
         quality={95}
         sizes="(min-width: 768px) 50vw, 100vw"
@@ -824,12 +841,15 @@ function NewsCard({
   image,
   date,
   tag,
-  title
+  title,
+  alt
 }: {
   image: string;
   date: string;
   tag: string;
   title: string;
+  /** Optional SEO-keyword alt. Falls back to `title` if not supplied. */
+  alt?: string;
 }) {
   // Whole tile is a single Link so keyboard / screen-reader users can reach
   // it. Visual "Read story →" affordance moved into the wrapper's hover
@@ -843,7 +863,7 @@ function NewsCard({
         <div className="relative aspect-[4/5] overflow-hidden bg-sand">
           <Image
             src={image}
-            alt={title}
+            alt={alt || title}
             fill
             quality={92}
             sizes="(min-width: 768px) 33vw, 100vw"

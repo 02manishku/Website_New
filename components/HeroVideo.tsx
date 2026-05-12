@@ -58,6 +58,12 @@ export default function HeroVideo() {
           disableRemotePlayback
           controls={false}
           aria-hidden="true"
+          // title is read by Google Video search crawlers and surfaces
+          // in the browser tooltip — primary keyword target for video
+          // SERP results. aria-hidden keeps it out of the screen-reader
+          // tree (the underlying section is decorative).
+          title="Magppie Silverstone wellness kitchen | Luxury modular kitchen India"
+          data-file-name="hero-wellness-kitchen-silverstone-magppie.mp4"
           className="absolute inset-0 w-full h-full object-cover"
         >
           {/* MP4 sources before WebM \xe2\x80\x94 iOS reads first matching source
@@ -76,10 +82,11 @@ export default function HeroVideo() {
         // capable + incapable devices see the exact same frame.
         <Image
           src="/posters/brecciaa.webp"
-          alt=""
+          alt="Magppie Silverstone wellness kitchen with stone countertops and hanging plants | Luxury modular kitchen India"
           fill
           priority
           sizes="100vw"
+          data-file-name="hero-wellness-kitchen-silverstone-plants-magppie.webp"
           className="object-cover"
         />
       )}

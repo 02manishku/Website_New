@@ -35,6 +35,12 @@ type Feature = {
   videoMp4: string;
   videoWebm: string;
   poster: string;
+  // SEO copy for the per-feature <video> element. `seoTitle` becomes
+  // the title attribute (read by Google Video Search crawlers and
+  // the tooltip on hover); `seoAlt` becomes the poster <Image>
+  // alt text when the video can't play (genuine low-end fallback).
+  seoTitle: string;
+  seoAlt: string;
 };
 
 const FEATURES: Feature[] = [
@@ -47,7 +53,11 @@ const FEATURES: Feature[] = [
       "Magppie kitchens are made from a non-porous Silverstone™ that doesn't absorb spills. Coffee, haldi or oil wipes off in a single stroke. Your kitchen stays clean every day, with no permanent marks.",
     videoMp4: '/videos/why-stone-1.mp4',
     videoWebm: '/videos/why-stone-1.webm',
-    poster: '/posters/why-stone-1.webp'
+    poster: '/posters/why-stone-1.webp',
+    seoTitle:
+      'Stain-resistant Silverstone kitchen surface test | Magppie wellness kitchen',
+    seoAlt:
+      'Stain test on non-porous Magppie Silverstone kitchen countertop | Antibacterial wellness kitchen'
   },
   {
     id: 'scratch',
@@ -58,7 +68,11 @@ const FEATURES: Feature[] = [
       "Magppie kitchens use a scratch-resistant Silverstone™ surface built for daily Indian cooking. Regular chopping and knife work won't leave a mark, so your kitchen looks new for years.",
     videoMp4: '/videos/why-stone-2.mp4',
     videoWebm: '/videos/why-stone-2.webm',
-    poster: '/posters/why-stone-2.webp'
+    poster: '/posters/why-stone-2.webp',
+    seoTitle:
+      'Scratch-resistant stone kitchen countertop chopping test | Magppie Silverstone wellness kitchen',
+    seoAlt:
+      'Scratch test, daily chopping on Magppie Silverstone kitchen countertop | Luxury modular kitchen India'
   },
   {
     id: 'load',
@@ -69,7 +83,11 @@ const FEATURES: Feature[] = [
       'Magppie drawers are built to carry weight. Each drawer supports up to 80 kilos of vessels, groceries and appliances without bending, sagging or losing stability, even after a decade of use.',
     videoMp4: '/videos/why-stone-3.mp4',
     videoWebm: '/videos/why-stone-3.webm',
-    poster: '/posters/why-stone-3.webp'
+    poster: '/posters/why-stone-3.webp',
+    seoTitle:
+      'Heavy load test on Magppie kitchen drawers, 80 kilos | Silverstone wellness kitchen',
+    seoAlt:
+      'High load bearing Magppie kitchen drawer holding 80 kilos of vessels | Durable Silverstone kitchen'
   },
   {
     id: 'fire',
@@ -80,7 +98,11 @@ const FEATURES: Feature[] = [
       'The kitchen is used around heat and open flame every day. Because Magppie kitchens are made entirely from stone, the surface does not catch fire or help flames spread. Built for daily Indian open-flame cooking.',
     videoMp4: '/videos/why-stone-4.mp4',
     videoWebm: '/videos/why-stone-4.webm',
-    poster: '/posters/why-stone-4.webp'
+    poster: '/posters/why-stone-4.webp',
+    seoTitle:
+      'Fire-safe stone kitchen surface tested with open flame | Magppie wellness kitchen',
+    seoAlt:
+      'Fire test, open flame on Magppie Silverstone kitchen surface | Heat-resistant wellness kitchen'
   },
   {
     id: 'water',
@@ -91,7 +113,11 @@ const FEATURES: Feature[] = [
       'Kitchens are exposed to water every day. We placed a wooden panel and a Magppie stone sample in water for thirty days. The wood swelled and weakened. The stone stayed exactly the same. It does not absorb water, bend, or lose strength.',
     videoMp4: '/videos/why-stone-5.mp4',
     videoWebm: '/videos/why-stone-5.webm',
-    poster: '/posters/why-stone-5.webp'
+    poster: '/posters/why-stone-5.webp',
+    seoTitle:
+      'Water test, Magppie Silverstone vs swollen wood after thirty days | Non-porous wellness kitchen',
+    seoAlt:
+      'Water-resistant Magppie Silverstone kitchen panel versus swollen wood after 30 days | Non-porous kitchen'
   },
   {
     id: 'impact',
@@ -102,7 +128,11 @@ const FEATURES: Feature[] = [
       'To test impact strength, we dropped a heavy ceramic jar on the surface. The stone stayed intact, making it safe for the everyday knocks and drops of a busy Indian kitchen.',
     videoMp4: '/videos/why-stone-6.mp4',
     videoWebm: '/videos/why-stone-6.webm',
-    poster: '/posters/why-stone-6.webp'
+    poster: '/posters/why-stone-6.webp',
+    seoTitle:
+      'Impact test, heavy ceramic jar dropped on Magppie Silverstone kitchen surface | Wellness kitchen',
+    seoAlt:
+      'Impact-resistant Magppie Silverstone kitchen surface after ceramic jar drop | Durable wellness kitchen'
   },
   {
     id: 'storage',
@@ -113,7 +143,11 @@ const FEATURES: Feature[] = [
       "With extra depth and height, Magppie wall cabinets offer up to 62% more storage than standard kitchens. They're designed to fit large Indian plates and vessels that usually don't fit in regular cabinets.",
     videoMp4: '/videos/why-stone-7.mp4',
     videoWebm: '/videos/why-stone-7.webm',
-    poster: '/posters/why-stone-7.webp'
+    poster: '/posters/why-stone-7.webp',
+    seoTitle:
+      'Magppie kitchen wall cabinets with 62 percent more storage | Silverstone wellness kitchen',
+    seoAlt:
+      'Magppie kitchen wall cabinets at 1080mm depth versus standard kitchen | Maximum storage modular kitchen'
   }
 ];
 
@@ -243,6 +277,12 @@ function FeatureVideoPanel({ f }: { f: Feature }) {
       disableRemotePlayback
       controls={false}
       aria-hidden="true"
+      // SEO title — visible to Google Video Search crawlers, surfaces
+      // in browser tooltip on desktop hover. aria-hidden keeps it
+      // out of the screen-reader tree (the test demonstration is
+      // decoration — the panel heading + body carry the substance).
+      title={f.seoTitle}
+      data-file-name={`magppie-wellness-kitchen-${f.id}-test-${f.number}.mp4`}
       className="absolute inset-0 w-full h-full object-cover"
     >
       {/* MP4 first, mobile variant first within MP4. iOS reads the
