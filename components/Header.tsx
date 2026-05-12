@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import FocusLock from 'react-focus-lock';
+import MagneticLink from '@/components/MagneticLink';
 
 // Routes that don't render a full-bleed dark hero behind the header. On these
 // pages the header must start in its light (bone background, dark logo) state
@@ -111,16 +112,16 @@ export default function Header() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-6">
-            <Link
+            <MagneticLink
               href="/contact#book"
-              className={`kicker px-5 py-2.5 border transition-colors ${
+              className={`kicker px-5 py-2.5 border transition-colors inline-block ${
                 onLight
                   ? 'text-bone bg-ink border-ink hover:bg-ink/85'
                   : 'text-ink bg-bone border-bone hover:bg-bone/90'
               }`}
             >
               Book now
-            </Link>
+            </MagneticLink>
             <span
               className={`kicker transition-colors ${
                 onLight ? 'text-ink/40' : 'text-bone/60'

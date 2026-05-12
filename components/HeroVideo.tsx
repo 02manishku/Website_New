@@ -2,8 +2,38 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion } from 'motion/react';
 import { useVideoLazyPlay } from '@/lib/use-video-lazy-play';
 import { useDeviceCapability } from '@/lib/use-device-capability';
+
+// Hero title parts. Split into individual words so each one can do
+// the curtain-reveal animation (translateY from 110% inside an
+// overflow:hidden mask). `italic` flags "Stone." which renders in
+// italic light weight per the brand voice.
+type Part = { w: string; italic?: boolean };
+const LINE_1: Part[] = [
+  { w: 'The' },
+  { w: 'World' },
+  { w: 'Needs' },
+  { w: 'Wellness.' }
+];
+const LINE_2: Part[] = [
+  { w: 'Built' },
+  { w: 'in' },
+  { w: 'Stone.', italic: true }
+];
+
+// Easing + timing shared by every word. 0.85s duration is long
+// enough for the reveal to read as deliberate, short enough that
+// users on a 6s page-paint budget still finish the title before
+// scrolling. The ease-out-quint curve [0.22,1,0.36,1] gives the
+// silky exponential settle that reads as "premium".
+const EASE = [0.22, 1, 0.36, 1] as const;
+const DURATION = 0.85;
+const STAGGER = 0.06;
+// Kicker fade-up starts at ~0s; let the title cascade catch up
+// after the user's eye has registered the line above it.
+const INITIAL_DELAY = 0.4;
 
 export default function HeroVideo() {
   const videoRef = useVideoLazyPlay();
@@ -67,9 +97,61 @@ export default function HeroVideo() {
         <div className="kicker text-bone/90 mb-3 lg:mb-4 fade-up">
           Introducing the World&rsquo;s First Wellness Kitchen
         </div>
-        <h1 className="font-display font-light text-bone leading-[1.05] text-[2rem] sm:text-[2.5rem] md:text-5xl lg:text-[2.9vw] fade-up delay-1 [text-shadow:0_2px_18px_rgba(0,0,0,0.55)]">
-          The World Needs Wellness.<br />
-          Built in <em className="not-italic font-light italic">Stone.</em>
+        {/* Curtain-reveal title. Each word lives inside an
+            overflow:hidden mask span and slides up from y:110%
+            (fully below the mask) to y:0 (natural position),
+            staggered word-by-word. The aria-label on the h1
+            preserves screen-reader semantics — assistive tech reads
+            the full phrase, never the individual word spans. */}
+        <h1
+          className="font-display font-light text-bone leading-[1.05] text-[2rem] sm:text-[2.5rem] md:text-5xl lg:text-[2.9vw] [text-shadow:0_2px_18px_rgba(0,0,0,0.55)]"
+          aria-label="The World Needs Wellness. Built in Stone."
+        >
+          <span aria-hidden="true" className="block">
+            {LINE_1.map((part, i, arr) => (
+              <span
+                key={i}
+                className="inline-block overflow-hidden align-bottom pb-[0.06em]"
+              >
+                <motion.span
+                  className="inline-block"
+                  initial={{ y: '110%' }}
+                  animate={{ y: 0 }}
+                  transition={{
+                    duration: DURATION,
+                    delay: INITIAL_DELAY + i * STAGGER,
+                    ease: EASE
+                  }}
+                >
+                  {part.w}
+                  {i < arr.length - 1 ? ' ' : ''}
+                </motion.span>
+              </span>
+            ))}
+          </span>
+          <span aria-hidden="true" className="block">
+            {LINE_2.map((part, i, arr) => (
+              <span
+                key={i}
+                className="inline-block overflow-hidden align-bottom pb-[0.06em]"
+              >
+                <motion.span
+                  className={`inline-block ${part.italic ? 'italic' : ''}`}
+                  initial={{ y: '110%' }}
+                  animate={{ y: 0 }}
+                  transition={{
+                    duration: DURATION,
+                    delay:
+                      INITIAL_DELAY + (LINE_1.length + i) * STAGGER,
+                    ease: EASE
+                  }}
+                >
+                  {part.w}
+                  {i < arr.length - 1 ? ' ' : ''}
+                </motion.span>
+              </span>
+            ))}
+          </span>
         </h1>
         <div className="mt-5 lg:mt-8 flex flex-wrap items-center gap-x-5 md:gap-x-8 gap-y-3 lg:gap-y-3 fade-up delay-2">
           <Link href="/kitchens" className="tap-link text-sm text-bone hover-underline">
