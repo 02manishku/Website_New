@@ -122,20 +122,54 @@ function Desktop() {
     // hidden via `hidden lg:block` and would never fire correctly
     // anyway).
     if (!window.matchMedia('(min-width: 1024px)').matches) return;
+
+    // rAF-batched state updates. ScrollTrigger's onUpdate fires at
+    // scroll-event rate (often higher than display refresh on mobile
+    // trackpads / high-Hz monitors), and calling setProgress on every
+    // fire re-renders the whole WoodVsStone Desktop subtree per
+    // scroll pixel — that's the audit-flagged re-render storm. rAF
+    // coalesces multiple fires per frame into one setState batch.
+    //
+    // Also: setActiveIdx is only called when the idx actually
+    // changes, so React's bailout on identical state spares the
+    // re-render entirely for ~95% of scroll ticks (we only cross a
+    // stage boundary 3 times in 220vh of scroll).
+    let rafId: number | null = null;
+    let latestProgress = 0;
+    let lastIdx = -1;
+
+    const flush = () => {
+      rafId = null;
+      setProgress(latestProgress);
+      const idx = Math.min(
+        STAGES.length - 1,
+        Math.floor(latestProgress * STAGES.length)
+      );
+      if (idx !== lastIdx) {
+        lastIdx = idx;
+        setActiveIdx(idx);
+      }
+    };
+
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: 'top top',
       end: 'bottom bottom',
+      // fastScrollEnd kills in-flight catch-up state-updates when the
+      // user flicks past the section faster than the rAF can flush —
+      // prevents the lingering "stuck mid-stage" feel on fast scrolls.
+      fastScrollEnd: true,
       onUpdate: (self) => {
-        setProgress(self.progress);
-        const idx = Math.min(
-          STAGES.length - 1,
-          Math.floor(self.progress * STAGES.length)
-        );
-        setActiveIdx(idx);
+        latestProgress = self.progress;
+        if (rafId === null) {
+          rafId = requestAnimationFrame(flush);
+        }
       }
     });
-    return () => trigger.kill();
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      trigger.kill();
+    };
   }, []);
 
   const yearDisplay = (() => {

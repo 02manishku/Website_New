@@ -170,12 +170,32 @@ export default function ScrollFloat({
           scroller,
           start: scrollStart,
           end: scrollEnd,
-          // Numeric scrub adds 1.5s of inertia/lag between scroll
-          // position and animation playhead — gives the "buttery"
-          // feel where the chars catch up smoothly even on fast
-          // wheel flicks. With scrub: true (binary) the chars
-          // jitter 1:1 with the scroll pixel.
-          scrub: 1.5
+          // Numeric scrub gives the chars catch-up inertia. Tuning:
+          //
+          //   scrub: 1.5 (old) — chars lag 1.5s behind scroll. Looked
+          //     buttery on slow scroll but felt "stuck" on direction
+          //     reversal: a fast flick down + flick up left the chars
+          //     mid-flight, replaying the half-finished forward
+          //     animation in reverse over the same 1.5s window.
+          //   scrub: 0.5 (now) — chars catch up within half a second.
+          //     Still smooth at slow speed, but on a fast direction
+          //     reverse the chars settle quickly into the new
+          //     direction's state, eliminating the perceived freeze.
+          //
+          // fastScrollEnd: true tells ScrollTrigger to abort any
+          // in-flight tween when the scroll velocity exceeds the
+          // default threshold — so a flick past the trigger zone
+          // jumps the animation straight to its end state instead
+          // of dragging through every frame.
+          //
+          // preventOverlaps: 'scroll-float' lets every other
+          // ScrollFloat on the page kill this one's tween if they
+          // become active during a fast scroll. Prevents the
+          // "five headings all half-animated at once" thrash when
+          // someone flicks through five sections in one swipe.
+          scrub: 0.5,
+          fastScrollEnd: true,
+          preventOverlaps: 'scroll-float'
         }
       }
     );
