@@ -28,9 +28,40 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
+  // Scroll listener for the bone-bar swap. Two perf optimisations:
+  //
+  //   1. The layout read (`window.scrollY`) is deferred to the next
+  //      animation frame via rAF rather than running synchronously
+  //      inside the scroll event. Mobile scroll fires faster than the
+  //      browser can paint; reading layout on every fire is the
+  //      classic thrash pattern. One read per frame is plenty.
+  //
+  //   2. State is only updated when the threshold (60px) is actually
+  //      crossed. setState on every scroll fire would cause a React
+  //      re-render of the entire header tree even when the boolean
+  //      didn't change — that re-render is what the audit flagged.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    onScroll();
+    let ticking = false;
+    let lastValue = false;
+
+    const update = () => {
+      ticking = false;
+      const next = window.scrollY > 60;
+      if (next !== lastValue) {
+        lastValue = next;
+        setScrolled(next);
+      }
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    // Read once on mount so SSR'd initial state matches reality.
+    lastValue = window.scrollY > 60;
+    setScrolled(lastValue);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);

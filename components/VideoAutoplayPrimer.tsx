@@ -6,72 +6,83 @@ import { useEffect } from 'react';
 // browser that quietly denies HTMLMediaElement.play() outside a
 // gesture context).
 //
-// Why persistent, not one-shot:
+// PERFORMANCE-CRITICAL: this file is in the scroll hot path. The
+// previous version called getBoundingClientRect() on every <video>
+// inside the scroll handler — even throttled to 200ms that pattern
+// caused the audited 60fps blocker on iPhone Safari, because every
+// fire forced a synchronous layout reflow over N elements.
 //
-//   iOS Safari authorises .play() ONLY inside a synchronous user-
-//   gesture handler. The IntersectionObserver in useVideoLazyPlay
-//   fires when a video scrolls into view, but that callback runs in
-//   its own task, not inside the scroll-event handler — so iOS
-//   rejects the .play() and the video sits frozen on its poster.
+// The current implementation has ZERO layout reads inside the scroll
+// handler. An IntersectionObserver maintains a live Set of currently-
+// in-view videos; the gesture handler just iterates that Set, no
+// getBoundingClientRect / offsetHeight / innerHeight calls anywhere.
 //
-//   A one-shot primer fixes the initial-load case (first video on
-//   the page) but every subsequent scroll into a new video section
-//   silently fails again. So this primer stays armed for the life of
-//   the page, listens to every meaningful gesture, and on each one
-//   synchronously calls .play() on every <video> currently in the
-//   viewport that isn't already playing. Throttled to one pass per
-//   200 ms so we don't burn cycles during high-frequency scroll.
+// Behaviour identity preserved:
 //
-//   .play() is called synchronously inside the gesture handler —
-//   never deferred via rAF or setTimeout — because deferral loses
-//   the gesture privilege.
-//
-// Decoder safety: only in-viewport, currently-paused videos are
-// played. Off-screen videos are left alone — they autoplay (or stay
-// paused) on their own when the lazy-play hook detects intersection.
+//   - On every gesture (touchstart / touchend / scroll / click /
+//     keydown / pointerdown), throttled to 200ms, the primer calls
+//     .play() synchronously on every paused in-view video so iOS
+//     authorises playback under the gesture privilege.
+//   - .play() is wrapped in a canplay-event retry for the readyState=0
+//     case (video data not yet buffered).
+//   - A MutationObserver picks up dynamically-added <video> elements
+//     (e.g. WoodVsStone's active-stage remount) so they get observed
+//     too — rAF-debounced so a burst of DOM mutations only triggers
+//     one re-scan.
 
 const THROTTLE_MS = 200;
 
 export default function VideoAutoplayPrimer() {
   useEffect(() => {
-    let lastFire = 0;
+    // Live Set of currently in-view <video> elements, maintained
+    // exclusively by the IntersectionObserver below. The gesture
+    // handler iterates this Set — never reads layout.
+    const inView = new Set<HTMLVideoElement>();
 
-    const isInView = (v: HTMLVideoElement) => {
-      const rect = v.getBoundingClientRect();
-      const vh =
-        window.innerHeight || document.documentElement.clientHeight;
-      const vw =
-        window.innerWidth || document.documentElement.clientWidth;
-      return (
-        rect.top < vh &&
-        rect.bottom > 0 &&
-        rect.left < vw &&
-        rect.right > 0
-      );
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting) inView.add(v);
+          else inView.delete(v);
+        }
+      },
+      { threshold: 0.01 }
+    );
+
+    const observeAll = () => {
+      document.querySelectorAll('video').forEach((v) => io.observe(v));
     };
+    observeAll();
 
+    // Pick up new <video> elements that mount after the initial scan
+    // (WoodVsStone remounts the active stage's video on activeIdx
+    // change, etc). rAF debounce keeps us from re-scanning the DOM
+    // on every minor mutation; one re-scan per frame is plenty.
+    let moPending = false;
+    const mo = new MutationObserver(() => {
+      if (moPending) return;
+      moPending = true;
+      requestAnimationFrame(() => {
+        moPending = false;
+        observeAll();
+      });
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    let lastFire = 0;
     const tryPlayVisible = () => {
-      const now = Date.now();
+      const now = performance.now();
       if (now - lastFire < THROTTLE_MS) return;
       lastFire = now;
-
-      // Synchronous loop — must stay inside the user-gesture handler
-      // frame so iOS does not reject .play().
-      const videos = document.querySelectorAll('video');
-      videos.forEach((v) => {
-        // Only kick paused, visible videos. Already-playing videos
-        // stay untouched; off-screen ones will be played by the
-        // lazy-play hook when they scroll in.
+      // Zero layout reads. Pure iteration over the cached Set.
+      inView.forEach((v) => {
         if (!v.paused) return;
-        if (!isInView(v)) return;
         try {
-          if (v.readyState === 0) {
-            v.load();
-          }
+          if (v.readyState === 0) v.load();
           const p = v.play();
           if (p && typeof p.catch === 'function') {
             p.catch(() => {
-              // Final fallback per element: retry once on canplay.
               const retry = () => {
                 v.removeEventListener('canplay', retry);
                 const p2 = v.play();
@@ -88,10 +99,6 @@ export default function VideoAutoplayPrimer() {
       });
     };
 
-    // Every gesture type that iOS Safari accepts as a "user gesture"
-    // for autoplay authorisation. `passive: true` on the scroll/
-    // touch ones keeps the page from competing with scroll for
-    // composite priority. No `once` flag — we stay armed.
     document.addEventListener('touchstart', tryPlayVisible, { passive: true });
     document.addEventListener('touchend', tryPlayVisible, { passive: true });
     document.addEventListener('scroll', tryPlayVisible, { passive: true });
@@ -99,12 +106,14 @@ export default function VideoAutoplayPrimer() {
     document.addEventListener('keydown', tryPlayVisible);
     document.addEventListener('pointerdown', tryPlayVisible);
 
-    // Fire once on mount too, in case the video is already in view
-    // and the browser is permissive enough to autoplay without any
-    // gesture (most desktops, modern Android).
+    // Initial fire — desktop / modern Android often permit autoplay
+    // without any gesture. iOS needs the first scroll/touch to land
+    // before this becomes effective.
     tryPlayVisible();
 
     return () => {
+      io.disconnect();
+      mo.disconnect();
       document.removeEventListener('touchstart', tryPlayVisible);
       document.removeEventListener('touchend', tryPlayVisible);
       document.removeEventListener('scroll', tryPlayVisible);

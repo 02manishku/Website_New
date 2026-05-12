@@ -43,6 +43,12 @@ html, body {
 body {
   overflow-x: hidden;
   overflow-x: clip;
+  /* Suppress pull-to-refresh + bounce-back jank on mobile single-page
+     scroll. `contain` blocks the bounce-overscroll from propagating
+     to the URL bar / pull-to-refresh, but still lets the page itself
+     scroll normally inside its own bounds. Mobile Safari + Android
+     Chrome both honour this; older browsers ignore. */
+  overscroll-behavior-y: contain;
 }
 
 /* Video download deterrent + performance hint.
@@ -286,7 +292,12 @@ footer :focus-visible {
    break mid-word ("kitch | en"). Browser finds the spaces between word
    wrappers as the only valid line-break opportunities. */
 .scroll-float-word { display: inline-block; white-space: nowrap; }
-.scroll-float-char { display: inline-block; will-change: transform, opacity; }
+/* No static will-change here. GSAP applies its own GPU promotion via
+   the transform on .scroll-float-char during the active scroll-driven
+   animation, and removes it on ScrollTrigger.kill(). A persistent
+   will-change on every character globally would be a real GPU-memory
+   leak — Chromium DevTools flags it as one. */
+.scroll-float-char { display: inline-block; }
 
 /* Honour the user's "reduce motion" OS preference (iOS Settings →
    Accessibility → Motion, macOS System Settings → Accessibility →
