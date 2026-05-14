@@ -4,18 +4,24 @@ import Image from 'next/image';
 import { useCallback, useRef, useState } from 'react';
 import { useVideoLazyPlay } from '@/lib/use-video-lazy-play';
 import { useDeviceCapability } from '@/lib/use-device-capability';
+import { useVideoStallWatchdog } from '@/lib/use-video-stall-watchdog';
+import VideoPlayHint from '@/components/VideoPlayHint';
 
 export default function StacyTestimonial() {
-  // Two refs: lazy-play callback ref wires the observers; local ref
-  // gives the mute toggle access to the underlying element.
+  // Three refs into one element: lazy-play callback ref, local ref
+  // for the mute toggle, and stall-watchdog ref for the LPM
+  // autoplay fallback. attachVideo dispatches the element to all
+  // three.
   const lazyPlayRef = useVideoLazyPlay(0.45);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const { captureRef: stallRef, stalled, playNow } = useVideoStallWatchdog();
   const attachVideo = useCallback(
     (v: HTMLVideoElement | null) => {
       videoRef.current = v;
       lazyPlayRef(v);
+      stallRef(v);
     },
-    [lazyPlayRef]
+    [lazyPlayRef, stallRef]
   );
   const { canPlayHeavyVideo } = useDeviceCapability();
   // Video starts muted (iOS autoplay policy). User tap toggles audio.
@@ -100,6 +106,12 @@ export default function StacyTestimonial() {
                     <source src="/videos/stacy.mp4" type="video/mp4" />
                     <source src="/videos/stacy.webm" type="video/webm" />
                   </video>
+
+                  {/* Autoplay-blocked fallback. Stays hidden when the
+                      video plays normally; mounts when the watchdog
+                      detects the video has been paused for 2.5 s
+                      after attach (typically iOS Low Power Mode). */}
+                  <VideoPlayHint stalled={stalled} onTap={playNow} />
 
                   <button
                     type="button"

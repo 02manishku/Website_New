@@ -1,5 +1,10 @@
 'use client';
 
+import { useEffect, useRef, useCallback } from 'react';
+import ScrollFloat from '@/components/ScrollFloat';
+import VideoPlayHint from '@/components/VideoPlayHint';
+import { useVideoStallWatchdog } from '@/lib/use-video-stall-watchdog';
+
 // audited 2026-05-11 — section laid out as plain static feature panels
 // (no sticky, no IntersectionObserver, no shared state), but each
 // panel now renders a <video> directly instead of a poster <Image>.
@@ -22,9 +27,6 @@
 //   4. Phones only show 1-2 panels in viewport at any time anyway, so
 //      the worst case is 2 simultaneous decoders, not 7.
 //   5. Tab hide pauses everything.
-
-import { useEffect, useRef } from 'react';
-import ScrollFloat from '@/components/ScrollFloat';
 
 type Feature = {
   id: string;
@@ -173,6 +175,18 @@ const FEATURES: Feature[] = [
 // independent of our observer code firing.
 function FeatureVideoPanel({ f }: { f: Feature }) {
   const ref = useRef<HTMLVideoElement | null>(null);
+  // Stall watchdog — surfaces the play-button overlay only when
+  // autoplay genuinely fails (LPM / strict autoplay policy /
+  // reduced-motion override). The capture ref dispatches the
+  // element into the watchdog's state on attach.
+  const { captureRef: stallRef, stalled, playNow } = useVideoStallWatchdog();
+  const attachVideo = useCallback(
+    (v: HTMLVideoElement | null) => {
+      ref.current = v;
+      stallRef(v);
+    },
+    [stallRef]
+  );
 
   useEffect(() => {
     const v = ref.current;
@@ -265,36 +279,43 @@ function FeatureVideoPanel({ f }: { f: Feature }) {
   }, []);
 
   return (
-    <video
-      ref={ref}
-      autoPlay
-      playsInline
-      muted
-      loop
-      preload="metadata"
-      poster={f.poster}
-      disablePictureInPicture
-      disableRemotePlayback
-      controls={false}
-      aria-hidden="true"
-      // SEO title — visible to Google Video Search crawlers, surfaces
-      // in browser tooltip on desktop hover. aria-hidden keeps it
-      // out of the screen-reader tree (the test demonstration is
-      // decoration — the panel heading + body carry the substance).
-      title={f.seoTitle}
-      data-file-name={`magppie-wellness-kitchen-${f.id}-test-${f.number}.mp4`}
-      className="absolute inset-0 w-full h-full object-cover"
-    >
-      {/* MP4 first, mobile variant first within MP4. iOS reads the
-          first matching source and never falls back. */}
-      <source
-        src={f.videoMp4.replace('.mp4', '-mobile.mp4')}
-        type="video/mp4"
-        media="(max-width: 768px)"
-      />
-      <source src={f.videoMp4} type="video/mp4" />
-      <source src={f.videoWebm} type="video/webm" />
-    </video>
+    <>
+      <video
+        ref={attachVideo}
+        autoPlay
+        playsInline
+        muted
+        loop
+        preload="metadata"
+        poster={f.poster}
+        disablePictureInPicture
+        disableRemotePlayback
+        controls={false}
+        aria-hidden="true"
+        // SEO title — visible to Google Video Search crawlers, surfaces
+        // in browser tooltip on desktop hover. aria-hidden keeps it
+        // out of the screen-reader tree (the test demonstration is
+        // decoration — the panel heading + body carry the substance).
+        title={f.seoTitle}
+        data-file-name={`magppie-wellness-kitchen-${f.id}-test-${f.number}.mp4`}
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        {/* MP4 first, mobile variant first within MP4. iOS reads the
+            first matching source and never falls back. */}
+        <source
+          src={f.videoMp4.replace('.mp4', '-mobile.mp4')}
+          type="video/mp4"
+          media="(max-width: 768px)"
+        />
+        <source src={f.videoMp4} type="video/mp4" />
+        <source src={f.videoWebm} type="video/webm" />
+      </video>
+      {/* LPM / autoplay-blocked fallback. Lives inside the same
+          position:relative container the parent grid wraps the
+          video in, so the play capsule is centred over the
+          stalled frame. Hidden when the video plays normally. */}
+      <VideoPlayHint stalled={stalled} onTap={playNow} />
+    </>
   );
 }
 

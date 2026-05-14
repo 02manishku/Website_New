@@ -6,6 +6,8 @@ import Image from 'next/image';
 import ScrollFloat from '@/components/ScrollFloat';
 import { useVideoLazyPlay } from '@/lib/use-video-lazy-play';
 import { useDeviceCapability } from '@/lib/use-device-capability';
+import { useVideoStallWatchdog } from '@/lib/use-video-stall-watchdog';
+import VideoPlayHint from '@/components/VideoPlayHint';
 
 // The pool-area video has 5 seconds of intro lead-in (camera settling, blank
 // frames) that we don't want shown on the homepage. Skip past it on first
@@ -14,20 +16,22 @@ import { useDeviceCapability } from '@/lib/use-device-capability';
 const LOOP_START = 5;
 
 export default function PoolsideKitchenBanner() {
-  // Two refs: the callback ref from useVideoLazyPlay wires the
-  // lazy-play observers, and a local ref captures the element so the
-  // loop-seek effect below can attach `loadedmetadata` + `ended`
-  // listeners. The combined `attachVideo` callback runs both.
+  // Three refs into one element: lazy-play, loop-seek local ref,
+  // and the stall watchdog for the LPM autoplay fallback. The
+  // combined `attachVideo` callback dispatches the element to
+  // all three.
   const lazyPlayRef = useVideoLazyPlay();
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const { captureRef: stallRef, stalled, playNow } = useVideoStallWatchdog();
   const { canPlayHeavyVideo } = useDeviceCapability();
 
   const attachVideo = useCallback(
     (v: HTMLVideoElement | null) => {
       videoRef.current = v;
       lazyPlayRef(v);
+      stallRef(v);
     },
-    [lazyPlayRef]
+    [lazyPlayRef, stallRef]
   );
 
   // Loop-point custom seek: native `loop` would restart at 0, defeating
@@ -97,6 +101,9 @@ export default function PoolsideKitchenBanner() {
           <source src="/videos/pool-area-1.webm#t=5" type="video/webm" />
         </video>
       ) : (
+        // Image branch — capability gate currently always-true, but
+        // kept for SSR + the rare device that genuinely can't play
+        // video. Same first-frame poster the video would have shown.
         <Image
           src="/posters/pool-area-1.webp"
           alt="Poolside wellness kitchen with marble island and natural light | Luxury outdoor kitchen design | Magppie"
@@ -106,7 +113,12 @@ export default function PoolsideKitchenBanner() {
           className="object-cover"
         />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-ink/10 to-transparent" />
+      {/* Autoplay-blocked fallback. Sits above the gradient so the
+          play capsule reads cleanly on the darker overlay. Hidden
+          when video plays normally. */}
+      <VideoPlayHint stalled={stalled} onTap={playNow} />
+
+      <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-ink/10 to-transparent pointer-events-none" />
       <div className="absolute inset-0 flex items-end">
         <div className="mx-auto max-w-[1600px] px-6 lg:px-10 pb-14 lg:pb-20 w-full">
           <div className="label text-bone/80 mb-4 lg:mb-6">Concept</div>

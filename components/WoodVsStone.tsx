@@ -5,12 +5,14 @@
 // is desktop-only; per-card video play/pause handled by lazy-play hook
 // + coordinator.
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useVideoLazyPlay } from '@/lib/use-video-lazy-play';
 import { useDeviceCapability } from '@/lib/use-device-capability';
+import { useVideoStallWatchdog } from '@/lib/use-video-stall-watchdog';
+import VideoPlayHint from '@/components/VideoPlayHint';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -129,7 +131,21 @@ function Desktop() {
   // time. The cross-fade trick from the original 3-video layout is
   // replaced by a re-mount on activeIdx change — saves 2 simultaneous
   // decoder contexts on iOS Safari.
-  const activeVideoRef = useVideoLazyPlay(0.25);
+  const lazyPlayRef = useVideoLazyPlay(0.25);
+  // Stall watchdog — surfaces the play-button overlay only when
+  // autoplay is genuinely blocked (iOS LPM / strict autoplay).
+  const {
+    captureRef: stallRef,
+    stalled,
+    playNow
+  } = useVideoStallWatchdog();
+  const attachVideo = useCallback(
+    (v: HTMLVideoElement | null) => {
+      lazyPlayRef(v);
+      stallRef(v);
+    },
+    [lazyPlayRef, stallRef]
+  );
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -263,7 +279,7 @@ function Desktop() {
                 {canPlayHeavyVideo && (
                   <video
                     key={activeStage.id}
-                    ref={activeVideoRef}
+                    ref={attachVideo}
                     autoPlay
                     playsInline
                     muted
@@ -290,6 +306,10 @@ function Desktop() {
                     <source src={activeStage.videoWebm} type="video/webm" />
                   </video>
                 )}
+                {/* LPM / autoplay-blocked fallback. Centred over the
+                    video frame; vanishes the moment the active stage
+                    starts playing. */}
+                <VideoPlayHint stalled={stalled} onTap={playNow} />
                 {/* Hairline split between wood / stone halves. */}
                 <div
                   aria-hidden
@@ -358,7 +378,19 @@ function Mobile() {
   // (the one currently in view). Other stages render the poster Image.
   // The global MAX=1 coordinator + capability gate keep this safe even
   // on iOS Safari with 7 sticky cards above it on the same page.
-  const activeVideoRef = useVideoLazyPlay(0.3);
+  const lazyPlayRefMobile = useVideoLazyPlay(0.3);
+  const {
+    captureRef: stallRefMobile,
+    stalled: stalledMobile,
+    playNow: playNowMobile
+  } = useVideoStallWatchdog();
+  const attachVideoMobile = useCallback(
+    (v: HTMLVideoElement | null) => {
+      lazyPlayRefMobile(v);
+      stallRefMobile(v);
+    },
+    [lazyPlayRefMobile, stallRefMobile]
+  );
 
   useEffect(() => {
     if (!window.matchMedia('(max-width: 1023px)').matches) return;
@@ -418,7 +450,7 @@ function Mobile() {
                   frame the video would have started on. */}
               {i === activeIdx && canPlayHeavyVideo ? (
                 <video
-                  ref={activeVideoRef}
+                  ref={attachVideoMobile}
                   autoPlay
                   playsInline
                   muted
@@ -449,6 +481,12 @@ function Mobile() {
                   sizes="100vw"
                   className="object-cover"
                 />
+              )}
+              {/* LPM / autoplay-blocked fallback. Lives at the
+                  container level so it sits above whichever element
+                  (video or poster Image) is currently rendered. */}
+              {i === activeIdx && (
+                <VideoPlayHint stalled={stalledMobile} onTap={playNowMobile} />
               )}
               <div
                 aria-hidden
