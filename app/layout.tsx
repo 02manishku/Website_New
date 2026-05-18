@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
+import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Header from '@/components/Header';
@@ -264,6 +265,25 @@ export default function RootLayout({
             finding N-03 without a separate web-vitals reporter. */}
         <Analytics />
         <SpeedInsights />
+
+        {/* Zoho SalesIQ live-chat widget. Loaded via next/script with
+            strategy="lazyOnload" so the widget never competes with
+            hero-paint critical assets — Next.js injects the script
+            after the page is interactive and the main thread has
+            settled, which is what every chat-widget vendor recommends
+            for marketing sites. The inline init script primes
+            window.$zoho before the widget bundle calls it. */}
+        <Script
+          id="zsiq-init"
+          strategy="lazyOnload"
+        >
+          {`window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}`}
+        </Script>
+        <Script
+          id="zsiqscript"
+          src="https://salesiq.zohopublic.in/widget?wc=siq1727d2e33713b442c1a1789d4cd80344162fb2b53c4e0b6bd27c392ddedaba4f"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );

@@ -88,12 +88,27 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.vercel-scripts.com https://va.vercel-scripts.com https://*.sentry.io",
-              "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob: https://cdn.sanity.io",
-              "font-src 'self' data:",
-              "connect-src 'self' https://www.zohoapis.in https://accounts.zoho.in https://api.resend.com https://*.vercel-insights.com https://*.sentry.io",
-              "media-src 'self'",
+              // script-src now allows the Zoho SalesIQ widget host
+              // (salesiq.zohopublic.in serves the widget bundle) and
+              // *.zohostatic.com (the CDN it pulls additional runtime
+              // chunks from once it bootstraps).
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.vercel-scripts.com https://va.vercel-scripts.com https://*.sentry.io https://salesiq.zohopublic.in https://*.zohostatic.com",
+              // SalesIQ injects its own stylesheet at runtime from
+              // its static CDN.
+              "style-src 'self' 'unsafe-inline' https://*.zohostatic.com",
+              // Agent avatars, brand assets, chat-message attachments.
+              "img-src 'self' data: blob: https://cdn.sanity.io https://*.zohopublic.in https://*.zohostatic.com https://*.zoho.in https://*.zoho.com",
+              "font-src 'self' data: https://*.zohostatic.com",
+              // SalesIQ uses an HTTPS REST API plus a long-lived
+              // WebSocket for live presence + chat. Both wss:// and
+              // https:// across the Zoho .in + .com domains; the
+              // widget JS picks the right region at runtime.
+              "connect-src 'self' https://www.zohoapis.in https://accounts.zoho.in https://api.resend.com https://*.vercel-insights.com https://*.sentry.io https://*.zoho.in https://*.zoho.com https://*.zohopublic.in https://*.zohostatic.com wss://*.zoho.in wss://*.zoho.com wss://*.zohopublic.in",
+              "media-src 'self' blob: https://*.zohopublic.in",
+              // The chat widget loads its UI inside a same-origin
+              // iframe rendered by the widget script; frame-src
+              // permits it explicitly.
+              "frame-src 'self' https://*.zoho.in https://*.zoho.com https://*.zohopublic.in",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
