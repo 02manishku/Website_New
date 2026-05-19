@@ -97,7 +97,11 @@ export default function NewsletterTeaser() {
       // `hidden md:block` keeps the teaser off phone-sized viewports (it
       // covers up the bottom CTAs in the hero copy block); it only appears
       // from tablets up where there's spare canvas in the corner.
-      className="hidden md:block fixed bottom-4 right-4 lg:bottom-6 lg:right-6 z-40 print:hidden pr-safe pb-safe"
+      // bottom-24 / lg:bottom-28 clears the Zoho SalesIQ chat launcher
+      // (~60-70 px circular bubble + ~16 px margin) sitting at the
+      // bottom-right corner. Without this offset the two widgets
+      // overlap on every page.
+      className="hidden md:block fixed bottom-24 right-4 lg:bottom-28 lg:right-6 z-40 print:hidden pr-safe pb-safe"
       role="complementary"
       aria-label="Newsletter signup"
     >
