@@ -266,23 +266,25 @@ export default function RootLayout({
         <Analytics />
         <SpeedInsights />
 
-        {/* Zoho SalesIQ live-chat widget. Loaded via next/script with
-            strategy="lazyOnload" so the widget never competes with
-            hero-paint critical assets — Next.js injects the script
-            after the page is interactive and the main thread has
-            settled, which is what every chat-widget vendor recommends
-            for marketing sites. The inline init script primes
+        {/* Zoho SalesIQ live-chat widget. strategy="afterInteractive"
+            is the right choice here — it's Next.js's equivalent of
+            the vendor snippet's native `defer` attribute. The widget
+            loads after React hydration, which is fast and consistent.
+            "lazyOnload" (used previously) waits for window.onload +
+            browser idle, which on a video-heavy hero page never
+            actually fires on some mobile browsers — the widget
+            never appeared. The inline init script primes
             window.$zoho before the widget bundle calls it. */}
         <Script
           id="zsiq-init"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
         >
           {`window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}`}
         </Script>
         <Script
           id="zsiqscript"
           src="https://salesiq.zohopublic.in/widget?wc=siq1727d2e33713b442c1a1789d4cd80344162fb2b53c4e0b6bd27c392ddedaba4f"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
         />
       </body>
     </html>
