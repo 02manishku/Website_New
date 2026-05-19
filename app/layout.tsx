@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
-import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Header from '@/components/Header';
@@ -266,25 +265,25 @@ export default function RootLayout({
         <Analytics />
         <SpeedInsights />
 
-        {/* Zoho SalesIQ live-chat widget. strategy="afterInteractive"
-            is the right choice here — it's Next.js's equivalent of
-            the vendor snippet's native `defer` attribute. The widget
-            loads after React hydration, which is fast and consistent.
-            "lazyOnload" (used previously) waits for window.onload +
-            browser idle, which on a video-heavy hero page never
-            actually fires on some mobile browsers — the widget
-            never appeared. The inline init script primes
-            window.$zoho before the widget bundle calls it. */}
-        <Script
-          id="zsiq-init"
-          strategy="afterInteractive"
-        >
-          {`window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}`}
-        </Script>
-        <Script
+        {/* Zoho SalesIQ live-chat widget. Installed exactly as the
+            vendor specifies — raw <script> elements rendered into
+            the body, using the native `defer` attribute. Next.js
+            server-renders these into the initial HTML payload, so
+            they're discoverable by Lighthouse / Search Console /
+            anyone viewing the page source, and they execute the
+            same way the vendor's reference site does. The first
+            inline script primes window.$zoho before the deferred
+            widget bundle calls into it. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}'
+          }}
+        />
+        <script
           id="zsiqscript"
           src="https://salesiq.zohopublic.in/widget?wc=siq1727d2e33713b442c1a1789d4cd80344162fb2b53c4e0b6bd27c392ddedaba4f"
-          strategy="afterInteractive"
+          defer
         />
       </body>
     </html>
